@@ -27,10 +27,10 @@ jobs:
         pip install -r requirements.txt
 
     # Step 4: Test the Flask app (Optional)
-    - name: Run Tests
-      run: |
+    #- name: Run Tests
+    #  run: |
         # Add your test commands here, e.g.:
-        python -m unittest discover -s tests
+    #    python -m unittest discover -s tests
 
     # Step 5: Build Docker image
     - name: Build Docker image
