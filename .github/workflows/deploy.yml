@@ -25,7 +25,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build --no-cache -t my-portfolio .
+        docker build --no-cache -t ${{ secrets.DOCKER_IMAGE_NAME }} .
 
     - name: Push Docker image to Docker Hub
       env:
@@ -33,21 +33,35 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        docker tag my-portfolio:latest ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
+        docker tag ${{ secrets.DOCKER_IMAGE_NAME }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+
+    - name: Set up SSH Agent
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Deploy to DigitalOcean
-      env:
-        SERVER_IP: ${{ secrets.SERVER_IP }}
-        SERVER_USER: ${{ secrets.SERVER_USER }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
-        chmod 600 ssh_key
-        ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
-          docker pull ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
+          set -e
+          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
           docker stop portfolio || true
           docker rm portfolio || true
-          docker run -d --name portfolio -p 8080:5000 ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
+          docker run -d --name portfolio -p 8080:5000 \
+            --env SECRET_KEY=${{ secrets.SECRET_KEY }} \
+            --env RECAPTCHA_PUBLIC_KEY=${{ secrets.RECAPTCHA_PUBLIC_KEY }} \
+            --env RECAPTCHA_PRIVATE_KEY=${{ secrets.RECAPTCHA_PRIVATE_KEY }} \
+            --env MAIL_SERVER=${{ secrets.MAIL_SERVER }} \
+            --env MAIL_PORT=${{ secrets.MAIL_PORT }} \
+            --env MAIL_USE_TLS=${{ secrets.MAIL_USE_TLS }} \
+            --env MAIL_USERNAME=${{ secrets.MAIL_USERNAME }} \
+            --env MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
+            ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
           docker ps
         EOF
+
+    - name: Verify Deployment
+      run: |
+        sleep 10
+        curl -f http://${{ secrets.SERVER_IP }}:8080 || exit 1
