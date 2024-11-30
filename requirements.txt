@@ -1,3 +1,9 @@
 flask
 python-dotenv
 gunicorn
+Flask-Mail
+bleach
+email-validator
+flask-recaptcha
+flask-limiter
+redis
