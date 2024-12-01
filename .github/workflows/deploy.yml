@@ -44,12 +44,6 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
         RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
-        MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-        MAIL_RECIPIENT: ${{ secrets.MAIL_RECIPIENT }}
-        MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-        MAIL_SERVER: ${{ secrets.MAIL_SERVER }}
-        MAIL_PORT: ${{ secrets.MAIL_PORT }}
-        MAIL_USE_TLS: ${{ secrets.MAIL_USE_TLS }}
       run: |
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
         chmod 600 ssh_key
@@ -61,12 +55,6 @@ jobs:
             --env SECRET_KEY=${SECRET_KEY} \
             --env RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY} \
             --env RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY} \
-            --env MAIL_USERNAME=${MAIL_USERNAME} \
-            --env MAIL_RECIPIENT=${MAIL_RECIPIENT} \
-            --env MAIL_PASSWORD=${MAIL_PASSWORD} \
-            --env MAIL_SERVER=${MAIL_SERVER} \
-            --env MAIL_PORT=${MAIL_PORT} \
-            --env MAIL_USE_TLS=${MAIL_USE_TLS} \
             ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
           docker ps
         EOF
