@@ -41,20 +41,13 @@ jobs:
         SERVER_IP: ${{ secrets.SERVER_IP }}
         SERVER_USER: ${{ secrets.SERVER_USER }}
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        RECAPTCHA_PUBLIC_KEY: ${{ secrets.RECAPTCHA_PUBLIC_KEY }}
-        RECAPTCHA_PRIVATE_KEY: ${{ secrets.RECAPTCHA_PRIVATE_KEY }}
       run: |
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
         chmod 600 ssh_key
         ssh -o StrictHostKeyChecking=no -i ssh_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
+          set -e
           docker pull ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
-          docker stop portfolio || true
-          docker rm portfolio || true
-          docker run -d --name portfolio -p 8080:5000 \
-            --env SECRET_KEY=${SECRET_KEY} \
-            --env RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY} \
-            --env RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY} \
-            ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
+          docker ps -aq --filter "name=portfolio" | xargs --no-run-if-empty docker rm -f
+          docker run -d --name portfolio -p 8080:5000 --env-file /root/.env ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
           docker ps
         EOF
