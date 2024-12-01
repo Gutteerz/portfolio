@@ -55,6 +55,5 @@ jobs:
             --env SECRET_KEY=${SECRET_KEY} \
             --env RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY} \
             --env RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY} \
-            ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
           docker ps
         EOF
