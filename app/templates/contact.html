@@ -1,29 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Contact{% endblock %}
 {% block content %}
-{% set recaptcha_script_url = "https://www.google.com/recaptcha/api.js" %}
-{% set form_action_url = "/contact" %}
-
 <section class="contact">
     <div class="container">
         <h1>Contact Me</h1>
-        <form method="post" action="{{ form_action_url }}">
+        <form method="post" action="/contact">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="Your Email Address" required>
             </div>
             <div class="form-group">
                 <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
+                <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
             </div>
             <div class="g-recaptcha" data-sitekey="{{ config['RECAPTCHA_PUBLIC_KEY'] }}"></div>
-            <button type="submit" class="btn">Send</button>
+            <button type="submit" class="btn">Send Message</button>
         </form>
-        <script src="{{ recaptcha_script_url }}" async defer></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     </div>
 </section>
 {% endblock %}

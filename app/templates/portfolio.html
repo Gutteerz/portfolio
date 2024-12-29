@@ -4,24 +4,42 @@
 <section class="portfolio">
     <div class="container">
         <h1>My Projects</h1>
-        <div class="project-list">
-            <div class="project">
-                <h3>Mario Game | c++, SFML</h3>
-                <p>Design and develop a 2d mario platform game</p>
-                <p>Implement a scoring system that gave the player points based on coins collected</p>
+        <!-- Categories -->
+        <div class="categories">
+            <button class="category active" data-category="all">All</button>
+            <button class="category" data-category="cpp">C++</button>
+            <button class="category" data-category="dotnet">.NET</button>
+            <button class="category" data-category="python">Python</button>
+        </div>
+        <!-- Projects Grid -->
+        <div class="project-grid">
+            <div class="project-card" data-category="cpp">
+                <div class="project-thumbnail" style="background-image: url('path_to_image.jpg');"></div>
+                <div class="project-info">
+                    <h3>Mario Game</h3>
+                    <p>Design and develop a 2D Mario platform game.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
             </div>
-            <div class="project">
-                <h3>Online mafia game | .net, React, Azure</h3>
-                <p>Online hosted round based game based on the popular card game werewolf</p>
-                <p>Base idea similar to kahoot where the host gets a code on screen that the users enters to join the game</p>
+            <div class="project-card" data-category="dotnet">
+                <div class="project-thumbnail" style="background-image: url('path_to_image.jpg');"></div>
+                <div class="project-info">
+                    <h3>Online Mafia Game</h3>
+                    <p>Online round-based game based on Werewolf.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
             </div>
-            <div class="project">
-                <h3>AI dashcam | Python, YOLO, FastAPI</h3>
-                <p>Project to use existing dashcam and a custom AI to recognize speed signs along the road</p>
-                <p>Got some hands on experience with gathering dataset and AI training with CUDA</p>
+            <div class="project-card" data-category="python">
+                <div class="project-thumbnail" style="background-image: url('path_to_image.jpg');"></div>
+                <div class="project-info">
+                    <h3>AI Dashcam</h3>
+                    <p>Custom AI to recognize speed signs on the road.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
             </div>
-            <!-- Add more projects as needed -->
+            <!-- Add more projects -->
         </div>
     </div>
 </section>
+
 {% endblock %}

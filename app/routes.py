@@ -31,7 +31,7 @@ def portfolio():
 
 
 @main.route('/contact', methods=['GET', 'POST'])
-@limiter.limit("5 per hour")  # Limit contact form submissions to 5 per hour per IP
+@limiter.limit("5 per hour")  # Prevent spam with rate limiting
 def contact():
     if request.method == 'POST':
         # reCAPTCHA Verification
@@ -49,29 +49,34 @@ def contact():
             flash('An error occurred while verifying reCAPTCHA. Please try again later.', 'error')
             return redirect(url_for('main.contact'))
 
+        # Input sanitization
         raw_name = request.form.get('name')
         raw_email = request.form.get('email')
         raw_message = request.form.get('message')
 
-        name = bleach.clean(raw_name, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
-        email = bleach.clean(raw_email, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
-        message = bleach.clean(raw_message, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
+        name = bleach.clean(raw_name)
+        email = bleach.clean(raw_email)
+        message = bleach.clean(raw_message)
 
+        # Validate required fields
         if not name.strip() or not email.strip() or not message.strip():
             flash('All fields are required!', 'error')
             return redirect(url_for('main.contact'))
 
+        # Email validation
         try:
             validate_email(email)
         except EmailNotValidError:
             flash('Invalid email address. Please enter a valid email.', 'error')
             return redirect(url_for('main.contact'))
 
+        # Process and send the email
         success = process_contact_form(name, email, message)
         if success:
             flash('Your message has been sent. Thank you!', 'success')
         else:
             flash('An error occurred while sending your message. Please try again later.', 'error')
+
         return redirect(url_for('main.contact'))
 
     return render_template('contact.html')
