@@ -22,7 +22,12 @@
         {% block content %}{% endblock %}
     </main>
     <footer class="footer">
-        <p>&copy; 2024 Storm Selvig.</p>
-    </footer>
+    <p>&copy; 2024 Storm Selvig.</p>
+    <div class="social-links">
+        <a href="https://www.linkedin.com/in/storm-selvig-4650ba1a9/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/Gutteerz" target="_blank">GitHub</a>
+    </div>
+</footer>
+<script src="{{ url_for('static', filename='js/filter.js') }}"></script>
 </body>
 </html>
