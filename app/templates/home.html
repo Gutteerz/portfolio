@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+<div id="particles-js"></div>
 <section class="hero">
-    <div class="container">
-        <h1>Storm Selvig!</h1>
-        <p>Explore my work, skills, and projects.</p>
-        <p>Website still under construction</p>
+  <div class="container">
+    <h1 id="hero-title">Hi, I'm <span>Storm Selvig</span></h1>
+    <p id="hero-subtitle">I <span id="dynamic-words"></span>.</p>
+    <div class="cta-buttons">
+      <a href="/portfolio" class="btn btn-primary">View My Work</a>
+      <a href="/contact" class="btn btn-secondary">Contact Me</a>
     </div>
+  </div>
 </section>
 {% endblock %}

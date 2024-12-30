@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
     <nav class="navbar">
@@ -15,7 +16,7 @@
             <a href="/" class="logo">MyPortfolio</a>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
+                <li><a href="/about">Experience</a></li>
                 <li><a href="/portfolio">Portfolio</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
@@ -31,7 +32,10 @@
         <a href="https://github.com/Gutteerz" target="_blank">GitHub</a>
     </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
 <script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script src="{{ url_for('static', filename='js/particles.js') }}"></script>
 </body>
 </html>
