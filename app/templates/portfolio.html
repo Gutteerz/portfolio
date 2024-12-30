@@ -14,7 +14,7 @@
         <!-- Projects Grid -->
         <div class="project-grid">
             <div class="project-card" data-category="cpp">
-                <div class="project-thumbnail" style="background-image: url('app/static/images/cpp_logo.png');"></div>
+                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/cpp_logo.png') }}');"></div>
                 <div class="project-info">
                     <h3>Mario Game</h3>
                     <p>Design and develop a 2D Mario platform game.</p>
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="project-card" data-category="dotnet">
-                <div class="project-thumbnail" style="background-image: url('path_to_image.jpg');"></div>
+                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/dotnet_logo.png') }}');"></div>
                 <div class="project-info">
                     <h3>Online Mafia Game</h3>
                     <p>Online round-based game based on Werewolf.</p>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="project-card" data-category="python">
-                <div class="project-thumbnail" style="background-image: url('path_to_image.jpg');"></div>
+                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/python_logo.png') }}');"></div>
                 <div class="project-info">
                     <h3>AI Dashcam</h3>
                     <p>Custom AI to recognize speed signs on the road.</p>
