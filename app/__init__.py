@@ -23,7 +23,7 @@ def create_app():
     limiter = Limiter(
         get_remote_address,
         app=app,
-        default_limits=["200 per day", "50 per hour"],  # Global rate limits
+        default_limits=["2000 per day", "500 per hour"],  # Global rate limits
     )
 
     # Import and register routes
