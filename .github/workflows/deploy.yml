@@ -49,5 +49,8 @@ jobs:
           docker pull ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
           docker ps -aq --filter "name=portfolio" | xargs --no-run-if-empty docker rm -f
           docker run -d --name portfolio -p 8080:5000 --env-file /root/.env ${{ secrets.DOCKER_USERNAME }}/my-portfolio:latest
-          docker ps
+          # Debugging deployed container
+          docker exec -it portfolio ls -l /app/static
+          docker exec -it portfolio ls -l /app/static/css
+          docker exec -it portfolio ls -l /app/static/js
         EOF
