@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
-from app.contact import process_contact_form
-from email_validator import validate_email, EmailNotValidError
-from app import limiter  # Import the limiter from __init__.py
-import bleach
-import requests
+from app.contact import process_contact_form, sanitize_input, validate_contact_form, verify_recaptcha
+from app import limiter
 
 main = Blueprint('main', __name__)
 
@@ -46,48 +43,24 @@ def smart_clock_project():
 
 #WIP contact
 @main.route('/contact', methods=['GET', 'POST'])
-@limiter.limit("5 per hour")  # Prevent spam with rate limiting
+@limiter.limit("5 per hour")
 def contact():
     if request.method == 'POST':
-        # reCAPTCHA Verification
         recaptcha_response = request.form.get('g-recaptcha-response')
-        recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'
-        recaptcha_secret = current_app.config['RECAPTCHA_PRIVATE_KEY']
-        recaptcha_data = {'secret': recaptcha_secret, 'response': recaptcha_response}
-
-        try:
-            recaptcha_verify = requests.post(recaptcha_url, data=recaptcha_data).json()
-            if not recaptcha_verify.get('success'):
-                flash('Please complete the reCAPTCHA to proceed.', 'error')
-                return redirect(url_for('main.contact'))
-        except requests.RequestException:
-            flash('An error occurred while verifying reCAPTCHA. Please try again later.', 'error')
+        if not verify_recaptcha(recaptcha_response, current_app.config['RECAPTCHA_PRIVATE_KEY']):
+            flash('Please complete the reCAPTCHA to proceed.', 'error')
             return redirect(url_for('main.contact'))
 
-        # Input sanitization
-        raw_name = request.form.get('name')
-        raw_email = request.form.get('email')
-        raw_message = request.form.get('message')
+        name, email, message = sanitize_input(
+            request.form.get('name'),
+            request.form.get('email'),
+            request.form.get('message')
+        )
 
-        name = bleach.clean(raw_name)
-        email = bleach.clean(raw_email)
-        message = bleach.clean(raw_message)
-
-        # Validate required fields
-        if not name.strip() or not email.strip() or not message.strip():
-            flash('All fields are required!', 'error')
+        if not validate_contact_form(name, email, message):
             return redirect(url_for('main.contact'))
 
-        # Email validation
-        try:
-            validate_email(email)
-        except EmailNotValidError:
-            flash('Invalid email address. Please enter a valid email.', 'error')
-            return redirect(url_for('main.contact'))
-
-        # Process and send the email
-        success = process_contact_form(name, email, message)
-        if success:
+        if process_contact_form(name, email, message):
             flash('Your message has been sent. Thank you!', 'success')
         else:
             flash('An error occurred while sending your message. Please try again later.', 'error')

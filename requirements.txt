@@ -1,9 +1,11 @@
-flask
-python-dotenv
+flask~=3.0.3
+python-dotenv~=1.0.1
 gunicorn
 Flask-Mail
-bleach
-email-validator
+bleach~=6.2.0
+email-validator~=2.2.0
 flask-recaptcha
-flask-limiter
+flask-limiter~=3.9.2
 redis
+
+requests~=2.32.3
