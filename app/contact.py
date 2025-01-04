@@ -1,48 +1,30 @@
-from flask import flash
 from flask_mail import Message
 from email_validator import validate_email, EmailNotValidError
-from app import mail
 import bleach
-import requests
+from app import mail
 
-def process_contact_form(name, email, message):
-    """
-    Process the contact form by sending an email.
-    """
-    try:
-        # Compose email
-        msg = Message(
-            subject=f"New Contact Form Submission from {name}",
-            sender=email,
-            recipients=["MAIL_RECIPIENT"],
-            body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-        )
-        # Send email
-        mail.send(msg)
-        return True
-    except Exception as e:
-        print(f"Error sending email: {e}")
-        return False
+def sanitize_input(data):
+    """Sanitize user input to prevent malicious input."""
+    return bleach.clean(data)
 
-def sanitize_input(name, email, message):
-    return bleach.clean(name), bleach.clean(email), bleach.clean(message)
-
-def validate_contact_form(name, email, message):
-    if not name.strip() or not email.strip() or not message.strip():
-        flash('All fields are required!', 'error')
-        return False
+def validate_form_data(name, email, message):
+    """Validate the form data for required fields and valid email."""
+    if not name or not email or not message:
+        raise ValueError("All fields are required.")
     try:
         validate_email(email)
-        return True
-    except EmailNotValidError:
-        flash('Invalid email address. Please enter a valid email.', 'error')
-        return False
+    except EmailNotValidError as e:
+        raise ValueError(f"Invalid email address: {e}")
 
-def verify_recaptcha(response, secret):
-    recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify'
-    recaptcha_data = {'secret': secret, 'response': response}
+def send_email(name, email, message):
+    """Send the email synchronously."""
+    msg = Message(
+        subject=f"New Contact Form Submission from {name}",
+        sender=email,
+        recipients=["your_email@example.com"],  # Replace with your email
+        body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+    )
     try:
-        recaptcha_verify = requests.post(recaptcha_url, data=recaptcha_data).json()
-        return recaptcha_verify.get('success', False)
-    except requests.RequestException:
-        return False
+        mail.send(msg)
+    except Exception as e:
+        raise RuntimeError(f"Failed to send email: {e}")

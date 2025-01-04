@@ -1,32 +1,35 @@
 from flask import Flask
-from dotenv import load_dotenv
 from flask_mail import Mail
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from dotenv import load_dotenv
+from celery import Celery
 import os
 
 mail = Mail()
-limiter = None  # Declare limiter globally
+limiter = Limiter(get_remote_address)
+celery = None
+
+
+def make_celery(app):
+    celery = Celery(app.import_name, backend=app.config['CELERY_RESULT_BACKEND'],
+                    broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    return celery
 
 
 def create_app():
     load_dotenv()
-
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "default_secret_key")
+    app.config.from_object('app.config.Config')
 
-    # Configure Flask-Mail
     mail.init_app(app)
+    limiter.init_app(app)
 
-    # Initialize Flask-Limiter with in-memory storage
-    global limiter
-    limiter = Limiter(
-        get_remote_address,
-        app=app,
-        default_limits=["2000 per day", "500 per hour"],  # Global rate limits
-    )
+    global celery
+    celery = make_celery(app)
 
-    # Import and register routes
+    # Register Blueprints
     from .routes import main
     app.register_blueprint(main)
 
