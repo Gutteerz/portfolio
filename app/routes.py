@@ -29,7 +29,22 @@ def about():
 def portfolio():
     return render_template('portfolio.html')
 
+#Refs to the projects
+@main.route('/portfolio/mario')
+def mario_project():
+    return render_template('projects/mario.html')
 
+
+@main.route('/portfolio/autoticket')
+def ai_dashcam_project():
+    return render_template('projects/autoticket.html')
+
+
+@main.route('/portfolio/smart-clock')
+def smart_clock_project():
+    return render_template('projects/smart_clock.html')
+
+#WIP contact
 @main.route('/contact', methods=['GET', 'POST'])
 @limiter.limit("5 per hour")  # Prevent spam with rate limiting
 def contact():

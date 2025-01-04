@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Mario Game Project{% endblock %}
+{% block content %}
+<section class="project-details">
+    <div class="container">
+        <!-- Title and Intro Section -->
+        <div class="project-header">
+            <h1 class="project-title">Mario Game</h1>
+            <p class="project-intro">A 2D platformer inspired by the classic Mario series, featuring custom levels, retro graphics, and immersive gameplay.</p>
+        </div>
+
+        <!-- Image Section -->
+        <div class="project-visual">
+            <img src="{{ url_for('static', filename='images/mario_game_preview.png') }}" alt="Mario Game Preview" class="project-image">
+        </div>
+
+        <!-- Features Section -->
+        <div class="project-section">
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li>Classic platforming mechanics: jumping, collecting coins, and defeating enemies.</li>
+                <li>Custom-designed levels with increasing difficulty.</li>
+                <li>Smooth animations and responsive controls.</li>
+            </ul>
+        </div>
+
+        <!-- Technologies Section -->
+        <div class="project-section">
+            <h2>Technologies Used</h2>
+            <ul class="tech-list">
+                <li><strong>Programming Language:</strong> C++</li>
+                <li><strong>Game Engine:</strong> SDL2</li>
+                <li><strong>Graphics:</strong> Custom sprites and tiles</li>
+            </ul>
+        </div>
+
+        <!-- Challenges Section -->
+        <div class="project-section">
+            <h2>Challenges & Solutions</h2>
+            <p>Implementing efficient collision detection was a major challenge. This was resolved by using a spatial grid approach, optimizing performance and ensuring smooth gameplay.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="project-navigation">
+            <a href="/portfolio" class="btn btn-secondary">Back to Portfolio</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
