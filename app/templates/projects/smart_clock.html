@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Smart Clock Project{% endblock %}
+{% block content %}
+<section class="project-details">
+    <div class="container">
+        <!-- Title and Intro Section -->
+        <div class="project-header">
+            <h1 class="project-title">Smart Clock</h1>
+            <p class="project-intro">A feature-rich smart clock powered by an STM32 microcontroller, designed for enhanced time management, weather updates, and user interactivity.</p>
+        </div>
+
+        <!-- Image Section -->
+        <div class="project-visual">
+            <img src="{{ url_for('static', filename='images/projects/smart_clock.png') }}" alt="Smart Clock Preview" class="project-image">
+        </div>
+
+        <!-- Features Section -->
+        <div class="project-section">
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li>IP-based geolocation to fetch Unix epoch time, time zone, daylight saving data, and location details at startup.</li>
+                <li>Displays current date, time, and day of the week with real-time updates.</li>
+                <li>Allows users to set recurring alarms with snooze, mute, and enable/disable functionalities.</li>
+                <li>Shows room temperature and humidity updated regularly.</li>
+                <li>Provides weather forecasts fetched from an API, with updates every 15 minutes.</li>
+                <li>Enables user to input city name or precise coordinates for accurate weather forecasts.</li>
+                <li>Displays top news headlines fetched via RSS feeds with smooth scrolling text.</li>
+            </ul>
+        </div>
+
+        <!-- Technologies Section -->
+        <div class="project-section">
+            <h2>Technologies Used</h2>
+            <ul class="tech-list">
+                <li><strong>Microcontroller:</strong> STM32</li>
+                <li><strong>Display:</strong> DFRobot LCD</li>
+                <li><strong>Data Fetching:</strong> APIs for geolocation, weather, and RSS feeds</li>
+                <li><strong>Programming Language:</strong> C/C++</li>
+            </ul>
+        </div>
+
+        <!-- Challenges Section -->
+        <div class="project-section">
+            <h2>Challenges & Solutions</h2>
+            <p>The main challenges included handling dynamic data updates and ensuring accurate geolocation. Aswell as cleaning the RSS feed to ensure html tags was not included as a part of the news feed.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="project-navigation">
+            <a href="/portfolio" class="btn btn-secondary">Back to Portfolio</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
