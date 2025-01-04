@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
-from app.contact import process_contact_form, sanitize_input, validate_contact_form, verify_recaptcha
+from app.contact import sanitize_input, validate_form_data, send_email
 from app import limiter
 
 main = Blueprint('main', __name__)
@@ -42,29 +42,33 @@ def smart_clock_project():
     return render_template('projects/smart_clock.html')
 
 #WIP contact
-@main.route('/contact', methods=['GET', 'POST'])
+@main.route("/contact", methods=["GET", "POST"])
 @limiter.limit("5 per hour")
 def contact():
-    if request.method == 'POST':
-        recaptcha_response = request.form.get('g-recaptcha-response')
-        if not verify_recaptcha(recaptcha_response, current_app.config['RECAPTCHA_PRIVATE_KEY']):
-            flash('Please complete the reCAPTCHA to proceed.', 'error')
-            return redirect(url_for('main.contact'))
+    if request.method == "POST":
+        try:
+            # Sanitize inputs
+            name = sanitize_input(request.form.get("name"))
+            email = sanitize_input(request.form.get("email"))
+            message = sanitize_input(request.form.get("message"))
+            recaptcha_response = request.form.get("g-recaptcha-response")
 
-        name, email, message = sanitize_input(
-            request.form.get('name'),
-            request.form.get('email'),
-            request.form.get('message')
-        )
+            # Validate inputs
+            validate_form_data(name, email, message)
 
-        if not validate_contact_form(name, email, message):
-            return redirect(url_for('main.contact'))
+            # Verify reCAPTCHA
+            if not recaptcha_response:
+                flash("reCAPTCHA verification failed. Please try again.", "error")
+                return redirect(url_for("main.contact"))
 
-        if process_contact_form(name, email, message):
-            flash('Your message has been sent. Thank you!', 'success')
-        else:
-            flash('An error occurred while sending your message. Please try again later.', 'error')
+            # Send email
+            send_email(name, email, message)
+            flash("Your message has been sent successfully!", "success")
+            return redirect(url_for("main.contact"))
 
-        return redirect(url_for('main.contact'))
+        except ValueError as e:
+            flash(str(e), "error")
+        except RuntimeError as e:
+            flash("An unexpected error occurred. Please try again later.", "error")
 
-    return render_template('contact.html')
+    return render_template("contact.html", recaptcha_public_key=current_app.config["RECAPTCHA_PUBLIC_KEY"])
