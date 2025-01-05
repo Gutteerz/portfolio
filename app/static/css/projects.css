@@ -83,3 +83,15 @@
     color: #fff;
     cursor: pointer;
 }
+
+.image-grid {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.image-grid img {
+    max-width: 35%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

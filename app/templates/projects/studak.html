@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Studak{% endblock %}
+{% block content %}
+<section class="project-details">
+    <div class="container">
+        <!-- Title and Intro Section -->
+        <div class="project-header">
+            <h1 class="project-title">Student Activity App</h1>
+            <p class="project-intro">A user-friendly mobile application designed to help students discover, organize, and participate in activities within their budget and group size.</p>
+        </div>
+
+        <!-- Image Section -->
+        <div class="project-visual">
+            <div class="image-grid">
+                <img src="{{ url_for('static', filename='images/projects/studak_filter.png') }}" alt="Student Activity App Filter" class="project-image">
+                <img src="{{ url_for('static', filename='images/projects/studak_resultat.png') }}" alt="Student Activity App Result" class="project-image">
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="project-section">
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li>Activity recommendations based on budget, group size, and location.</li>
+                <li>Integrated calendar with the ability to schedule activities with friends.</li>
+                <li>User profile creation with friend lists and invitations.</li>
+                <li>Real-time activity filtering and results fetched from Firestore database.</li>
+                <li>Secure authentication via Google Firebase.</li>
+            </ul>
+        </div>
+
+        <!-- Technologies Section -->
+        <div class="project-section">
+            <h2>Technologies Used</h2>
+            <ul class="tech-list">
+                <li><strong>Frontend Framework:</strong> React Native with Expo</li>
+                <li><strong>Backend:</strong> Firebase for authentication and database</li>
+                <li><strong>Navigation:</strong> React Navigation</li>
+                <li><strong>Database:</strong> Firestore</li>
+            </ul>
+        </div>
+
+        <!-- Challenges Section -->
+        <div class="project-section">
+            <h2>Challenges & Solutions</h2>
+            <p>
+                Ensuring seamless data fetching and filtering was a significant challenge, resolved by optimizing queries to Firestore. 
+                Another challenge was implementing user authentication securely, which was achieved using Firebase’s robust authentication features.
+            </p>
+        </div>
+
+        <!-- Future Enhancements -->
+        <div class="project-section">
+            <h2>Future Enhancements</h2>
+            <ul class="features-list">
+                <li>Integration with Google Maps API for location-based activity recommendations.</li>
+                <li>Social features like real-time chat and activity feeds.</li>
+                <li>Expanded dataset with automated API data fetching.</li>
+            </ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="project-navigation">
+            <a href="/portfolio" class="btn btn-secondary">Back to Portfolio</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
