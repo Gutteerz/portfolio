@@ -41,6 +41,22 @@ def ai_dashcam_project():
 def smart_clock_project():
     return render_template('projects/smart_clock.html')
 
+
+@main.route('/portfolio/godforsakenplace')
+def godforsakenplace():
+    return render_template('projects/godforsakenplace.html')
+
+
+@main.route('/portfolio/studak')
+def studak():
+    return render_template('projects/studak.html')
+
+
+@main.route('/portfolio/portfolio-website')
+def portfolio_website_project():
+    return render_template('projects/portfolio_project.html')
+
+
 #WIP contact
 @main.route("/contact", methods=["GET", "POST"])
 @limiter.limit("5 per hour")

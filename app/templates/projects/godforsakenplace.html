@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Godforsakenplace{% endblock %}
+{% block content %}
+<section class="project-details">
+    <div class="container">
+        <!-- Title and Intro Section -->
+        <div class="project-header">
+            <h1 class="project-title">Online Mafia Game</h1>
+            <p class="project-intro">A multiplayer online adaptation of the classic Mafia card game, featuring real-time gameplay, immersive storytelling, and seamless social interaction.</p>
+        </div>
+
+        <!-- Image Section -->
+        <div class="project-visual">
+            <img src="{{ url_for('static', filename='images/projects/host2.png') }}" alt="Online Mafia Game Preview" class="project-image">
+        </div>
+
+        <!-- Features Section -->
+        <div class="project-section">
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li>Real-time multiplayer gameplay with roles like Mafia, Detective, and Citizen.</li>
+                <li>Lobby system with game codes for easy access and team management.</li>
+                <li>Role-based actions for immersive night and day cycles.</li>
+                <li>Customizable characters with unique abilities to enrich gameplay.</li>
+                <li>Secure authentication with options for guest play or registered accounts.</li>
+            </ul>
+        </div>
+
+        <!-- Technologies Section -->
+        <div class="project-section">
+            <h2>Technologies Used</h2>
+            <ul class="tech-list">
+                <li><strong>Frontend:</strong> React for dynamic and responsive UI.</li>
+                <li><strong>Backend:</strong> .NET Core 7 with ASP.NET MVC for secure and scalable server-side logic.</li>
+                <li><strong>Database:</strong> Azure-hosted database for storing game data and user profiles.</li>
+                <li><strong>Real-Time Communication:</strong> SignalR for chat and in-game updates.</li>
+                <li><strong>Media:</strong> DALL-E for character illustrations, ensuring style consistency.</li>
+            </ul>
+        </div>
+
+        <!-- Challenges Section -->
+        <div class="project-section">
+            <h2>Challenges & Solutions</h2>
+            <p>One significant challenge was ensuring real-time communication and game synchronization. This was addressed using SignalR for efficient two-way communication between players and the server. Additionally, styling consistency and accessible navigation were achieved with centralized CSS files.</p>
+        </div>
+
+        <!-- Future Enhancements -->
+        <div class="project-section">
+            <h2>Future Enhancements</h2>
+            <ul class="features-list">
+                <li>Enhanced AI-generated story narration using ChatGPT with text-to-speech integration.</li>
+                <li>Additional characters with unique abilities for more varied gameplay.</li>
+                <li>Improved mobile responsiveness and optimized game performance for larger player groups.</li>
+            </ul>
+        </div>
+
+         <!-- Testing section -->
+        <div class="project-section">
+            <h2>Try it out (WIP)</h2>
+            <a href="" class="le_button">Try it out (WIP)</a>
+        </div>
+
+        <!-- Navigation -->
+        <div class="project-navigation">
+            <a href="/portfolio" class="btn btn-secondary">Back to Portfolio</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

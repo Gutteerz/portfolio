@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Portfolio Website Project{% endblock %}
+{% block content %}
+<section class="project-details">
+    <div class="container">
+        <!-- Title and Intro Section -->
+        <div class="project-header">
+            <h1 class="project-title">Portfolio Website</h1>
+            <p class="project-intro">A modern, responsive portfolio website designed to showcase projects, skills, and accomplishments, built using Flask, HTML/CSS, and JavaScript.</p>
+        </div>
+
+        <!-- Image Section -->
+        <div class="project-visual">
+            <img src="{{ url_for('static', filename='images/projects/portfolio.png') }}" alt="Portfolio Project" class="project-image">
+        </div>
+
+        <!-- Features Section -->
+        <div class="project-section">
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li>Dynamic project filtering and categorization.</li>
+                <li>Responsive design for seamless viewing across devices.</li>
+                <li>Dedicated sections for about, contact, and individual project details.</li>
+                <li>Fully  CI / CD wokflow for autonomus deployment</li>
+                <li>Custom styling with modular CSS files for easy scalability.</li>
+            </ul>
+        </div>
+
+        <!-- Technologies Section -->
+        <div class="project-section">
+            <h2>Technologies Used</h2>
+            <ul class="tech-list">
+                <li><strong>Framework:</strong> Flask</li>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                <li><strong>Hosting:</strong> DigitalOcean</li>
+                <li><strong>Secret Manager:</strong> Github</li>
+            </ul>
+        </div>
+
+        <!-- Challenges Section -->
+        <div class="project-section">
+            <h2>Challenges & Solutions</h2>
+            <p>
+                One challenge was ensuring smooth filtering for dynamic project categories. This was addressed with modular JavaScript to manage filtering logic effectively.
+            </p>
+        </div>
+
+        <!-- Future Enhancements -->
+        <div class="project-section">
+            <h2>Future Enhancements</h2>
+            <ul class="features-list">
+                <li>Integrating a blog section to share updates and insights.</li>
+                <li>Adding a dark mode toggle for better accessibility.</li>
+                <li>Improving performance with image optimization and caching.</li>
+            </ul>
+        </div>
+
+        <!-- Navigation -->
+        <div class="project-navigation">
+            <a href="/portfolio" class="btn btn-secondary">Back to Portfolio</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
