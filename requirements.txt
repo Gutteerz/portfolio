@@ -9,5 +9,6 @@ flask-limiter~=3.9.2
 redis
 flask-wtf
 wtforms
+celery
 
 requests~=2.32.3
