@@ -1,6 +1,9 @@
+import os
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
-from app.contact import sanitize_input, validate_form_data, send_email
-from app import limiter
+from app.contact import ContactForm
+from app import limiter, mail
+from flask_mail import Message
+
 
 main = Blueprint('main', __name__)
 
@@ -56,7 +59,7 @@ def studak():
 def portfolio_website_project():
     return render_template('projects/portfolio_project.html')
 
-
+"""
 #WIP contact
 @main.route("/contact", methods=["GET", "POST"])
 @limiter.limit("5 per hour")
@@ -88,3 +91,36 @@ def contact():
             flash("An unexpected error occurred. Please try again later.", "error")
 
     return render_template("contact.html", recaptcha_public_key=current_app.config["RECAPTCHA_PUBLIC_KEY"])
+"""
+
+
+@main.route('/contact', methods=['GET', 'POST'])
+@limiter.limit("10 per minute")
+def contact():
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        # Extract data from the form
+        name = form.name.data
+        sender_email = form.email.data
+        message_body = form.message.data
+        recipient = os.getenv("MAIL_RECIPIENT")
+
+        # Create an email message
+        msg = Message(
+            subject="New Contact Form Submission",
+            sender=sender_email,  # or your own email to avoid SPF issues
+            recipients=[recipient],  # Replace with your actual email
+            body=f"From: {name} <{sender_email}>\n\n{message_body}"
+        )
+
+        try:
+            mail.send(msg)
+            flash("Your message has been sent. Thank you!", "success")
+            return redirect(url_for('main.contact'))
+        except Exception as e:
+            # Log or handle the error as needed
+            flash("An error occurred while sending your message. Please try again.", "danger")
+
+    # Render the template with the form
+    return render_template('contact.html', form=form)
