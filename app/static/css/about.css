@@ -1,73 +1,136 @@
+/* Container */
 .timeline {
-        position: relative;
-        margin: 50px auto;
-        padding: 0;
-        list-style: none;
-        max-width: 1000px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+  position: relative;
+  margin: 50px auto;
+  max-width: 1000px;
+  padding-bottom: 50px;
 }
 
-.timeline-event {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        width: 100%;
-        opacity: 0;
-        transform: translateY(50px);
-        transition: all 0.7s ease-in-out;
-        padding: 10px;
+
+.timeline-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 0;
+  z-index: 0;
+
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #4ca1af 0,
+    #4ca1af 12px,
+    transparent 12px,
+    transparent 24px
+  );
+  /* Animate the background position so the dashes "flow" */
+  animation: dashFlow 3s linear infinite;
+  border-radius: 3px; /* round edges for a cleaner look */
 }
 
-.timeline-event:nth-child(even) {
-        justify-content: flex-end;
+@keyframes dashFlow {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 24px; }
 }
 
-.timeline-event.visible {
-        opacity: 1;
-        transform: translateY(0);
+.timeline-year-block {
+  position: relative;
+  margin: 60px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.6s ease;
+  z-index: 1;
 }
 
-.timeline-year {
-        font-size: 1.5rem;
-        font-weight: bold;
-        background-color: #4ca1af;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 50px;
-        margin: 0 20px;
+.timeline-year-block.in-view {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.timeline-content {
-        max-width: 500px;
-        background-color: #ffffff;
-        padding: 20px 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: left;
+.year-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 50px;
+  background: #4ca1af;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.4rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  z-index: 2;
 }
 
-.timeline-content h3 {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-        color: #4ca1af;
+/* Events container */
+.events {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.timeline-content p {
-        font-size: 1rem;
-        line-height: 1.8;
-        color: #333333;
+
+/* Event card */
+.event {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 45%;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s, box-shadow 0.3s;
+  z-index: 1;
+}
+.event:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
 }
 
-.timeline::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        height: 100%;
-        background-color: #4ca1af;
+.timeline-year-block:nth-child(even) .event {
+  margin-left: 55%;
+}
+
+
+.event::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: #4ca1af;
+  border-radius: 50%;
+  top: 20px;
+  left: -9px;
+}
+
+.event h3 {
+  font-size: 1.3rem;
+  color: #4ca1af;
+  margin-bottom: 8px;
+}
+.event-dates {
+  font-weight: bold;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Responsive: for smaller screens, stack everything in one column */
+@media screen and (max-width: 768px) {
+  .event {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+  .year-label {
+    left: 20px;
+    transform: none;
+  }
+  .timeline-line {
+    left: 10px;
+    transform: none;
+  }
 }

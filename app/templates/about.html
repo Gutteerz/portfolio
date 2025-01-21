@@ -2,38 +2,92 @@
 {% block title %}About Me{% endblock %}
 {% block content %}
 <section class="about">
-    <div class="container">
-        <h1>Experience Timeline</h1>
-        <div class="timeline">
-            <div class="timeline-event" data-year="2025">
-                <div class="timeline-year">2025</div>
-                <div class="timeline-content">
-                    <h3>Finished bachelor degree</h3>
-                    <p>Graduiated UiA with a bachelor degree in computer engineering</p>
-                </div>
+  <div class="container">
+    <h1>Experience Timeline</h1>
+
+    <div class="timeline">
+      <!-- The new timeline line element -->
+      <div class="timeline-line"></div>
+
+      <!-- YEAR BLOCK for 2025 -->
+      <div class="timeline-year-block">
+        <div class="year-label">2025</div>
+        <div class="events">
+          <div class="event">
+            <h3>Bachelor’s Degree in Computer Engineering</h3>
+            <div class="event-details">
+              <span class="event-dates">Aug 2022 – Jun 2025</span>
+              <p>Graduating UiA with a bachelor’s degree in computer engineering.</p>
             </div>
-            <div class="timeline-event" data-year="2024">
-                <div class="timeline-year">2024</div>
-                <div class="timeline-content">
-                    <h3>Teachers assistant</h3>
-                    <p>Worked as a teachers assistant in the course network and security, where i helped new students with issues they had in the course such as using a linux vm, capturing network traffic with wireshark etc.</p>
-                </div>
+          </div>
+          <div class="event">
+            <h3>UiaSub</h3>
+            <div class="event-details">
+              <span class="event-dates">September 2024 – Current</span>
+              <p>I am currently a member of the UiaSub team, making an ROV to compete
+                 against other teams in June. I am on the Development team, creating
+                 the software running the ROV.</p>
             </div>
-            <div class="timeline-event" data-year="2023">
-                <div class="timeline-year">2023</div>
-                <div class="timeline-content">
-                    <h3>Elite Foto</h3>
-                    <p>worked with production of photos and editing them using digital tools like photoshop</p>
-                </div>
-            </div>
-            <div class="timeline-event" data-year="2022">
-                <div class="timeline-year">2022</div>
-                <div class="timeline-content">
-                    <h3>Rema 1000</h3>
-                    <p>Worked in the grosorie store Rema 1000. Quit the job when moving away to study</p>
-                </div>
-            </div>
+          </div>
         </div>
-    </div>
+      </div>
+
+      <!-- YEAR BLOCK for 2024 -->
+      <div class="timeline-year-block">
+        <div class="year-label">2024</div>
+        <div class="events">
+          <div class="event">
+            <h3>Teacher’s Assistant (Network &amp; Security)</h3>
+            <div class="event-details">
+              <span class="event-dates">Sep 2024 – Dec 2024</span>
+              <p>Assisted students with Linux VMs, Wireshark traffic analysis,
+                 networking labs. Mentored groups and graded lab reports.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YEAR BLOCK for 2023 -->
+      <div class="timeline-year-block">
+        <div class="year-label">2023</div>
+        <div class="events">
+          <div class="event">
+            <h3>Elite Foto</h3>
+            <div class="event-details">
+              <span class="event-dates">Sep 2023 – Jun 2024</span>
+              <p>Worked on photo production and editing using Photoshop.
+                 Handled customer orders and made custom orders. Ended in June 2024
+                 when the store closed.</p>
+            </div>
+          </div>
+          <div class="event">
+            <h3>RIA - Summer Job</h3>
+            <div class="event-details">
+              <span class="event-dates">Summer 2023</span>
+              <p>Worked in a grocery store Rema 1000. Handled inventory,
+                 assisted customers, and managed checkout.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YEAR BLOCK for 2022 -->
+      <div class="timeline-year-block">
+        <div class="year-label">2022</div>
+        <div class="events">
+          <div class="event">
+            <h3>Rema 1000</h3>
+            <div class="event-details">
+              <span class="event-dates">2022 – 2022</span>
+              <p>Worked in a grocery store Rema 1000. Handled inventory,
+                 assisted customers, and managed checkout. Quit the job when
+                 moving away to study.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .timeline -->
+  </div><!-- .container -->
 </section>
 {% endblock %}
