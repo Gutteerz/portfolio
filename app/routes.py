@@ -29,7 +29,13 @@ def about():
 def portfolio():
     return render_template('portfolio.html')
 
-#Refs to the projects
+
+@main.route('/privacy')
+@limiter.limit("10 per minute")
+def privacy():
+    return render_template('privacy.html')
+
+
 @main.route('/portfolio/mario')
 def mario_project():
     return render_template('projects/mario.html')
@@ -58,40 +64,6 @@ def studak():
 @main.route('/portfolio/portfolio-website')
 def portfolio_website_project():
     return render_template('projects/portfolio_project.html')
-
-"""
-#WIP contact
-@main.route("/contact", methods=["GET", "POST"])
-@limiter.limit("5 per hour")
-def contact():
-    if request.method == "POST":
-        try:
-            # Sanitize inputs
-            name = sanitize_input(request.form.get("name"))
-            email = sanitize_input(request.form.get("email"))
-            message = sanitize_input(request.form.get("message"))
-            recaptcha_response = request.form.get("g-recaptcha-response")
-
-            # Validate inputs
-            validate_form_data(name, email, message)
-
-            # Verify reCAPTCHA
-            if not recaptcha_response:
-                flash("reCAPTCHA verification failed. Please try again.", "error")
-                return redirect(url_for("main.contact"))
-
-            # Send email
-            send_email(name, email, message)
-            flash("Your message has been sent successfully!", "success")
-            return redirect(url_for("main.contact"))
-
-        except ValueError as e:
-            flash(str(e), "error")
-        except RuntimeError as e:
-            flash("An unexpected error occurred. Please try again later.", "error")
-
-    return render_template("contact.html", recaptcha_public_key=current_app.config["RECAPTCHA_PUBLIC_KEY"])
-"""
 
 
 @main.route('/contact', methods=['GET', 'POST'])
