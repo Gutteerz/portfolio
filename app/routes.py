@@ -29,7 +29,13 @@ def about():
 def portfolio():
     return render_template('portfolio.html')
 
-#Refs to the projects
+
+@main.route('/privacy')
+@limiter.limit("10 per minute")
+def privacy():
+    return render_template('privacy.html')
+
+
 @main.route('/portfolio/mario')
 def mario_project():
     return render_template('projects/mario.html')
