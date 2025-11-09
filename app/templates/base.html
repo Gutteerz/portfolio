@@ -3,27 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Portfolio{% endblock %}</title>
+    <title>{% block title %}Storm Selvig — Portfolio{% endblock %}</title>
+    <meta name="description" content="Portfolio of Storm Selvig — projects in C++, .NET, Python and JavaScript, plus experience and contact.">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Storm Selvig — Portfolio">
+    <meta property="og:description" content="Selected projects, experience, and contact information.">
+    <meta property="og:url" content="{{ request.url_root|trim('/') }}">
+    <meta name="twitter:card" content="summary">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
-    <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M1EJVERDSE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-M1EJVERDSE');
-</script>
+    {% block extra_head %}{% endblock %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1EJVERDSE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date());
+      gtag('config', 'G-M1EJVERDSE');
+    </script>
+    
 </head>
 <body>
-    <nav class="navbar">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <nav class="navbar" role="navigation" aria-label="Main">
         <div class="container">
-            <a href="/" class="logo">MyPortfolio</a>
-            <ul class="nav-links">
+            <a href="/" class="logo" aria-label="Storm Selvig Home">Storm Selvig</a>
+            <button class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+            <ul id="primary-navigation" class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">Experience</a></li>
                 <li><a href="/portfolio">Portfolio</a></li>
@@ -31,25 +41,30 @@
             </ul>
         </div>
     </nav>
-    <main class="content">
+    <main id="main" class="content">
         {% block content %}{% endblock %}
     </main>
     <footer class="footer">
-    <p>&copy; 2025 Storm Selvig.</p>
-    <div class="social-links">
-        <a href="https://www.linkedin.com/in/storm-selvig-4650ba1a9/" target="_blank">LinkedIn</a>
-        <a href="https://github.com/Gutteerz" target="_blank">GitHub</a>
-    </div>
+        <p>&copy; 2025 Storm Selvig.</p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/storm-selvig-4650ba1a9/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/Gutteerz" target="_blank" rel="noopener">GitHub</a>
+        </div>
         <div class="privacy">
             <a href="/privacy">Privacy Policy</a>
         </div>
-
-</footer>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="{{ url_for('static', filename='js/filter.js') }}"></script>
-<script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
-<script src="{{ url_for('static', filename='js/home.js') }}"></script>
-<script src="{{ url_for('static', filename='js/particles.js') }}"></script>
-<script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+    </footer>
+    <script>
+      const toggle = document.querySelector('.menu-toggle');
+      const nav = document.getElementById('primary-navigation');
+      if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!expanded));
+          nav.classList.toggle('open');
+        });
+      }
+    </script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

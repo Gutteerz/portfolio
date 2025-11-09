@@ -1,10 +1,19 @@
 /* General Styles */
 
+:root {
+    --bg: #0f172a;           /* slate-900 */
+    --surface: #1e293b;      /* slate-800 */
+    --text: #e2e8f0;         /* slate-200 */
+    --muted: #94a3b8;        /* slate-400 */
+    --primary: #4ca1af;      /* teal/blue gradient anchor */
+    --primary-dark: #2c3e50;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #1e1e2f;
-    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    background: var(--bg);
+    color: var(--text);
 }
 
 /* Navbar */
@@ -46,7 +55,7 @@ section {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -64,13 +73,13 @@ input, textarea, button {
 }
 
 button {
-    background: #4ca1af;
+    background: var(--primary);
     color: #ffffff;
     cursor: pointer;
 }
 
 button:hover {
-    background: #2c3e50;
+    background: var(--primary-dark);
 }
 
 /* Footer */
@@ -102,7 +111,7 @@ button:hover {
 }
 
 .btn {
-    background-color: #007bff;
+    background-color: var(--primary);
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -111,7 +120,7 @@ button:hover {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-dark);
 }
 
 .social-links {
@@ -126,7 +135,7 @@ button:hover {
 }
 
 .social-links a:hover {
-    color: #4ca1af;
+    color: var(--primary);
 }
 
 .privacy {
@@ -140,5 +149,41 @@ button:hover {
 }
 
 .privacy a:hover{
-    color: #4ca1af;
+    color: var(--primary);
+}
+
+/* Accessibility */
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+.skip-link:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 10px;
+    padding: 8px 12px;
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 6px;
+}
+
+/* Mobile nav */
+.menu-toggle {
+    display: none;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle { display: inline-block; }
+  .nav-links { display: none; flex-direction: column; gap: 10px; }
+  .nav-links.open { display: flex; }
 }

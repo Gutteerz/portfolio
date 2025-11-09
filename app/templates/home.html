@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+<canvas id="background-canvas"></canvas>
 <div id="particles-js"></div>
 <section class="hero">
   <div class="container">
     <h1 id="hero-title">Hi, I'm <span>Storm Selvig</span></h1>
+    <p id="hero-subtitle">Building practical software with C++, .NET, Python and JavaScript.</p>
     <div class="cta-buttons">
       <a href="/portfolio" class="btn btn-primary">View My Work</a>
       <a href="/contact" class="btn btn-secondary">Contact Me</a>
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}

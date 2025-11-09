@@ -3,7 +3,7 @@
 {% block content %}
 <section class="about">
   <div class="container">
-    <h1>Experience Timeline</h1>
+    <h1>Experience</h1>
 
     <div class="timeline">
       <!-- The new timeline line element -->
@@ -14,19 +14,24 @@
         <div class="year-label">2025</div>
         <div class="events">
           <div class="event">
-            <h3>Bachelor’s Degree in Computer Engineering</h3>
+            <h3>Master's Degree in Artificial Intelligence</h3>
             <div class="event-details">
-              <span class="event-dates">Aug 2022 – Jun 2025</span>
-              <p>Graduating UiA with a bachelor’s degree in computer engineering.</p>
+              <span class="event-dates">Aug 2025 - Jun 2027</span>
+              <p>Currently studying Artificial Intelligence at UiA.</p>
             </div>
           </div>
           <div class="event">
-            <h3>UiaSub</h3>
+            <h3>Bachelor's Degree in Computer Engineering</h3>
             <div class="event-details">
-              <span class="event-dates">September 2024 – Current</span>
-              <p>I am currently a member of the UiaSub team, making an ROV to compete
-                 against other teams in June. I am on the Development team, creating
-                 the software running the ROV.</p>
+              <span class="event-dates">Aug 2022 - Jun 2025</span>
+              <p>Graduated UiA with a bachelor's degree in computer engineering.</p>
+            </div>
+          </div>
+          <div class="event">
+            <h3>UiA Sub (ROV Team)</h3>
+            <div class="event-details">
+              <span class="event-dates">September 2024 - Current</span>
+              <p>Member of the UiA Sub team building a competitive ROV. Part of the development team creating the software running the ROV.</p>
             </div>
           </div>
         </div>
@@ -37,9 +42,9 @@
         <div class="year-label">2024</div>
         <div class="events">
           <div class="event">
-            <h3>Teacher’s Assistant (Network &amp; Security)</h3>
+            <h3>Teaching Assistant (Network &amp; Security)</h3>
             <div class="event-details">
-              <span class="event-dates">Sep 2024 – Dec 2024</span>
+              <span class="event-dates">Sep 2024 - Dec 2024</span>
               <p>Assisted students with Linux VMs, Wireshark traffic analysis,
                  networking labs. Mentored groups and graded lab reports.</p>
             </div>
@@ -54,14 +59,14 @@
           <div class="event">
             <h3>Elite Foto</h3>
             <div class="event-details">
-              <span class="event-dates">Sep 2023 – Jun 2024</span>
+              <span class="event-dates">Sep 2023 - Jun 2024</span>
               <p>Worked on photo production and editing using Photoshop.
                  Handled customer orders and made custom orders. Ended in June 2024
                  when the store closed.</p>
             </div>
           </div>
           <div class="event">
-            <h3>RIA - Summer Job</h3>
+            <h3>Rema 1000 — Summer Job</h3>
             <div class="event-details">
               <span class="event-dates">Summer 2023</span>
               <p>Worked in a grocery store Rema 1000. Handled inventory,
@@ -78,10 +83,8 @@
           <div class="event">
             <h3>Rema 1000</h3>
             <div class="event-details">
-              <span class="event-dates">2022 – 2022</span>
-              <p>Worked in a grocery store Rema 1000. Handled inventory,
-                 assisted customers, and managed checkout. Quit the job when
-                 moving away to study.</p>
+              <span class="event-dates">2022 - 2022</span>
+              <p>Worked in a grocery store. Handled inventory, assisted customers, and checkout. Left when moving to study.</p>
             </div>
           </div>
         </div>
@@ -90,4 +93,8 @@
     </div><!-- .timeline -->
   </div><!-- .container -->
 </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
 {% endblock %}
