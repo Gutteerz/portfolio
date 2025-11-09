@@ -15,7 +15,9 @@
         <!-- Projects Grid -->
         <div class="project-grid">
             <div class="project-card" data-category="cpp">
-                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/cpp_logo.png') }}');"></div>
+                <div class="project-thumbnail">
+                    <img src="{{ url_for('static', filename='images/cpp_logo.png') }}" alt="C++ project thumbnail">
+                </div>
                 <div class="project-info">
                     <h3>Mario Game</h3>
                     <p>Design and develop a 2D Mario platform game.</p>
@@ -23,7 +25,9 @@
                 </div>
             </div>
              <div class="project-card" data-category="cpp">
-                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/cpp_logo.png') }}');"></div>
+                <div class="project-thumbnail">
+                    <img src="{{ url_for('static', filename='images/cpp_logo.png') }}" alt="C++ project thumbnail">
+                </div>
                 <div class="project-info">
                     <h3>Custom smart clock</h3>
                     <p>Smart Clock with functionality connected to STM32-board</p>
@@ -31,7 +35,9 @@
                 </div>
             </div>
             <div class="project-card" data-category="dotnet">
-                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/dotnet_logo.png') }}');"></div>
+                <div class="project-thumbnail">
+                    <img src="{{ url_for('static', filename='images/dotnet_logo.png') }}" alt=".NET project thumbnail">
+                </div>
                 <div class="project-info">
                     <h3>Online Mafia Game</h3>
                     <p>Online round-based game based on Werewolf.</p>
@@ -39,7 +45,9 @@
                 </div>
             </div>
             <div class="project-card" data-category="python">
-                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/python_logo.png') }}');"></div>
+                <div class="project-thumbnail">
+                    <img src="{{ url_for('static', filename='images/python_logo.png') }}" alt="Python project thumbnail">
+                </div>
                 <div class="project-info">
                     <h3>AI Dashcam</h3>
                     <p>Custom AI to recognize speed signs on the road.</p>
@@ -47,7 +55,9 @@
                 </div>
             </div>
              <div class="project-card" data-category="javascript">
-                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/javascript_logo.png') }}');"></div>
+                <div class="project-thumbnail">
+                    <img src="{{ url_for('static', filename='images/javascript_logo.png') }}" alt="JavaScript project thumbnail">
+                </div>
                 <div class="project-info">
                     <h3>Student activity app</h3>
                     <p>React app for students to find and arrange activities in their area</p>
@@ -55,10 +65,12 @@
                 </div>
             </div>
             <div class="project-card" data-category="python">
-                <div class="project-thumbnail" style="background-image: url('{{ url_for('static', filename='images/python_logo.png') }}');"></div>
+                <div class="project-thumbnail">
+                    <img src="{{ url_for('static', filename='images/python_logo.png') }}" alt="Python project thumbnail">
+                </div>
                 <div class="project-info">
                     <h3>Portfolio Website</h3>
-                    <p>Website to show of projects and skills</p>
+                    <p>Website to showcase projects and skills</p>
                     <a href="/portfolio/portfolio-website" class="le_button">Learn More</a>
                 </div>
             </div>
@@ -67,4 +79,8 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
 {% endblock %}

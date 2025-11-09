@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Play — GodforsakenPlace{% endblock %}
+{% block content %}
+<section class="project-details">
+  <div class="container">
+    <div class="project-header">
+      <h1 class="project-title">Play — Online Mafia Game</h1>
+      <p class="project-intro">The game loads below. If it does not appear, it may be blocked by the remote server's embedding policy.</p>
+    </div>
+
+    {% if game_url %}
+      <div class="responsive-embed">
+        <iframe src="{{ game_url }}" title="GodforsakenPlace — Online Mafia Game" loading="lazy" allowfullscreen></iframe>
+      </div>
+    {% else %}
+      <p>
+        Game URL is not configured. Set the environment variable <code>GODFORSAKENPLACE_URL</code> to the deployed frontend URL.
+      </p>
+    {% endif %}
+
+    <div class="project-navigation">
+      <a href="/portfolio/godforsakenplace" class="btn btn-secondary">Back to Project</a>
+    </div>
+  </div>
+  
+</section>
+{% endblock %}

@@ -66,6 +66,15 @@ def portfolio_website_project():
     return render_template('projects/portfolio_project.html')
 
 
+@main.route('/play/godforsakenplace')
+@limiter.limit("10 per minute")
+def play_godforsakenplace():
+    # Configure the external frontend URL via environment variable
+    # Example: GODFORSAKENPLACE_URL=https://play.example.com
+    game_url = os.getenv('GODFORSAKENPLACE_URL')
+    return render_template('projects/godforsakenplace_play.html', game_url=game_url)
+
+
 @main.route('/contact', methods=['GET', 'POST'])
 @limiter.limit("10 per minute")
 def contact():

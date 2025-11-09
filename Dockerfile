@@ -1,23 +1,18 @@
-# Use the official Python slim image
-FROM python:3.10-slim
+FROM python:3.11-slim
 
-# Set the working directory in the container
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
 WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file into the container
-COPY requirements.txt requirements.txt
+COPY requirements.txt .
+RUN pip install -r requirements.txt && pip install gunicorn
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Explicitly copy the `static` directory and its contents
-COPY ./app/static /app/static
-
-# Copy the rest of the application files
 COPY . .
 
-# Debugging step: List contents of the /app directory
-RUN ls -l /app && ls -l /app/static
-
-# Expose the application on port 5000
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "run:app"]
+EXPOSE 5000
+# expects wsgi:app (add wsgi.py below)
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "wsgi:app"]
