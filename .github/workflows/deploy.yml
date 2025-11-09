@@ -3,7 +3,6 @@ name: Build & Push (Portfolio)
 on:
   push:
     branches: [ main ]
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -34,3 +33,4 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
