@@ -1,111 +1,106 @@
-/* General Project Details Styling */
 .project-details {
-    padding: 40px 20px;
-    line-height: 1.6;
-    color: #f1f1f1;
+  padding: var(--space-8) var(--space-4);
+  line-height: 1.7;
+  color: var(--color-text);
 }
 
 .project-header {
-    text-align: center;
-    margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: var(--space-8);
 }
 
 .project-title {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-2);
 }
 
 .project-intro {
-    font-size: 1.2rem;
-    color: #cccccc;
+  font-size: var(--font-size-md);
+  color: var(--color-muted);
 }
 
 .project-visual {
-    text-align: center;
-    margin: 30px 0;
+  text-align: center;
+  margin: var(--space-6) 0;
 }
 
 .project-image {
-    max-width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  max-width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .project-section {
-    margin-bottom: 30px;
+  margin-bottom: var(--space-6);
 }
 
 .features-list,
 .tech-list {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .features-list li,
 .tech-list li {
-    margin: 10px 0;
-    padding-left: 20px;
-    position: relative;
+  margin: var(--space-3) 0;
+  padding-left: var(--space-4);
+  position: relative;
+  color: var(--color-subtle);
 }
 
 .features-list li::before,
 .tech-list li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    color: #4ca1af;
-    font-size: 1.2rem;
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+  font-size: 1.2rem;
 }
 
 .project-navigation {
-    text-align: center;
-    margin-top: 40px;
+  text-align: center;
+  margin-top: var(--space-8);
 }
 
+.le_button,
 .project-navigation .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #4ca1af;
-    color: #fff;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background 0.3s ease;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #fff;
+  text-decoration: none;
+  transition: background var(--transition), transform var(--transition);
+  display: inline-block;
 }
 
+.le_button:hover,
 .project-navigation .btn:hover {
-    background: #2c3e50;
-}
-
-.le_button {
-    padding: 8px 15px;
-    border-radius: 5px;
-    background-color: #4ca1af;
-    color: #fff;
-    cursor: pointer;
+  background: var(--color-primary-strong);
+  transform: translateY(-1px);
 }
 
 .image-grid {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
 }
 
 .image-grid img {
-    max-width: 35%;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 35%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
 }
 
-/* Responsive iframe wrapper for playable embeds */
 .responsive-embed {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 */
+  padding-top: 56.25%;
   background: #000;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-card);
 }
+
 .responsive-embed iframe {
   position: absolute;
   top: 0;
