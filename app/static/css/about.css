@@ -1,11 +1,9 @@
-/* Container */
 .timeline {
   position: relative;
-  margin: 50px auto;
-  max-width: 1000px;
-  padding-bottom: 50px;
+  margin: var(--space-10) auto;
+  max-width: 64rem;
+  padding-bottom: var(--space-12);
 }
-
 
 .timeline-line {
   position: absolute;
@@ -13,19 +11,17 @@
   left: 50%;
   transform: translateX(-50%);
   width: 6px;
-  height: 0;
-  z-index: 0;
-
+  height: 100%;
   background-image: repeating-linear-gradient(
     to bottom,
-    #4ca1af 0,
-    #4ca1af 12px,
+    var(--color-primary) 0,
+    var(--color-primary) 12px,
     transparent 12px,
     transparent 24px
   );
-  /* Animate the background position so the dashes "flow" */
   animation: dashFlow 3s linear infinite;
-  border-radius: 3px; /* round edges for a cleaner look */
+  border-radius: 3px;
+  opacity: 0.85;
 }
 
 @keyframes dashFlow {
@@ -35,7 +31,7 @@
 
 .timeline-year-block {
   position: relative;
-  margin: 60px 0;
+  margin: var(--space-10) 0;
   opacity: 0;
   transform: translateY(20px);
   transition: 0.6s ease;
@@ -51,75 +47,74 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  padding: 12px 30px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  border-radius: 50px;
-  background: #4ca1af;
+  padding: var(--space-3) var(--space-6);
+  box-shadow: var(--shadow-soft);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
   color: #fff;
-  font-weight: bold;
-  font-size: 1.4rem;
+  font-weight: 700;
+  font-size: 1.1rem;
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   z-index: 2;
 }
 
-/* Events container */
 .events {
-  margin-top: 80px;
+  margin-top: var(--space-12);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-4);
 }
 
-
-/* Event card */
 .event {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 45%;
-  background-color: #ffffff;
-  color: #333333;
-  padding: 20px 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
   text-align: left;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform var(--transition), box-shadow var(--transition);
   z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .event:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .timeline-year-block:nth-child(even) .event {
   margin-left: 55%;
 }
 
-
 .event::before {
   content: '';
   position: absolute;
   width: 18px;
   height: 18px;
-  background-color: #4ca1af;
+  background-color: var(--color-primary);
   border-radius: 50%;
   top: 20px;
   left: -9px;
+  box-shadow: 0 0 0 6px rgba(76, 161, 175, 0.2);
 }
 
 .event h3 {
-  font-size: 1.3rem;
-  color: #4ca1af;
-  margin-bottom: 8px;
-}
-.event-dates {
-  font-weight: bold;
-  color: #555;
-  display: block;
-  margin-bottom: 5px;
+  font-size: var(--font-size-lg);
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
 }
 
-/* Responsive: for smaller screens, stack everything in one column */
+.event-dates {
+  font-weight: 700;
+  color: var(--color-muted);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
 @media screen and (max-width: 768px) {
   .event {
     width: 100%;

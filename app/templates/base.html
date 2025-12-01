@@ -12,21 +12,17 @@
     <meta property="og:url" content="{{ request.url_root|trim('/') }}">
     <meta name="twitter:card" content="summary">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+    {% block extra_css %}{% endblock %}
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% block extra_head %}{% endblock %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1EJVERDSE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
+      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-M1EJVERDSE');
     </script>
-    
+
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
