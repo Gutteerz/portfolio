@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
 {% block title %}Godforsakenplace{% endblock %}
 {% block content %}
 <section class="project-details">

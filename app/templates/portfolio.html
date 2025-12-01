@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
+{% endblock %}
 {% block title %}Portfolio{% endblock %}
 {% block content %}
 <section class="portfolio">
