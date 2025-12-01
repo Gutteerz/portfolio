@@ -1,15 +1,17 @@
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
 }
 
 .project-card {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #1f2a38;
+    border-radius: 14px;
     overflow: hidden;
-    border-radius: 10px;
-    background-color: #2c3e50;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
     opacity: 1;
     visibility: visible;
 }
@@ -23,44 +25,135 @@
     grid-column: auto;
 }
 
-
-
-
 .project-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    border-color: rgba(76, 161, 175, 0.5);
 }
 
-.project-thumbnail {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-}
-
-.project-thumbnail img {
+.project-media {
+    position: relative;
     width: 100%;
-    height: 200px;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, rgba(76, 161, 175, 0.25), rgba(44, 62, 80, 0.6));
+}
+
+.project-media img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
 }
 
-.project-info {
-    padding: 10px;
-    text-align: center;
+.project-body {
+    padding: 18px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.project-info h3 {
-    margin: 0;
+.project-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(76, 161, 175, 0.15);
+    color: #4ca1af;
+    font-size: 0.75rem;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.category-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e0e6ed;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.project-body h3 {
+    margin: 4px 0;
     font-size: 1.2rem;
+    color: #f6f8fb;
 }
 
-.project-info .btn {
-    margin-top: 10px;
-    font-size: 0.9rem;
+.project-body p {
+    margin: 0;
+    color: #c8d3e0;
+    line-height: 1.5;
 }
 
+.project-problem {
+    color: #a7b5c7;
+}
 
+.project-solution {
+    color: #d7e2f0;
+}
 
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.chip {
+    background: rgba(76, 161, 175, 0.1);
+    color: #8bd3dd;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(139, 211, 221, 0.4);
+}
+
+.cta-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4ca1af, #2c3e50);
+    color: #f6f8fb;
+    border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #63b5c3, #3a5068);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #c8d3e0;
+    border: 1px solid rgba(200, 211, 224, 0.3);
+}
+
+.btn-ghost:hover {
+    border-color: #4ca1af;
+    color: #f6f8fb;
+}
 
 /* Categories / Filter*/
 .categories {
@@ -68,15 +161,18 @@
     justify-content: center;
     margin-bottom: 20px;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .category {
-    padding: 8px 15px;
+    padding: 10px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 999px;
     background-color: #4ca1af;
     color: #fff;
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-weight: 700;
 }
 
 .category.active {
@@ -85,4 +181,20 @@
 
 .category:hover {
     background-color: #2c3e50;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+    .project-body {
+        padding: 16px;
+    }
+
+    .cta-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        text-align: center;
+    }
 }
