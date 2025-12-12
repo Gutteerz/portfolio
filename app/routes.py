@@ -81,17 +81,29 @@ def contact():
     form = ContactForm()
 
     if form.validate_on_submit():
-        # Extract data from the form
         name = form.name.data
         sender_email = form.email.data
         message_body = form.message.data
         recipient = os.getenv("MAIL_RECIPIENT")
 
-        # Create an email message
+        if not recipient:
+            flash( "Something went wrong. Please try again later. 100", "danger" )
+            return redirect(url_for('main.contact'))
+
+        configured_sender = (
+            current_app.config.get("MAIL_DEFAULT_SENDER")
+            or current_app.config.get("MAIL_USERNAME")
+        )
+
+        if not configured_sender:
+            flash("Something went wrong. Please try again later. 101", "danger")
+            return redirect(url_for('main.contact'))
+
         msg = Message(
             subject="New Contact Form Submission",
-            sender=sender_email,  # or your own email to avoid SPF issues
-            recipients=[recipient],  # Replace with your actual email
+            sender=configured_sender,
+            reply_to=sender_email,
+            recipients=[recipient],
             body=f"From: {name} <{sender_email}>\n\n{message_body}"
         )
 
