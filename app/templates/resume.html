@@ -50,7 +50,7 @@
             <section class="resume-section education-section">
                 <h2>Education</h2>
                 {% for school in resume.education %}
-                <div class="education-item">
+                <div class="education-item" data-keywords="{{ school.keywords|join(',') if school.keywords else '' }}">
                     <h3>{{ school.institution }}</h3>
                     <div class="meta">
                         <span class="degree">{{ school.studyType }} in {{ school.area }}</span>
@@ -61,12 +61,11 @@
             </section>
         </aside>
 
-        <!-- Main Content: Work Experience -->
+        <!-- Main Content: Projects & Work Experience -->
         <main class="resume-content">
             <section class="resume-section experience-section">
                 <h2>Experience</h2>
                 {% for job in resume.work %}
-                <!-- attributes for highlighting -->
                 <article class="job-item" data-keywords="{{ job.keywords|join(',') }}">
                     <div class="job-header">
                         <h3>{{ job.position }}</h3>
@@ -87,6 +86,32 @@
                 </article>
                 {% endfor %}
             </section>
+
+            <!-- Projects Section -->
+            {% if resume.projects %}
+            <section class="resume-section projects-section">
+                <h2>Projects</h2>
+                {% for project in resume.projects %}
+                <article class="job-item project-item" data-keywords="{{ project.keywords|join(',') }}">
+                    <div class="job-header">
+                        <h3>{{ project.name }}</h3>
+                        <a href="{{ project.url }}" class="company" target="_blank">View Project &rarr;</a>
+                    </div>
+                    <p class="job-summary">{{ project.summary }}</p>
+                    <ul class="job-highlights">
+                        {% for highlight in project.highlights %}
+                        <li>{{ highlight }}</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="job-keywords no-print">
+                        {% for keyword in project.keywords %}
+                        <span class="badge">{{ keyword }}</span>
+                        {% endfor %}
+                    </div>
+                </article>
+                {% endfor %}
+            </section>
+            {% endif %}
         </main>
     </div>
 </div>

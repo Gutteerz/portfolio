@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const skillTags = document.querySelectorAll('.skill-tag');
-    const jobItems = document.querySelectorAll('.job-item');
+    // Select all items that should react to highlighting
+    const highlightableItems = document.querySelectorAll('.job-item, .education-item');
 
     let activeSkill = null;
 
@@ -32,8 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function highlightSkill(skill) {
-        jobItems.forEach(item => {
-            const keywords = item.getAttribute('data-keywords').split(',');
+        highlightableItems.forEach(item => {
+            const keywordsAttr = item.getAttribute('data-keywords');
+            // Some items might not have keywords
+            if (!keywordsAttr) return;
+
+            const keywords = keywordsAttr.split(',');
             if (keywords.includes(skill)) {
                 item.classList.remove('dimmed');
                 item.classList.add('highlighted');
@@ -45,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resetHighlights() {
-        jobItems.forEach(item => {
+        highlightableItems.forEach(item => {
             item.classList.remove('dimmed');
             item.classList.remove('highlighted');
         });

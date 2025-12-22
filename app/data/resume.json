@@ -1,113 +1,286 @@
 {
-  "basics": {
-    "name": "Storm Selvig",
-    "label": "Software Engineer & M.Sc. AI/IoT Student",
-    "email": "stormselvig@pm.me",
-    "summary": "Software engineer with experience in embedded test automation, networking/security teaching assistance, and legacy software modernization. M.Sc. student in Artificial Intelligence and IoT at UiA. I build practical systems in C/C++, Python, and web tech, and I’m active in UiASub building an ROV.",
-    "location": {
-      "city": "Randaberg, Grimstad"
+    "basics": {
+        "name": "Storm Selvig",
+        "label": "Software Engineer & M.Sc. AI/IoT Student",
+        "email": "stormselvig@pm.me",
+        "summary": "Software engineer with experience in embedded test automation, networking/security teaching assistance, and legacy software modernization. M.Sc. student in Artificial Intelligence and IoT at UiA. I build practical systems in C/C++, Python, and web tech, and I’m active in UiASub building an ROV.",
+        "location": {
+            "city": "Randaberg, Grimstad"
+        },
+        "profiles": [
+            {
+                "network": "GitHub",
+                "url": "https://github.com/Gutteerz"
+            },
+            {
+                "network": "LinkedIn",
+                "url": "https://www.linkedin.com/in/storm-selvig-4650ba1a9/"
+            }
+        ]
     },
-    "profiles": [
-      {
-        "network": "GitHub",
-        "url": "https://github.com/Gutteerz"
-      },
-      {
-        "network": "LinkedIn",
-        "url": "https://www.linkedin.com/in/storm-selvig-4650ba1a9/"
-      }
+    "skills": [
+        {
+            "name": "Programming",
+            "keywords": [
+                "C",
+                "C++",
+                "C#",
+                "Python",
+                "JavaScript",
+                "HTML",
+                "CSS",
+                "SQL"
+            ]
+        },
+        {
+            "name": "Tools",
+            "keywords": [
+                "Git",
+                "Linux",
+                "Docker",
+                "Wireshark"
+            ]
+        },
+        {
+            "name": "Focus Areas",
+            "keywords": [
+                "Embedded",
+                "Automation",
+                "Testing",
+                "Networking",
+                "Security",
+                "Machine Learning",
+                "AI"
+            ]
+        }
+    ],
+    "education": [
+        {
+            "institution": "University of Agder (UiA)",
+            "area": "Artificial Intelligence and the Internet of Things",
+            "studyType": "Master's Degree",
+            "startDate": "2025-08",
+            "endDate": "Present",
+            "keywords": [
+                "AI",
+                "Machine Learning",
+                "IoT",
+                "Python"
+            ]
+        },
+        {
+            "institution": "University of Agder (UiA)",
+            "area": "Computer Engineering",
+            "studyType": "Bachelor's Degree",
+            "startDate": "2022-08",
+            "endDate": "2025-06",
+            "keywords": [
+                "Computer Engineering",
+                "Software Development",
+                "C++",
+                "C"
+            ]
+        }
+    ],
+    "work": [
+        {
+            "name": "UiASub (ROV Team)",
+            "position": "Software / Embedded Developer (Student Organization)",
+            "startDate": "2024-09",
+            "endDate": "Present",
+            "summary": "Student organization building a Remotely Operated Vehicle (ROV). Worked on software solution both topside and embedded.",
+            "highlights": [
+                "Software responsibility in a new student organization (structure, tooling, and technical direction).",
+                "Collaboration across software, electronics, and mechanical work."
+            ],
+            "keywords": [
+                "Embedded",
+                "C",
+                "C++",
+                "Robotics",
+                "Teamwork",
+                "Python"
+            ]
+        },
+        {
+            "name": "Telenor Maritime AS",
+            "position": "Bachelor Thesis Project (Software Modernization)",
+            "startDate": "2025-06",
+            "endDate": "2025-12",
+            "summary": "Bachelor thesis in collaboration with Telenor Maritime, focused on modernizing an older software solution and working with legacy code.",
+            "highlights": [
+                "Improved an existing satelite communication system.",
+                "Learned and delivered in an existing production-style codebase."
+            ],
+            "keywords": [
+                "Software modernization",
+                "Problem solving",
+                "C",
+                "Linux"
+            ]
+        },
+        {
+            "name": "Ixys AS",
+            "position": "Embedded Engineer (Summer Job)",
+            "startDate": "2025-06",
+            "endDate": "2025-08",
+            "summary": "Built automated test setups for circuit boards.",
+            "highlights": [
+                "Developed automated PCB test setups.",
+                "Solved practical testing problems with hardware and software."
+            ],
+            "keywords": [
+                "Embedded",
+                "Automation",
+                "Testing",
+                "Electronics"
+            ]
+        },
+        {
+            "name": "University of Agder",
+            "position": "Teaching Assistant (Network & Security)",
+            "startDate": "2024-08",
+            "endDate": "2024-12",
+            "summary": "Helped students with labs related to networking and security.",
+            "highlights": [
+                "Supported students using Linux VMs and common tooling.",
+                "Assisted with traffic capture and analysis using Wireshark."
+            ],
+            "keywords": [
+                "Networking",
+                "Security",
+                "Linux",
+                "Wireshark",
+                "Teaching",
+                "Git"
+            ]
+        },
+        {
+            "name": "Rogaland Industri Automasjon",
+            "position": "Summer Worker",
+            "startDate": "2023-06",
+            "endDate": "2023-08",
+            "summary": "Worked on practical installation and assembly tasks in industrial automation projects.",
+            "highlights": [
+                "Cable routing and fastening in cable trays.",
+                "Installed lighting fixtures and helped build electrical cabinets."
+            ],
+            "keywords": [
+                "Installation",
+                "Electrical",
+                "Practical work"
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "name": "Portfolio Website",
+            "url": "/portfolio/portfolio",
+            "summary": "Responsive portfolio site to showcase projects, skills, and contact info.",
+            "highlights": [
+                "Project pages with filtering and categorization.",
+                "Deployed with CI/CD for automated updates.",
+                "Modular CSS and JavaScript for maintainable frontend features."
+            ],
+            "keywords": [
+                "Flask",
+                "Python",
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "CI/CD",
+                "DigitalOcean"
+            ]
+        },
+        {
+            "name": "AI Dashcam (Autoticket)",
+            "url": "/portfolio/autoticket",
+            "summary": "AI-powered system for automatic traffic sign detection and recognition.",
+            "highlights": [
+                "Real-time traffic sign detection and recognition using YOLOv11.",
+                "FastAPI backend with a lightweight web UI.",
+                "Dataset labeling workflow using Label Studio."
+            ],
+            "keywords": [
+                "Python",
+                "FastAPI",
+                "Computer Vision",
+                "Machine Learning",
+                "YOLO",
+                "JavaScript",
+                "HTML",
+                "CSS"
+            ]
+        },
+        {
+            "name": "Smart Clock",
+            "url": "/portfolio/smart_clock",
+            "summary": "STM32-based smart clock with alarms, sensor readings, and live info from APIs.",
+            "highlights": [
+                "Shows time/date and handles recurring alarms (snooze/mute/enable).",
+                "Fetches weather + headlines periodically and renders on an LCD UI.",
+                "Uses IP-based geolocation at startup to configure time zone and location."
+            ],
+            "keywords": [
+                "C",
+                "C++",
+                "Embedded",
+                "STM32",
+                "IoT",
+                "APIs",
+                "RSS"
+            ]
+        },
+        {
+            "name": "Student Activity App (Studak)",
+            "url": "/portfolio/studak",
+            "summary": "Mobile app that helps students find and plan activities based on budget and group size.",
+            "highlights": [
+                "Activity recommendations with filters and real-time results from Firestore.",
+                "Authentication and user profiles using Firebase.",
+                "Calendar scheduling and invitations with friends."
+            ],
+            "keywords": [
+                "React Native",
+                "Expo",
+                "Firebase",
+                "Firestore",
+                "Mobile",
+                "JavaScript"
+            ]
+        },
+        {
+            "name": "Online Mafia Game (GodforsakenPlace)",
+            "url": "/portfolio/godforsakenplace",
+            "summary": "Multiplayer online Mafia game with real-time gameplay and role-based actions.",
+            "highlights": [
+                "Lobby system and role-based actions with night/day cycles.",
+                "Real-time updates using SignalR.",
+                "Backend in ASP.NET Core with an Azure-hosted database."
+            ],
+            "keywords": [
+                "C#",
+                ".NET",
+                "ASP.NET Core",
+                "SignalR",
+                "Azure",
+                "React",
+                "Multiplayer"
+            ]
+        },
+        {
+            "name": "Mario Game",
+            "url": "/portfolio/mario",
+            "summary": "2D platformer inspired by the classic Mario series.",
+            "highlights": [
+                "Custom-designed levels and physics.",
+                "Implemented in C++ with SDL2."
+            ],
+            "keywords": [
+                "C++",
+                "SDL2",
+                "Game Development"
+            ]
+        }
     ]
-  },
-  "skills": [
-    {
-      "name": "Programming",
-      "keywords": ["C", "C++", "C#", "Python", "JavaScript", "HTML", "CSS", "SQL"]
-    },
-    {
-      "name": "Tools",
-      "keywords": ["Git", "Linux", "Docker", "Wireshark"]
-    },
-    {
-      "name": "Focus Areas",
-      "keywords": ["Embedded", "Automation", "Testing", "Networking", "Security", "Machine Learning", "AI"]
-    }
-  ],
-  "education": [
-    {
-      "institution": "University of Agder (UiA)",
-      "area": "Artificial Intelligence and the Internet of Things",
-      "studyType": "Master's Degree",
-      "startDate": "2025-08",
-      "endDate": "Present"
-    },
-    {
-      "institution": "University of Agder (UiA)",
-      "area": "Computer Engineering",
-      "studyType": "Bachelor's Degree",
-      "startDate": "2022-08",
-      "endDate": "2025-06"
-    }
-  ],
-  "work": [
-    {
-      "name": "UiASub (ROV Team)",
-      "position": "Software / Embedded Developer (Student Organization)",
-      "startDate": "2024-09",
-      "endDate": "Present",
-      "summary": "Student organization building a Remotely Operated Vehicle (ROV). Worked on software solution both topside and embedded.",
-      "highlights": [
-        "Software responsibility in a new student organization (structure, tooling, and technical direction).",
-        "Collaboration across software, electronics, and mechanical work."
-      ],
-      "keywords": ["Embedded", "C", "C++", "Robotics", "Teamwork", "Python"]
-    },
-    {
-      "name": "Telenor Maritime AS",
-      "position": "Bachelor Thesis Project (Software Modernization)",
-      "startDate": "2025-06",
-      "endDate": "2025-12",
-      "summary": "Bachelor thesis in collaboration with Telenor Maritime, focused on modernizing an older software solution and working with legacy code.",
-      "highlights": [
-        "Improved an existing satelite communication system.",
-        "Learned and delivered in an existing production-style codebase."
-      ],
-      "keywords": [ "Software modernization", "Problem solving", "C", "Linux"]
-    },
-    {
-      "name": "Ixys AS",
-      "position": "Embedded Engineer (Summer Job)",
-      "startDate": "2025-06",
-      "endDate": "2025-08",
-      "summary": "Built automated test setups for circuit boards.",
-      "highlights": [
-        "Developed automated PCB test setups.",
-        "Solved practical testing problems with hardware and software."
-      ],
-      "keywords": ["Embedded", "Automation", "Testing", "Electronics"]
-    },
-    {
-      "name": "University of Agder",
-      "position": "Teaching Assistant (Network & Security)",
-      "startDate": "2024-08",
-      "endDate": "2024-12",
-      "summary": "Helped students with labs related to networking and security.",
-      "highlights": [
-        "Supported students using Linux VMs and common tooling.",
-        "Assisted with traffic capture and analysis using Wireshark."
-      ],
-      "keywords": ["Networking", "Security", "Linux", "Wireshark", "Teaching", "Git"]
-    },
-    {
-      "name": "Rogaland Industri Automasjon",
-      "position": "Summer Worker",
-      "startDate": "2023-06",
-      "endDate": "2023-08",
-      "summary": "Worked on practical installation and assembly tasks in industrial automation projects.",
-      "highlights": [
-        "Cable routing and fastening in cable trays.",
-        "Installed lighting fixtures and helped build electrical cabinets."
-      ],
-      "keywords": ["Installation", "Electrical", "Practical work"]
-    }
-  ]
 }
