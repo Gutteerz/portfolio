@@ -94,17 +94,33 @@ section {
   padding: var(--space-10) 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   color: var(--color-text);
   line-height: 1.2;
   margin: 0 0 var(--space-3);
 }
 
-h1 { font-size: var(--font-size-xxl); }
-h2 { font-size: var(--font-size-xl); }
-h3 { font-size: var(--font-size-lg); }
-h4 { font-size: var(--font-size-md); }
+h1 {
+  font-size: var(--font-size-xxl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+}
+
+h4 {
+  font-size: var(--font-size-md);
+}
 
 p {
   margin: 0 0 var(--space-4);
@@ -112,8 +128,13 @@ p {
   font-size: var(--font-size-sm);
 }
 
-ul { padding-left: var(--space-4); }
-ul li { margin-bottom: var(--space-2); }
+ul {
+  padding-left: var(--space-4);
+}
+
+ul li {
+  margin-bottom: var(--space-2);
+}
 
 /* Navigation */
 .navbar {
@@ -188,7 +209,9 @@ ul li { margin-bottom: var(--space-2); }
   min-height: 44px;
 }
 
-.btn:hover { transform: translateY(-1px); }
+.btn:hover {
+  transform: translateY(-1px);
+}
 
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
@@ -196,7 +219,9 @@ ul li { margin-bottom: var(--space-2); }
   box-shadow: var(--shadow-soft);
 }
 
-.btn-primary:hover { box-shadow: var(--shadow-card); }
+.btn-primary:hover {
+  box-shadow: var(--shadow-card);
+}
 
 .btn-secondary {
   background: transparent;
@@ -214,9 +239,13 @@ ul li { margin-bottom: var(--space-2); }
   border-color: transparent;
 }
 
-.btn-ghost:hover { background: rgba(255, 255, 255, 0.08); }
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
 
-.btn-pill { border-radius: 999px; }
+.btn-pill {
+  border-radius: 999px;
+}
 
 /* Cards */
 .card {
@@ -235,11 +264,21 @@ ul li { margin-bottom: var(--space-2); }
 }
 
 /* Forms */
-.form-group { margin-bottom: var(--space-5); }
+.form-group {
+  margin-bottom: var(--space-5);
+}
 
-label { font-weight: 600; color: var(--color-text); display: block; margin-bottom: var(--space-2); }
+label {
+  font-weight: 600;
+  color: var(--color-text);
+  display: block;
+  margin-bottom: var(--space-2);
+}
 
-input, textarea, select, button {
+input,
+textarea,
+select,
+button {
   font-family: var(--font-body);
   font-size: var(--font-size-sm);
 }
@@ -266,15 +305,26 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(76, 161, 175, 0.25);
 }
 
-.text-danger { color: var(--color-danger); }
+.text-danger {
+  color: var(--color-danger);
+}
+
 .alert {
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-4);
   border: 1px solid transparent;
 }
-.alert-success { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.35); }
-.alert-danger { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.35); }
+
+.alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.35);
+}
 
 /* Footer */
 .footer {
@@ -284,7 +334,10 @@ textarea:focus {
   text-align: center;
 }
 
-.footer p { margin: 0; color: var(--color-muted); }
+.footer p {
+  margin: 0;
+  color: var(--color-muted);
+}
 
 .social-links {
   margin-top: var(--space-3);
@@ -298,9 +351,13 @@ textarea:focus {
   font-weight: 600;
 }
 
-.social-links a:hover { color: var(--color-primary); }
+.social-links a:hover {
+  color: var(--color-primary);
+}
 
-.privacy { margin-top: var(--space-3); }
+.privacy {
+  margin-top: var(--space-3);
+}
 
 /* Accessibility */
 .skip-link {
@@ -324,8 +381,14 @@ textarea:focus {
 }
 
 /* Layout helpers */
-.lead { font-size: var(--font-size-md); color: var(--color-text); }
-.text-muted { color: var(--color-muted); }
+.lead {
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
 
 /* Responsive navigation */
 @media (max-width: 768px) {
@@ -339,7 +402,11 @@ textarea:focus {
     box-shadow: var(--shadow-soft);
   }
 
-  .nav-links.open { display: flex; }
+  .nav-links.open {
+    display: flex;
+  }
 
-  .menu-toggle { display: inline-block; }
+  .menu-toggle {
+    display: inline-block;
+  }
 }

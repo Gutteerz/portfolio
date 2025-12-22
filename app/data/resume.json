@@ -1,0 +1,113 @@
+{
+  "basics": {
+    "name": "Storm Selvig",
+    "label": "Software Engineer & M.Sc. AI/IoT Student",
+    "email": "stormselvig@pm.me",
+    "summary": "Software engineer with experience in embedded test automation, networking/security teaching assistance, and legacy software modernization. M.Sc. student in Artificial Intelligence and IoT at UiA. I build practical systems in C/C++, Python, and web tech, and I’m active in UiASub building an ROV.",
+    "location": {
+      "city": "Randaberg, Grimstad"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "url": "https://github.com/Gutteerz"
+      },
+      {
+        "network": "LinkedIn",
+        "url": "https://www.linkedin.com/in/storm-selvig-4650ba1a9/"
+      }
+    ]
+  },
+  "skills": [
+    {
+      "name": "Programming",
+      "keywords": ["C", "C++", "C#", "Python", "JavaScript", "HTML", "CSS", "SQL"]
+    },
+    {
+      "name": "Tools",
+      "keywords": ["Git", "Linux", "Docker", "Wireshark"]
+    },
+    {
+      "name": "Focus Areas",
+      "keywords": ["Embedded", "Automation", "Testing", "Networking", "Security", "Machine Learning", "AI"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Agder (UiA)",
+      "area": "Artificial Intelligence and the Internet of Things",
+      "studyType": "Master's Degree",
+      "startDate": "2025-08",
+      "endDate": "Present"
+    },
+    {
+      "institution": "University of Agder (UiA)",
+      "area": "Computer Engineering",
+      "studyType": "Bachelor's Degree",
+      "startDate": "2022-08",
+      "endDate": "2025-06"
+    }
+  ],
+  "work": [
+    {
+      "name": "UiASub (ROV Team)",
+      "position": "Software / Embedded Developer (Student Organization)",
+      "startDate": "2024-09",
+      "endDate": "Present",
+      "summary": "Student organization building a Remotely Operated Vehicle (ROV). Worked on software solution both topside and embedded.",
+      "highlights": [
+        "Software responsibility in a new student organization (structure, tooling, and technical direction).",
+        "Collaboration across software, electronics, and mechanical work."
+      ],
+      "keywords": ["Embedded", "C", "C++", "Robotics", "Teamwork", "Python"]
+    },
+    {
+      "name": "Telenor Maritime AS",
+      "position": "Bachelor Thesis Project (Software Modernization)",
+      "startDate": "2025-06",
+      "endDate": "2025-12",
+      "summary": "Bachelor thesis in collaboration with Telenor Maritime, focused on modernizing an older software solution and working with legacy code.",
+      "highlights": [
+        "Improved an existing satelite communication system.",
+        "Learned and delivered in an existing production-style codebase."
+      ],
+      "keywords": [ "Software modernization", "Problem solving", "C", "Linux"]
+    },
+    {
+      "name": "Ixys AS",
+      "position": "Embedded Engineer (Summer Job)",
+      "startDate": "2025-06",
+      "endDate": "2025-08",
+      "summary": "Built automated test setups for circuit boards.",
+      "highlights": [
+        "Developed automated PCB test setups.",
+        "Solved practical testing problems with hardware and software."
+      ],
+      "keywords": ["Embedded", "Automation", "Testing", "Electronics"]
+    },
+    {
+      "name": "University of Agder",
+      "position": "Teaching Assistant (Network & Security)",
+      "startDate": "2024-08",
+      "endDate": "2024-12",
+      "summary": "Helped students with labs related to networking and security.",
+      "highlights": [
+        "Supported students using Linux VMs and common tooling.",
+        "Assisted with traffic capture and analysis using Wireshark."
+      ],
+      "keywords": ["Networking", "Security", "Linux", "Wireshark", "Teaching", "Git"]
+    },
+    {
+      "name": "Rogaland Industri Automasjon",
+      "position": "Summer Worker",
+      "startDate": "2023-06",
+      "endDate": "2023-08",
+      "summary": "Worked on practical installation and assembly tasks in industrial automation projects.",
+      "highlights": [
+        "Cable routing and fastening in cable trays.",
+        "Installed lighting fixtures and helped build electrical cabinets."
+      ],
+      "keywords": ["Installation", "Electrical", "Practical work"]
+    }
+  ]
+}

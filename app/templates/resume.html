@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Resume - {{ resume.basics.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container resume-page">
+    <header class="resume-header">
+        <div class="header-content">
+            <h1>{{ resume.basics.name }}</h1>
+            <p class="lead">{{ resume.basics.label }}</p>
+            <div class="contact-bar">
+                <span>{{ resume.basics.email }}</span>
+                {% if resume.basics.location %}
+                <span>{{ resume.basics.location.city }}, {{ resume.basics.location.countryCode }}</span>
+                {% endif %}
+                {% for profile in resume.basics.profiles %}
+                <a href="{{ profile.url }}" target="_blank" rel="noopener">{{ profile.network }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="header-actions">
+            <button onclick="window.print()" class="btn btn-primary no-print">Download PDF</button>
+        </div>
+    </header>
+
+    <div class="resume-grid">
+        <!-- Sidebar: Skills & Education -->
+        <aside class="resume-sidebar">
+            <section class="resume-section skills-section">
+                <h2>Skills</h2>
+                <p class="text-muted text-sm mb-2">Click a skill to highlight experience</p>
+                <div class="skill-groups">
+                    {% for group in resume.skills %}
+                    <div class="skill-group">
+                        <h3>{{ group.name }}</h3>
+                        <div class="tags">
+                            {% for keyword in group.keywords %}
+                            <button class="skill-tag" data-skill="{{ keyword }}">{{ keyword }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="resume-section education-section">
+                <h2>Education</h2>
+                {% for school in resume.education %}
+                <div class="education-item">
+                    <h3>{{ school.institution }}</h3>
+                    <div class="meta">
+                        <span class="degree">{{ school.studyType }} in {{ school.area }}</span>
+                        <span class="dates">{{ school.startDate }} - {{ school.endDate }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+        </aside>
+
+        <!-- Main Content: Work Experience -->
+        <main class="resume-content">
+            <section class="resume-section experience-section">
+                <h2>Experience</h2>
+                {% for job in resume.work %}
+                <!-- attributes for highlighting -->
+                <article class="job-item" data-keywords="{{ job.keywords|join(',') }}">
+                    <div class="job-header">
+                        <h3>{{ job.position }}</h3>
+                        <span class="company">{{ job.name }}</span>
+                        <span class="dates">{{ job.startDate }} - {{ job.endDate }}</span>
+                    </div>
+                    <p class="job-summary">{{ job.summary }}</p>
+                    <ul class="job-highlights">
+                        {% for highlight in job.highlights %}
+                        <li>{{ highlight }}</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="job-keywords no-print">
+                        {% for keyword in job.keywords %}
+                        <span class="badge">{{ keyword }}</span>
+                        {% endfor %}
+                    </div>
+                </article>
+                {% endfor %}
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/resume.js') }}"></script>
+{% endblock %}

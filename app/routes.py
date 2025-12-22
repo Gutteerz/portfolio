@@ -1,4 +1,4 @@
-import os
+import os, json
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from app.contact import ContactForm
 from app import limiter, mail
@@ -16,6 +16,16 @@ ALLOWED_ATTRIBUTES = {}
 @limiter.limit("10 per minute")  # Limit homepage requests to 10 per minute per IP
 def home():
     return render_template('home.html')
+
+
+@main.route('/resume')
+@limiter.limit("10 per minute")
+def resume():
+    # Load resume data from JSON file
+    data_path = os.path.join(current_app.root_path, 'data', 'resume.json')
+    with open(data_path, 'r', encoding='utf-8') as f:
+        resume_data = json.load(f)
+    return render_template('resume.html', resume=resume_data)
 
 
 @main.route('/about')
