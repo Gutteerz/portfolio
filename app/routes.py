@@ -46,6 +46,10 @@ def privacy():
     return render_template('privacy.html')
 
 
+@main.route('/portfolio/rtos')
+def rtos_project():
+    return render_template('projects/rtos.html')
+
 @main.route('/portfolio/mario')
 def mario_project():
     return render_template('projects/mario.html')

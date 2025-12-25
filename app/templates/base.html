@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Storm Selvig - Portfolio{% endblock %}</title>
-    <meta name="description" content="Portfolio of Storm Selvig - projects in C++, .NET, Python and JavaScript, plus experience and contact.">
+    <meta name="description"
+        content="Portfolio of Storm Selvig - projects in C++, .NET, Python and JavaScript, plus experience and contact.">
     <meta name="theme-color" content="#0f172a">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Storm Selvig - Portfolio">
@@ -17,13 +19,14 @@
     {% block extra_head %}{% endblock %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1EJVERDSE"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-M1EJVERDSE');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-M1EJVERDSE');
     </script>
 
 </head>
+
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <nav class="navbar" role="navigation" aria-label="Main">
@@ -33,7 +36,8 @@
             <ul id="primary-navigation" class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">Experience</a></li>
-                <li><a href="/portfolio">Portfolio</a></li>
+                <li><a href="/portfolio">Projects</a></li>
+                <li><a href="/resume">Resume</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
         </div>
@@ -52,16 +56,17 @@
         </div>
     </footer>
     <script>
-      const toggle = document.querySelector('.menu-toggle');
-      const nav = document.getElementById('primary-navigation');
-      if (toggle && nav) {
-        toggle.addEventListener('click', () => {
-          const expanded = toggle.getAttribute('aria-expanded') === 'true';
-          toggle.setAttribute('aria-expanded', String(!expanded));
-          nav.classList.toggle('open');
-        });
-      }
+        const toggle = document.querySelector('.menu-toggle');
+        const nav = document.getElementById('primary-navigation');
+        if (toggle && nav) {
+            toggle.addEventListener('click', () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                nav.classList.toggle('open');
+            });
+        }
     </script>
     {% block extra_js %}{% endblock %}
 </body>
+
 </html>

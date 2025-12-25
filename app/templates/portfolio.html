@@ -10,6 +10,7 @@
         <!-- Categories -->
         <div class="categories">
             <button class="category active" data-category="all">All</button>
+            <button class="category" data-category="c">C</button>
             <button class="category" data-category="cpp">C++</button>
             <button class="category" data-category="dotnet">.NET</button>
             <button class="category" data-category="python">Python</button>
@@ -27,7 +28,17 @@
                     <a href="/portfolio/mario" class="le_button">Learn More</a>
                 </div>
             </div>
-             <div class="project-card" data-category="cpp">
+            <div class="project-card" data-category="c">
+                <div class="project-thumbnail">
+                    <img src="{{ url_for('static', filename='images/c_logo.png') }}" alt="C project thumbnail">
+                </div>
+                <div class="project-info">
+                    <h3>RTOS with bitmask communication</h3>
+                    <p>Real-time operating system with bitmask communication to microcontroller.</p>
+                    <a href="/portfolio/rtos" class="le_button">Learn More</a>
+                </div>
+            </div>
+            <div class="project-card" data-category="cpp">
                 <div class="project-thumbnail">
                     <img src="{{ url_for('static', filename='images/cpp_logo.png') }}" alt="C++ project thumbnail">
                 </div>
@@ -49,7 +60,8 @@
             </div>
             <div class="project-card" data-category="python">
                 <div class="project-thumbnail">
-                    <img src="{{ url_for('static', filename='images/python_logo.png') }}" alt="Python project thumbnail">
+                    <img src="{{ url_for('static', filename='images/python_logo.png') }}"
+                        alt="Python project thumbnail">
                 </div>
                 <div class="project-info">
                     <h3>AI Dashcam</h3>
@@ -57,9 +69,10 @@
                     <a href="/portfolio/autoticket" class="le_button">Learn More</a>
                 </div>
             </div>
-             <div class="project-card" data-category="javascript">
+            <div class="project-card" data-category="javascript">
                 <div class="project-thumbnail">
-                    <img src="{{ url_for('static', filename='images/javascript_logo.png') }}" alt="JavaScript project thumbnail">
+                    <img src="{{ url_for('static', filename='images/javascript_logo.png') }}"
+                        alt="JavaScript project thumbnail">
                 </div>
                 <div class="project-info">
                     <h3>Student activity app</h3>
@@ -69,7 +82,8 @@
             </div>
             <div class="project-card" data-category="python">
                 <div class="project-thumbnail">
-                    <img src="{{ url_for('static', filename='images/python_logo.png') }}" alt="Python project thumbnail">
+                    <img src="{{ url_for('static', filename='images/python_logo.png') }}"
+                        alt="Python project thumbnail">
                 </div>
                 <div class="project-info">
                     <h3>Portfolio Website</h3>
@@ -85,5 +99,5 @@
 {% endblock %}
 
 {% block extra_js %}
-  <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
+<script src="{{ url_for('static', filename='js/filter.js') }}"></script>
 {% endblock %}

@@ -28,8 +28,7 @@
                 "Python",
                 "JavaScript",
                 "HTML",
-                "CSS",
-                "SQL"
+                "CSS"
             ]
         },
         {
@@ -38,18 +37,17 @@
                 "Git",
                 "Linux",
                 "Docker",
-                "Wireshark"
+                "Wireshark",
+                "RTOS"
             ]
         },
         {
             "name": "Focus Areas",
             "keywords": [
                 "Embedded",
-                "Automation",
                 "Testing",
                 "Networking",
                 "Security",
-                "Machine Learning",
                 "AI"
             ]
         }
@@ -63,7 +61,6 @@
             "endDate": "Present",
             "keywords": [
                 "AI",
-                "Machine Learning",
                 "IoT",
                 "Python"
             ]
@@ -174,6 +171,21 @@
     ],
     "projects": [
         {
+            "name": "RTOS with bitmask communication",
+            "url": "/portfolio/rtos",
+            "summary": "Real-time operating system with bitmask communication to microcontroller.",
+            "highlights": [
+                "RTOS with bitmask communication.",
+                "Pre-computed CRC32 lookup table for faster calculation",
+                "Cmmunicates with sensors and sends data to topside"
+            ],
+            "keywords": [
+                "RTOS",
+                "C",
+                "Embedded"
+            ]
+        },
+        {
             "name": "Portfolio Website",
             "url": "/portfolio/portfolio",
             "summary": "Responsive portfolio site to showcase projects, skills, and contact info.",
@@ -193,7 +205,7 @@
             ]
         },
         {
-            "name": "AI Dashcam (Autoticket)",
+            "name": "AI Dashcam",
             "url": "/portfolio/autoticket",
             "summary": "AI-powered system for automatic traffic sign detection and recognition.",
             "highlights": [
