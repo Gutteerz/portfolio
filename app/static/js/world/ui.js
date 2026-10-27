@@ -1,3 +1,6 @@
+import { renderProfilePanels } from './profile-panels.js';
+import { createContact } from './contact.js';
+
 const $ = id => document.getElementById(id);
 const node = (tag, text, className) => {
   const element = document.createElement(tag);
@@ -6,10 +9,18 @@ const node = (tag, text, className) => {
   return element;
 };
 
-export function createUI(projects, callbacks) {
+export function createUI(projects, profile, callbacks) {
   const dialogs = [...document.querySelectorAll('dialog')];
   let switching = false;
   let currentInteraction = '';
+  let worldReady = false;
+  const contactConfig = JSON.parse($('contact-config').textContent);
+  const contact = createContact(contactConfig, text => { $('live-status').textContent = text; });
+  const panels = new Set(['index', 'about', 'experience', 'education', 'uiasub', 'resume', 'contact', 'privacy', 'settings']);
+  function setFragment(fragment) {
+    const hash = fragment ? '#' + fragment : '';
+    if (location.hash !== hash) history.pushState(null, '', location.pathname + location.search + hash);
+  }
   function closeDialogs() {
     switching = true;
     dialogs.forEach(dialog => { if (dialog.open) dialog.close(); });
@@ -25,9 +36,9 @@ export function createUI(projects, callbacks) {
     dialog.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => dialog.close()));
     dialog.addEventListener('close', () => {
       if (switching || dialogs.some(other => other.open)) return;
-      if (location.hash.startsWith('#project=')) history.replaceState(null, '', location.pathname + location.search);
-      callbacks.onResume();
-      $('world-canvas').focus({ preventScroll: true });
+      if (!document.body.classList.contains('text-view')) history.replaceState(null, '', location.pathname + location.search);
+      if (!document.body.classList.contains('text-view')) callbacks.onResume();
+      (worldReady && !document.body.classList.contains('text-view') ? $('world-canvas') : $('fallback')).focus({ preventScroll: true });
     });
     dialog.addEventListener('click', event => {
       if (event.target !== dialog) return;
@@ -60,9 +71,14 @@ export function createUI(projects, callbacks) {
       content.append(list);
     }
     const links = node('div', undefined, 'project-links');
-    const page = node('a', 'Open project page');
-    page.href = project.detailUrl;
-    links.append(page);
+    const copy = node('button', 'Copy project link', 'quiet');
+    copy.type = 'button';
+    copy.addEventListener('click', async () => {
+      const url = new URL('/#project=' + encodeURIComponent(project.id), location.href).href;
+      try { await navigator.clipboard.writeText(url); copy.textContent = 'Link copied'; }
+      catch { copy.textContent = url; }
+    });
+    links.append(copy);
     project.links.forEach(link => {
       const anchor = node('a', link.label);
       anchor.href = link.url;
@@ -71,7 +87,7 @@ export function createUI(projects, callbacks) {
     });
     content.append(links);
     openDialog('project-dialog');
-    history.replaceState(null, '', '#project=' + encodeURIComponent(project.id));
+    setFragment('project=' + encodeURIComponent(project.id));
   }
 
   function showIndex(selection = projects) {
@@ -93,22 +109,78 @@ export function createUI(projects, callbacks) {
     });
     $('project-count').textContent = `${selection.length} projects`;
     openDialog('index-dialog');
+    setFragment('index');
   }
 
-  $('index-button').addEventListener('click', () => showIndex());
+  renderProfilePanels(profile, projects, showProject);
+  function showPanel(name) {
+    if (name === 'index') { showIndex(); return; }
+    if (!panels.has(name)) return;
+    openDialog(name + '-dialog');
+    setFragment(name);
+    if (name === 'contact') contact.prepare();
+  }
+  function textView(enabled) {
+    closeDialogs();
+    document.body.classList.toggle('text-view', enabled);
+    $('return-world').hidden = !enabled || !worldReady;
+    if (enabled) { callbacks.onPause(); $('live-status').textContent = ''; $('fallback').focus({ preventScroll: true }); }
+    else { callbacks.onResume(); $('world-canvas').focus({ preventScroll: true }); }
+    setFragment(enabled ? 'text' : '');
+  }
+  function readFragment() {
+    const hash = location.hash.slice(1);
+    if (hash !== 'text' && document.body.classList.contains('text-view')) {
+      document.body.classList.remove('text-view');
+      $('return-world').hidden = true;
+      callbacks.onResume();
+    }
+    if (hash.startsWith('project=')) {
+      const id = new URLSearchParams(hash).get('project');
+      const project = projects.find(project => project.id === id);
+      if (project) { showProject(project); return; }
+    }
+    if (hash === 'text') { textView(true); return; }
+    if (panels.has(hash)) { showPanel(hash); return; }
+    closeDialogs();
+  }
+  document.addEventListener('click', event => {
+    const readingLink = event.target.closest('.fallback-nav a');
+    if (readingLink && document.body.classList.contains('text-view')) {
+      event.preventDefault();
+      document.getElementById(readingLink.hash.slice(1))?.scrollIntoView();
+      return;
+    }
+    const target = event.target.closest('[data-panel], [data-project]');
+    if (!target) return;
+    const project = target.dataset.project && projects.find(project => project.id === target.dataset.project);
+    if (project) { event.preventDefault(); showProject(project); }
+    else if (panels.has(target.dataset.panel)) { event.preventDefault(); showPanel(target.dataset.panel); }
+  });
+  addEventListener('popstate', readFragment);
+  addEventListener('hashchange', readFragment);
+
   $('back-to-index').addEventListener('click', () => showIndex());
-  $('about-button').addEventListener('click', () => openDialog('about-dialog'));
-  $('settings-button').addEventListener('click', () => openDialog('settings-dialog'));
+  $('settings-button').addEventListener('click', () => showPanel('settings'));
+  $('text-view-button').addEventListener('click', () => textView(true));
+  $('return-world').addEventListener('click', () => textView(false));
+  $('print-resume').addEventListener('click', () => window.print());
   $('reset-view').addEventListener('click', callbacks.onResetCamera);
   $('return-start').addEventListener('click', () => { callbacks.onResetPosition(); $('settings-dialog').close(); });
   $('interact-button').addEventListener('click', callbacks.onInteract);
   $('reduced-motion').addEventListener('change', event => callbacks.onReducedMotion(event.target.checked));
   $('quality').addEventListener('change', event => callbacks.onQuality(event.target.value));
-  for (const id of ['index-button', 'about-button', 'settings-button']) $(id).hidden = false;
+  for (const id of ['index-button', 'about-button', 'contact-button', 'settings-button']) $(id).hidden = false;
+  document.body.classList.add('interface-ready');
+  // Deep links and contact results must work even if WebGL cannot initialize.
+  queueMicrotask(() => {
+    if (contactConfig.initialPanel) showPanel(contactConfig.initialPanel);
+    else readFragment();
+  });
 
   return {
-    showProject, showIndex,
-    get paused() { return dialogs.some(dialog => dialog.open); },
+    showProject, showIndex, showPanel,
+    get paused() { return dialogs.some(dialog => dialog.open) || document.body.classList.contains('text-view'); },
     setInteraction(label) {
       if (currentInteraction === label) return;
       currentInteraction = label;
@@ -123,11 +195,11 @@ export function createUI(projects, callbacks) {
       $('quality').value = settings.quality;
     },
     ready() {
+      worldReady = true;
       document.body.classList.add('world-ready');
       $('world-ui').hidden = false;
-      const projectId = new URLSearchParams(location.hash.slice(1)).get('project');
-      const project = projects.find(project => project.id === projectId);
-      if (project) showProject(project);
+      if (contactConfig.initialPanel) showPanel(contactConfig.initialPanel);
+      else readFragment();
     },
   };
 }

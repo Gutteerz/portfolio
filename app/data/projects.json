@@ -11,9 +11,11 @@
       "DFRobot LCD"
     ],
     "highlights": [
-      "Uses geolocation to fetch time and location information at startup.",
-      "Supports recurring alarms with snooze and mute.",
-      "Combines sensor readings with weather APIs and RSS headlines."
+      "Uses IP-based geolocation to fetch time, time zone, daylight-saving data, and location at startup.",
+      "Supports recurring alarms with snooze, mute, and enable/disable controls.",
+      "Displays room temperature and humidity alongside weather forecasts refreshed every 15 minutes.",
+      "Accepts a city name or precise coordinates for weather forecasts.",
+      "Scrolls RSS headlines and removes feed HTML from the displayed text."
     ],
     "image": "images/projects/smart_clock.png",
     "detailUrl": null,
@@ -38,7 +40,8 @@
     "highlights": [
       "Collects sensor information for transmission to topside.",
       "Connects joystick input and diagnostics with the ROV.",
-      "Designed for a microcontroller with limited resources."
+      "Designed for a microcontroller with limited resources.",
+      "Uses a precomputed CRC32 lookup table for communication checks."
     ],
     "image": null,
     "detailUrl": null,
@@ -58,12 +61,16 @@
       "Python",
       "YOLOv11",
       "FastAPI",
-      "Label Studio"
+      "Label Studio",
+      "HTML",
+      "CSS",
+      "JavaScript"
     ],
     "highlights": [
       "Detects traffic signs in video input.",
       "Uses a labeled dataset to fine-tune the model.",
-      "Includes a web interface for the recognition workflow."
+      "Includes a web interface for the recognition workflow.",
+      "Refines inconsistent annotations through a structured Label Studio workflow."
     ],
     "image": "images/projects/autoticket.png",
     "detailUrl": null,
@@ -106,12 +113,16 @@
       "JavaScript",
       "React Native",
       "Expo",
-      "Firebase"
+      "Firebase",
+      "Firestore",
+      "React Navigation"
     ],
     "highlights": [
       "Filters activities by budget, group size, and location.",
       "Includes a calendar for arranging activities with friends.",
-      "Uses Firebase authentication and Firestore queries."
+      "Uses Firebase authentication and Firestore queries.",
+      "Supports user profiles, friend lists, and invitations.",
+      "Uses optimized Firestore queries for activity filtering and results."
     ],
     "image": "images/projects/studak_filter.PNG",
     "detailUrl": null,
@@ -131,12 +142,18 @@
       "C#",
       ".NET",
       "React",
-      "SignalR"
+      "SignalR",
+      "ASP.NET Core",
+      "Azure",
+      "DALL-E"
     ],
     "highlights": [
       "Uses lobby codes to bring players into the same game.",
       "Supports role-based actions during day and night phases.",
-      "Uses SignalR for chat and game state updates."
+      "Uses SignalR for chat and game state updates.",
+      "Includes Mafia, Detective, and Citizen roles, with guest play and registered accounts.",
+      "Stores game data and user profiles in an Azure-hosted database.",
+      "Uses DALL-E character illustrations with a consistent visual style."
     ],
     "image": "images/projects/Host2.png",
     "detailUrl": null,
@@ -151,7 +168,7 @@
     "id": "portfolio",
     "title": "Portfolio Website",
     "summary": "This portfolio: a small workshop world with projects to discover.",
-    "description": "A Flask portfolio that brings project work into a stylized workshop landscape. The project catalog supplies the interactive world and ordinary HTML project pages, so visitors can explore in the way that suits them.",
+    "description": "A Flask portfolio that brings projects, work experience, education, and contact into a stylized workshop. One project catalog and profile supply the interactive exhibits and accessible page content.",
     "technologies": [
       "Python",
       "Flask",
@@ -161,9 +178,10 @@
       "CSS"
     ],
     "highlights": [
-      "Shares one project catalog between the workshop and the project index.",
-      "Keeps experience, resume, and contact pages directly accessible.",
-      "Provides project pages that work without JavaScript."
+      "Shares one catalog between physical project exhibits, the index, and project details.",
+      "Brings work experience, education, skills, and contact into the workshop.",
+      "Keeps readable content available when the 3D scene cannot run.",
+      "Uses modular CSS and JavaScript, with a CI/CD deployment workflow."
     ],
     "image": null,
     "detailUrl": null,
@@ -171,6 +189,30 @@
       "kind": "terminal",
       "zone": "study",
       "slot": 1
+    },
+    "links": []
+  },
+  {
+    "id": "uia-rag",
+    "title": "UiA RAG System",
+    "summary": "Retrieval-augmented generation developed for the University of Agder.",
+    "description": "A RAG system developed for UiA, combining retrieval with indexing and chunking of structured data.",
+    "technologies": [
+      "RAG",
+      "Retrieval",
+      "Indexing",
+      "Chunking"
+    ],
+    "highlights": [
+      "Organizes structured data for retrieval.",
+      "Uses indexing and chunking as part of the retrieval workflow."
+    ],
+    "image": null,
+    "detailUrl": null,
+    "world": {
+      "kind": "terminal",
+      "zone": "study",
+      "slot": 2
     },
     "links": []
   }

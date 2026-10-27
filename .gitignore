@@ -1,5 +1,6 @@
 tempfiles
 node_modules/
+.impeccable/questions/
 
 
 # Byte-compiled / optimized / DLL files

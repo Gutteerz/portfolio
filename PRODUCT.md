@@ -8,46 +8,38 @@ web
 
 ## Purpose and Approved Direction
 
-Storm Selvig's personal portfolio presents actual project work inside a freely explorable miniature workshop. The visitor moves a small character through a warm wooden, painted low-poly landscape, chooses what to inspect, and returns to the same position when closing a project.
+Storm Selvig's portfolio presents projects and professional history inside a freely explorable miniature workshop. Visitors move a small character through warm wood and muted green buildings, choose objects to inspect, and return to the same position after reading. The world fills the viewport; navigation stays compact.
 
-On 2026-10-27 the user approved `.impeccable/mocks/free-roam/overview.png` and `.impeccable/mocks/free-roam/player-view.png`:
+The visual authority remains the user-approved `.impeccable/mocks/free-roam/overview.png` and `.impeccable/mocks/free-roam/player-view.png` from 2026-10-27. The later instruction extends this workshop with all portfolio content and removes the old standalone pages. Do not add promotional taglines, forced tours, automatic travel, or automatic project opening.
 
-> This looks perfect. Make the different project a part of this world, make it so more projects can be added in the future
+## Implemented Scope
 
-These images are the visual authority: warm wood, muted green, workshop buildings, ramps, an accessible roof, open walking space, and compact navigation around a world that fills the viewport. The interface should recede. Do not add promotional taglines, a forced project sequence, automatic travel between destinations, or automatic project opening.
+The Flask home page contains the Three.js world and all readable content. The project catalog has eight entries: Smart Clock, UiASub RTOS, AI Dashcam, Mario Game, Studak, GodforsakenPlace, Portfolio Website, and UiA RAG System. The profile contains nine experience entries, two degrees, skills, public contacts, and résumé project references.
 
-## Current Implementation
+Content belongs to physical objects: work records on a noticeboard, education in the open notebook on the study roof, About/skills/résumé in a folder, contact in the mailbox, and UiASub's ROV in a small test tank. The UiASub panel connects its project to software development and deputy leadership. Existing project bays and overflow books keep catalog additions possible.
 
-Implementation is complete. Browser checks covered movement, ramp climbing, camera control, project inspection, index navigation, settings, and desktop/phone-width layouts. An independent review scored all four requested visual and documentation fixes resolved. Physical touch-device testing remains outstanding. The home page is a standalone Three.js world served by Flask, with locally served modules, fonts, and procedural geometry. Existing experience, resume, contact, privacy, and legacy project routes remain available; no deployment was requested.
+WASD/arrows, camera drag, wheel distance, E interaction, touch movement, and reset controls remain. Panels pause movement. The Index reaches every portfolio section; settings include reduced motion, graphics quality, return to start, and **Read without 3D**. The résumé supports browser printing or saving as PDF.
 
-The visitor can walk with WASD or arrow keys, drag to orbit the camera, use the wheel to adjust distance, and press E or the interaction button near an object. Touch devices have a movement pad and drag-to-look controls. Project information opens in native dialogs; movement pauses while a dialog is open. Index, About, Contact, settings, reduced motion, graphics quality, camera reset, and return-to-start controls remain directly accessible.
+The full profile and project content is server-rendered in the same page for reading mode or JavaScript/WebGL failure. Old experience, résumé, contact, privacy, index, and project GET URLs return permanent redirects to workshop fragments; there are no independent detail pages. The old templates, unused styles/scripts, and old public CV PDF have been removed.
 
-`app/data/projects.json` is the shared catalog for physical exhibits, the in-world index, the ordinary project index, and automatic `/projects/<id>` pages. Seven current entries cover Smart Clock, UiASub RTOS, AI Dashcam, Mario Game, Studak, GodforsakenPlace, and this portfolio. Adding a project with an existing kind and zone requires only a catalog entry. Three full-size bays per zone are followed by shared perimeter bays; larger overflow collections use physical books on shared tables. Every project remains in the index and has a page.
-
-The initial HTML includes an immediately usable project list. It stays available if JavaScript or WebGL fails, and ordinary project pages require neither. No project facts or external demo links are invented to fill the scene.
+Contact retains Flask-WTF validation, CSRF, reCAPTCHA, and configured SMTP delivery. reCAPTCHA loads only when the form opens; direct email remains available. The workshop does not load analytics. Graphics preferences stay in local storage. No deployment is included.
 
 ## Source Facts and Asset Boundaries
 
-- Owner information and experience: `app/data/resume.json` and the existing templates. Current roles and dates have not been independently refreshed.
-- Smart Clock: STM32, DFRobot LCD, alarms, weather, and RSS headlines; photograph at `app/static/images/projects/smart_clock.png`.
-- UiASub RTOS: C, ZephyrOS, Nucleo F767zi, Ethernet, and sensor/joystick communication. No original hardware model or photograph was supplied.
-- AI Dashcam: custom fine-tuned YOLOv11, FastAPI, and Label Studio; screenshot at `app/static/images/projects/autoticket.png`.
-- Studak, GodforsakenPlace, and the C++ platformer: existing project templates supply their descriptions. Catalog images use the existing assets with their exact filename capitalization.
-- World objects are illustrative low-poly representations, not verified hardware geometry. Miniature screen effects are demonstrations, not live hardware or execution of the original projects.
-- The approved concept images are design references, not screenshots of the implemented world. Generated or sourced shipping rasters must retain provenance.
+`app/data/resume.json` and `app/data/projects.json` are the canonical sources. The latest supplied CV takes precedence for dates: Telenor thesis Jan–Jun 2025, teaching assistant Aug–Dec 2024, Oceaneering internship Jun–Aug 2026, UiASub developer Sep 2024–Mar 2026, and deputy leader from Mar 2026. The master's degree starts Aug 2025 and is expected to finish Jun 2027; the bachelor ran Aug 2022–Jun 2025. Earlier Elite Foto and Rema 1000 work is retained from the previous site.
 
-## Validation Status
+The supplied application supports RAG work for UiA, retrieval/indexing/chunking, multi-agent systems, self-hosted models, and participation in NM in AI and hackathons. No unsupported stack, award, performance result, or project date is inferred. New private personal fields and the source PDFs are not public assets; established public contact links are retained.
 
-On 2026-10-27, 11 Python tests and 10 JavaScript tests passed. They cover catalog validation and rendering, preserved routes and image references, project expansion, placement, proximity, and movement logic. Browser interaction checks and the final visual review are separate evidence; automated tests do not establish visual fidelity, touch-device behavior, or physical hardware behavior. The build finishes with the final review verdict and documentation of the implemented design in `DESIGN.md`.
+Project descriptions preserve supported details from the old site. Existing photographs/screenshots retain exact filename case. Low-poly objects and screen animations are illustrative, not verified hardware geometry or live model/game output. Approved mockups are design references, not implementation screenshots; shipping rasters must retain provenance.
+
+## Validation and Checkpoint
+
+On 2026-10-27, **28 Python tests and 14 JavaScript tests passed**. Coverage includes content migration, legacy redirects, missing CSRF/reCAPTCHA rejection, mocked email results, catalog expansion, story-station placement and footprints, and movement. Tests do not load local credentials or send email.
+
+Browser checks verified walking to the pool, opening UiASub roles and its ROV project, experience and education panels, contact-form rendering with lazy CAPTCHA, text mode and browser Back, and layouts at desktop and 390px phone width. Captures are in `.impeccable/review/world-content/`. A fresh general review agent returned a visual ship verdict for the new props and panels. Physical touch-device behavior, print output, and live email delivery remain untested; no contact messages were sent.
+
+Commit `66365f5` preserves the workshop before the expansion. Subsequent changes remain uncommitted for review.
 
 ## Reference History
 
-The Kinetic Circuit, Object Playground, and Signal Space concepts were rejected. A subsequent swimming-hall environment offered closer exploration but was rejected as a random venue with an unwanted photorealistic abandoned-building appearance. Those concepts are superseded and must not guide this implementation.
-
-The user asked for an original experience in the spirit of these references:
-
-- https://mesh3d.gallery/website/iron0re-pop-up-book-personal-site — https://meilanunicorn.com/
-- https://mesh3d.gallery/website/henry-loiv-a-playful-3d-portfolio — https://dsgnbyhl.com/en/
-- https://mesh3d.gallery/website/felix-rieseberg — https://felixrieseberg.com/
-
-Observed reference qualities were physical page navigation, connected environments, and content that belongs inside the scene. They informed the direction without authorizing copied scenes, branding, or interaction details. The approved workshop images and the user's later instructions take precedence over earlier proposals.
+Kinetic Circuit, Object Playground, Signal Space, and the abandoned swimming-hall direction are superseded. They must not guide further work. Earlier inspiration included [Meilan's pop-up book](https://meilanunicorn.com/), [Henry Loiv's portfolio](https://dsgnbyhl.com/en/), and [Felix Rieseberg's site](https://felixrieseberg.com/): physical navigation, connected spaces, and content placed inside a scene. The approved workshop images and later user instructions take precedence; references do not authorize copying scenes or branding.

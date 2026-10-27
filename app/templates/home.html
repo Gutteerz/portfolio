@@ -1,128 +1,139 @@
+{% macro close_button(dialog_id, label) -%}
+<button type="button" class="close-button" data-close="{{ dialog_id }}" aria-label="{{ label }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+{%- endmacro %}
+{% macro public_links() -%}
+{% for account in profile.basics.profiles %}<a href="{{ account.url }}" rel="noopener">{{ account.network }}</a>{% endfor %}
+{%- endmacro %}
+{% macro skills_content() -%}
+<dl class="skill-groups">{% for group in profile.skills %}<div><dt>{{ group.name }}</dt><dd>{{ group.keywords|join(', ') }}</dd></div>{% endfor %}</dl>
+{%- endmacro %}
+{% macro work_body(job) -%}
+<p>{{ job.summary }}</p>
+{% if job.highlights %}<ul class="entry-highlights">{% for highlight in job.highlights %}<li>{{ highlight }}</li>{% endfor %}</ul>{% endif %}
+{% if job.keywords %}<ul class="entry-keywords" aria-label="Skills">{% for keyword in job.keywords %}<li>{{ keyword }}</li>{% endfor %}</ul>{% endif %}
+{%- endmacro %}
+{% macro resume_content() -%}
+<header class="resume-heading"><h1>{{ profile.basics.name }}</h1><p class="resume-label">{{ profile.basics.label }}</p><div class="resume-contact"><a href="mailto:{{ profile.basics.email }}">{{ profile.basics.email }}</a>{% if profile.basics.location %}<span>{{ profile.basics.location.city }}</span>{% endif %}{{ public_links() }}</div></header>
+<p class="resume-summary">{{ profile.basics.summary }}</p>
+<section class="resume-section"><h2>Experience</h2>
+{% for job in profile.work %}<article class="resume-entry"><h3>{{ job.position }}</h3><p class="entry-meta"><strong>{{ job.name }}</strong><span>{{ job.dateLabel }}</span></p>{{ work_body(job) }}</article>{% endfor %}
+</section>
+<section class="resume-section"><h2>Education</h2>
+{% for school in profile.education %}<article class="resume-entry"><h3>{{ school.studyType }} in {{ school.area }}</h3><p class="entry-meta"><strong>{{ school.institution }}</strong><span>{{ school.dateLabel }}</span></p>{% if school.summary %}<p>{{ school.summary }}</p>{% endif %}</article>{% endfor %}
+</section>
+<section class="resume-section"><h2>Skills</h2>{{ skills_content() }}</section>
+{% if profile.projectIds %}<section class="resume-section"><h2>Selected projects</h2>{% for project in projects if project.id in profile.projectIds %}<article class="resume-entry resume-project"><h3>{{ project.title }}</h3><p>{{ project.summary }}</p><p class="quiet">{{ project.technologies|join(', ') }}</p></article>{% endfor %}</section>{% endif %}
+{%- endmacro %}
+{% macro privacy_content() -%}
+<p>When you use the contact form, your name, email address, and message are used to reply to your inquiry.</p>
+<h3>Contact form and reCAPTCHA</h3><p>The contact form uses Google reCAPTCHA to check for spam. reCAPTCHA loads when you open the contact form and may process information about your browser and interaction. See Google's <a href="https://policies.google.com/privacy" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" rel="noopener">Terms of Service</a>. You can contact me directly by email instead.</p>
+<h3>Preferences and cookies</h3><p>Graphics quality and motion preferences are stored in your browser's local storage. The contact form uses a session cookie to protect against cross-site request forgery.</p>
+<h3>Analytics and external links</h3><p>This workshop does not load analytics. External services linked from this site have their own privacy practices.</p>
+<p>For questions about privacy, email <a href="mailto:{{ profile.basics.email }}">{{ profile.basics.email }}</a>.</p>
+{%- endmacro %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#f3ead8">
-    <meta name="description" content="Storm Selvig's portfolio. Explore projects in embedded systems, apps, and games in a miniature workshop.">
+    <meta name="description" content="Storm Selvig's portfolio. Explore projects, experience, and education in a miniature workshop.">
     <title>Storm Selvig — Portfolio</title>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/world.css') }}">
     <script type="importmap">{"imports":{"three":"{{ url_for('static', filename='vendor/three/three.module.js') }}"}}</script>
 </head>
 <body>
-    <!-- THESIS immersive miniature workshop actual work inside; STORY freewalk + explicit inspect + return to the same position; OWN WORLD user-approved lowpoly warm wood and muted green, no taglines; FIRST VIEWPORT world fills the frame, character before ramp; FORM approved .impeccable/mocks/free-roam/overview.png, prior seed 501a8102 superseded by user; FINISH unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance. -->
-    <a class="skip-link" href="{{ url_for('main.portfolio') }}">Browse the project list</a>
+    <!-- Approved miniature workshop: retain the scene and visitor position while reading the shared portfolio content. -->
+    <a class="skip-link" href="#index" data-panel="index">Browse the index</a>
     <header class="world-header">
-        <a class="owner-name" href="{{ url_for('main.home') }}" aria-label="Storm Selvig, home">Storm Selvig</a>
+        <a class="owner-name" href="#about" data-panel="about" aria-label="About Storm Selvig">Storm Selvig</a>
         <nav class="world-nav" aria-label="Portfolio navigation">
-            <a id="no-js-index" class="no-js-index" href="{{ url_for('main.portfolio') }}">Index</a>
-            <button id="index-button" type="button" hidden>Index</button>
-            <button id="about-button" type="button" hidden>About</button>
-            <a href="{{ url_for('main.contact') }}">Contact</a>
-            <button id="settings-button" class="icon-button" type="button" aria-label="World settings" hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M12 4v16M19 4v16"/><path d="M2 8h6M9 16h6M16 9h6"/></svg>
-            </button>
+            <a id="no-js-index" class="no-js-index" href="#index" data-panel="index">Index</a>
+            <button id="index-button" type="button" data-panel="index" hidden>Index</button>
+            <button id="about-button" type="button" data-panel="about" hidden>About</button>
+            <button id="contact-button" type="button" data-panel="contact" hidden>Contact</button>
+            <button id="settings-button" class="icon-button" type="button" aria-label="World settings" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 4v16M12 4v16M19 4v16"/><path d="M2 8h6M9 16h6M16 9h6"/></svg></button>
         </nav>
     </header>
-    <canvas id="world-canvas" tabindex="0" aria-label="Interactive workshop world" aria-describedby="world-instructions">
-        Explore the projects using the project list.
-    </canvas>
-    <p id="world-instructions" class="visually-hidden">Use W, A, S, D or the arrow keys to move. Drag to look around. Press E near an object to inspect it. Use Tab to reach the project index and other controls. Escape closes an open panel.</p>
-    <main id="fallback" class="fallback">
-        <p id="load-status" role="status">Opening the workshop. You can browse the projects below.</p>
-        <noscript><p>The workshop needs JavaScript. All projects are available here.</p></noscript>
-        <h1>Projects</h1>
-        <p class="fallback-intro"><a href="{{ url_for('main.portfolio') }}">Open the project index</a>, read about my <a href="{{ url_for('main.about') }}">experience</a>, or view my <a href="{{ url_for('main.resume') }}">resume</a>.</p>
-        <ul class="fallback-projects">
-            {% for project in projects %}
-            <li>
-                <h2><a href="{{ project.detailUrl }}">{{ project.title }}</a></h2>
-                <p>{{ project.summary }}</p>
-            </li>
-            {% endfor %}
-        </ul>
+    <canvas id="world-canvas" tabindex="0" aria-label="Interactive workshop world" aria-describedby="world-instructions">Read the complete portfolio in the index below.</canvas>
+    <p id="world-instructions" class="visually-hidden">Use W, A, S, D or the arrow keys to move. Drag to look around. Press E near an object to inspect it. Use Tab to reach the index and other controls. Escape closes an open panel.</p>
+    <main id="fallback" class="fallback" tabindex="-1">
+        <p id="load-status" role="status">Opening the workshop. You can read the complete portfolio below.</p>
+        <noscript><p>The workshop needs JavaScript. All projects, experience, education, and contact details are available here.</p></noscript>
+        <div class="fallback-heading"><div><h1>{{ profile.basics.name }}</h1><p>{{ profile.basics.label }}</p></div><button id="return-world" type="button" class="secondary-button" hidden>Return to the workshop</button></div>
+        <nav class="fallback-nav" aria-label="Portfolio sections"><a href="#index">Projects</a><a href="#experience">Experience</a><a href="#education">Education</a><a href="#about">About</a><a href="#resume">Resume</a><a href="#contact">Contact</a><a href="#privacy">Privacy</a></nav>
+        <section id="index" class="fallback-section" aria-labelledby="fallback-projects-title">
+            <h2 id="fallback-projects-title">Projects</h2><div class="fallback-entries">
+            {% for project in projects %}<details id="fallback-project-{{ project.id }}" class="reading-entry">
+                <summary id="project={{ project.id }}"><span class="reading-entry-title">{{ project.title }}</span><span class="reading-entry-meta">{{ project.summary }}</span></summary>
+                <div class="reading-entry-content"><p>{{ project.description }}</p><ul class="entry-keywords" aria-label="Technologies">{% for technology in project.technologies %}<li>{{ technology }}</li>{% endfor %}</ul>
+                {% if project.image %}<img class="project-image" src="{{ url_for('static', filename=project.image) }}" alt="{{ project.title }} project" loading="lazy">{% endif %}
+                {% if project.highlights %}<ul class="entry-highlights">{% for highlight in project.highlights %}<li>{{ highlight }}</li>{% endfor %}</ul>{% endif %}
+                {% if project.links %}<ul class="project-links">{% for link in project.links %}<li><a href="{{ link.url }}" rel="noopener">{{ link.label }}</a></li>{% endfor %}</ul>{% endif %}</div>
+            </details>{% endfor %}</div>
+        </section>
+        <section id="experience" class="fallback-section" aria-labelledby="fallback-experience-title"><h2 id="fallback-experience-title">Experience</h2><div class="fallback-entries">
+            {% for job in profile.work %}<details id="fallback-work-{{ job.id }}" class="reading-entry"><summary><span class="reading-entry-title">{{ job.position }}</span><span class="reading-entry-meta">{{ job.name }} · {{ job.dateLabel }}</span></summary><div class="reading-entry-content">{{ work_body(job) }}</div></details>{% endfor %}
+        </div></section>
+        <section id="education" class="fallback-section" aria-labelledby="fallback-education-title"><h2 id="fallback-education-title">Education</h2>
+            {% for school in profile.education %}<article id="fallback-education-{{ school.id }}" class="education-entry"><h3>{{ school.studyType }} in {{ school.area }}</h3><p class="entry-meta"><strong>{{ school.institution }}</strong><span>{{ school.dateLabel }}</span></p>{% if school.summary %}<p>{{ school.summary }}</p>{% endif %}{% if school.keywords %}<ul class="entry-keywords" aria-label="Areas of study">{% for keyword in school.keywords %}<li>{{ keyword }}</li>{% endfor %}</ul>{% endif %}</article>{% endfor %}
+        </section>
+        <section id="about" class="fallback-section" aria-labelledby="fallback-about-title"><h2 id="fallback-about-title">About</h2><p>{{ profile.basics.summary }}</p><h3>Skills</h3>{{ skills_content() }}<nav class="about-links" aria-label="Public profiles">{{ public_links() }}</nav></section>
+        <section id="resume" class="fallback-section" aria-labelledby="fallback-resume-title"><h2 id="fallback-resume-title">Resume</h2><p>Use your browser's Print command to print the resume or save it as a PDF.</p><details class="reading-entry fallback-resume"><summary><span class="reading-entry-title">Read the complete resume</span></summary><div class="reading-entry-content">{{ resume_content() }}</div></details></section>
+        <section id="contact" class="fallback-section" aria-labelledby="fallback-contact-title"><h2 id="fallback-contact-title">Contact</h2><p><a class="contact-email" href="mailto:{{ profile.basics.email }}">{{ profile.basics.email }}</a></p><p class="quiet">Email opens your mail app.</p><nav class="about-links" aria-label="Contact profiles">{{ public_links() }}</nav>{% if contact_result %}<p class="contact-status{% if not contact_result.ok %} is-error{% endif %}" role="status">{{ contact_result.message }}</p>{% endif %}</section>
+        <section id="privacy" class="fallback-section prose-content" aria-labelledby="fallback-privacy-title"><h2 id="fallback-privacy-title">Privacy</h2>{{ privacy_content() }}</section>
     </main>
     <div id="world-ui" class="world-ui" hidden>
-        <div id="interaction" class="interaction" hidden>
-            <button id="interact-button" type="button"><kbd aria-hidden="true">E</kbd><span id="interaction-label">Inspect project</span></button>
-        </div>
-        <div id="joystick" class="joystick" role="group" aria-label="Touch movement control">
-            <div id="joystick-knob" class="joystick-knob" aria-hidden="true"></div>
-        </div>
-        <footer class="world-footer">
-            <p class="keyboard-hints"><span><kbd>WASD</kbd> / <kbd>arrows</kbd> move</span><span>Drag to look</span><span><kbd>E</kbd> inspect</span></p>
-            <p class="touch-hint">Move with the pad · drag to look</p>
-            <div class="world-wayfinding"><span id="location-label">Workshop</span><button id="reset-view" type="button">Reset view</button></div>
-        </footer>
+        <div id="interaction" class="interaction" hidden><button id="interact-button" type="button"><kbd aria-hidden="true">E</kbd><span id="interaction-label">Inspect project</span></button></div>
+        <div id="joystick" class="joystick" role="group" aria-label="Touch movement control"><div id="joystick-knob" class="joystick-knob" aria-hidden="true"></div></div>
+        <footer class="world-footer"><p class="keyboard-hints"><span><kbd>WASD</kbd> / <kbd>arrows</kbd> move</span><span>Drag to look</span><span><kbd>E</kbd> inspect</span></p><p class="touch-hint">Move with the pad · drag to look</p><div class="world-wayfinding"><span id="location-label">Workshop</span><button id="reset-view" type="button">Reset view</button></div></footer>
     </div>
     <p id="live-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></p>
-
     <dialog id="index-dialog" class="index-dialog" aria-labelledby="index-title">
-        <header class="dialog-header">
-            <div><h2 id="index-title">Projects</h2><p id="project-count" class="quiet">{{ projects|length }} projects</p></div>
-            <button type="button" class="close-button" data-close="index-dialog" aria-label="Close project index">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
-            </button>
-        </header>
-        <div id="index-list" class="index-list"></div>
-        <footer class="dialog-footer"><a href="{{ url_for('main.portfolio') }}">Open the project index as a page</a></footer>
+        <header class="dialog-header"><div><h2 id="index-title">Index</h2><p id="project-count" class="quiet">{{ projects|length }} projects</p></div>{{ close_button('index-dialog', 'Close index') }}</header>
+        <nav class="section-nav" aria-label="More in the workshop"><button type="button" data-panel="experience">Experience</button><button type="button" data-panel="education">Education</button><button type="button" data-panel="resume">Resume</button></nav>
+        <div id="index-list" class="index-list"></div><footer class="dialog-footer"><a href="#about" data-panel="about">About</a><a href="#contact" data-panel="contact">Contact</a></footer>
     </dialog>
-
-    <dialog id="project-dialog" class="project-dialog" aria-labelledby="project-title">
-        <header class="dialog-header project-dialog-header">
-            <button id="back-to-index" class="quiet" type="button">Back to index</button>
-            <button type="button" class="close-button" data-close="project-dialog" aria-label="Close project">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
-            </button>
-        </header>
-        <div id="project-content" class="project-content"></div>
+    <dialog id="project-dialog" class="project-dialog" aria-labelledby="project-title"><header class="dialog-header project-dialog-header"><button id="back-to-index" class="quiet" type="button">Back to index</button>{{ close_button('project-dialog', 'Close project') }}</header><div id="project-content" class="project-content"></div></dialog>
+    <dialog id="experience-dialog" class="experience-dialog" aria-labelledby="experience-title"><header class="dialog-header"><h2 id="experience-title">Experience</h2>{{ close_button('experience-dialog', 'Close experience') }}</header><div id="experience-list" class="experience-list"></div><footer class="dialog-footer"><a href="#education" data-panel="education">Education</a><a href="#resume" data-panel="resume">Complete resume</a></footer></dialog>
+    <dialog id="education-dialog" class="education-dialog" aria-labelledby="education-title"><header class="dialog-header"><h2 id="education-title">Education</h2>{{ close_button('education-dialog', 'Close education') }}</header><div id="education-list" class="education-list"></div><footer class="dialog-footer"><a href="#experience" data-panel="experience">Experience</a><a href="#resume" data-panel="resume">Complete resume</a></footer></dialog>
+    <dialog id="uiasub-dialog" class="uiasub-dialog" aria-labelledby="uiasub-title"><header class="dialog-header"><h2 id="uiasub-title">UiASub</h2>{{ close_button('uiasub-dialog', 'Close UiASub') }}</header><div id="uiasub-content" class="prose-content"></div></dialog>
+    <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><header class="dialog-header"><h2 id="about-title">{{ profile.basics.name }}</h2>{{ close_button('about-dialog', 'Close about') }}</header><div class="about-content"><p>{{ profile.basics.summary }}</p><h3>Skills</h3>{{ skills_content() }}<nav class="about-links" aria-label="More about Storm"><a href="#experience" data-panel="experience">Experience</a><a href="#education" data-panel="education">Education</a><a href="#resume" data-panel="resume">Resume</a>{{ public_links() }}<a href="#contact" data-panel="contact">Contact</a></nav></div><footer class="dialog-footer"><a href="#privacy" data-panel="privacy">Privacy</a></footer></dialog>
+    <dialog id="resume-dialog" class="resume-dialog" aria-labelledby="resume-title"><header class="dialog-header"><h2 id="resume-title">Resume</h2>{{ close_button('resume-dialog', 'Close resume') }}</header><div class="resume-actions"><button id="print-resume" type="button" class="secondary-button">Print / save PDF</button><p class="quiet">Choose “Save as PDF” in your browser's print window.</p></div><div id="resume-content" class="resume-content">{{ resume_content() }}</div></dialog>
+    <dialog id="contact-dialog" class="contact-dialog" aria-labelledby="contact-title">
+        <header class="dialog-header"><h2 id="contact-title">Contact</h2>{{ close_button('contact-dialog', 'Close contact') }}</header>
+        <div class="contact-direct"><a class="contact-email" href="mailto:{{ profile.basics.email }}">{{ profile.basics.email }}</a><button id="copy-email" type="button" class="quiet" data-email="{{ profile.basics.email }}">Copy email</button></div>
+        <nav class="about-links contact-profiles" aria-label="Public profiles">{{ public_links() }}</nav>
+        {% if contact_enabled %}<p id="contact-note" class="quiet">Or send a message here. All fields are required.</p>
+        <form id="contact-form" class="contact-form" method="post" action="/contact">
+            {{ contact_form.hidden_tag() }}
+            <p id="contact-error-csrf_token" class="field-error">{% if contact_form.csrf_token is defined %}{% for error in contact_form.csrf_token.errors %}{{ error }}{% if not loop.last %} {% endif %}{% endfor %}{% endif %}</p>
+            <div class="form-field"><label for="contact-name">Name</label>{{ contact_form.name(id='contact-name', autocomplete='name', maxlength=50, required=true, aria_describedby='contact-error-name') }}<p id="contact-error-name" class="field-error">{% for error in contact_form.name.errors %}{{ error }}{% if not loop.last %} {% endif %}{% endfor %}</p></div>
+            <div class="form-field"><label for="contact-email">Email</label>{{ contact_form.email(id='contact-email', type='email', autocomplete='email', maxlength=100, required=true, aria_describedby='contact-error-email') }}<p id="contact-error-email" class="field-error">{% for error in contact_form.email.errors %}{{ error }}{% if not loop.last %} {% endif %}{% endfor %}</p></div>
+            <div class="form-field"><label for="contact-message">Message</label>{{ contact_form.message(id='contact-message', rows=5, maxlength=1000, required=true, aria_describedby='contact-error-message') }}<p id="contact-error-message" class="field-error">{% for error in contact_form.message.errors %}{{ error }}{% if not loop.last %} {% endif %}{% endfor %}</p></div>
+            <div class="captcha-field"><div id="contact-captcha"></div><p id="contact-error-recaptcha" class="field-error">{% for error in contact_form.recaptcha.errors %}{{ error }}{% if not loop.last %} {% endif %}{% endfor %}</p></div>
+            <button id="send-message" class="primary-button" type="submit">Send message</button>
+        </form>
+        {% else %}<p id="contact-note" class="quiet">Send me an email, or find me on GitHub and LinkedIn.</p>{% endif %}
+        <p id="contact-status" class="contact-status{% if contact_result and not contact_result.ok %} is-error{% endif %}" role="status" aria-live="polite">{% if contact_result %}{{ contact_result.message }}{% endif %}</p>
+        <footer class="dialog-footer"><a href="#privacy" data-panel="privacy">How contact details are used</a></footer>
     </dialog>
-
-    <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title">
-        <header class="dialog-header">
-            <h2 id="about-title">Storm Selvig</h2>
-            <button type="button" class="close-button" data-close="about-dialog" aria-label="Close about">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
-            </button>
-        </header>
-        <div class="about-content">
-            <p>I build practical systems with C, C++, Python, and web technologies. I'm a software engineer and an M.Sc. student in Artificial Intelligence and the Internet of Things at the University of Agder.</p>
-            <p>My work includes embedded test automation, software modernization, and software for UiASub's remotely operated vehicle.</p>
-            <nav class="about-links" aria-label="More about Storm">
-                <a href="{{ url_for('main.about') }}">Experience</a>
-                <a href="{{ url_for('main.resume') }}">Resume</a>
-                <a href="https://github.com/Gutteerz" rel="noopener">GitHub</a>
-                <a href="{{ url_for('main.contact') }}">Contact</a>
-            </nav>
-        </div>
-        <footer class="dialog-footer"><a href="{{ url_for('main.privacy') }}">Privacy</a></footer>
-    </dialog>
-
-    <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
-        <header class="dialog-header">
-            <h2 id="settings-title">World settings</h2>
-            <button type="button" class="close-button" data-close="settings-dialog" aria-label="Close settings">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
-            </button>
-        </header>
-        <div class="settings-content">
-            <label class="setting-row" for="reduced-motion"><span>Reduce motion<small>Keep ambient animation still.</small></span><input type="checkbox" id="reduced-motion"></label>
-            <label class="setting-row" for="quality"><span>Graphics quality<small>Choose low for a lighter scene.</small></span><select id="quality"><option value="high">High</option><option value="low">Low</option></select></label>
-            <button id="return-start" type="button" class="secondary-button">Return to the start</button>
-            <a class="text-link" href="{{ url_for('main.portfolio') }}">Browse projects as a list</a>
-        </div>
-    </dialog>
-
+    <dialog id="privacy-dialog" class="privacy-dialog" aria-labelledby="privacy-title"><header class="dialog-header"><h2 id="privacy-title">Privacy</h2>{{ close_button('privacy-dialog', 'Close privacy') }}</header><div class="prose-content">{{ privacy_content() }}</div></dialog>
+    <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title"><header class="dialog-header"><h2 id="settings-title">World settings</h2>{{ close_button('settings-dialog', 'Close settings') }}</header><div class="settings-content"><label class="setting-row" for="reduced-motion"><span>Reduce motion<small>Keep ambient animation still.</small></span><input type="checkbox" id="reduced-motion"></label><label class="setting-row" for="quality"><span>Graphics quality<small>Choose low for a lighter scene.</small></span><select id="quality"><option value="high">High</option><option value="low">Low</option></select></label><div class="settings-actions"><button id="return-start" type="button" class="secondary-button">Return to the start</button><button id="text-view-button" type="button" class="quiet">Read without 3D</button></div></div></dialog>
     <script id="project-data" type="application/json">{{ projects|tojson }}</script>
+    <script id="profile-data" type="application/json">{{ profile|tojson }}</script>
+    <script id="contact-config" type="application/json">{{ {'enabled': contact_enabled, 'siteKey': recaptcha_site_key, 'initialPanel': initial_panel, 'result': contact_result}|tojson }}</script>
     <script type="module">
         import('{{ url_for('static', filename='js/world/main.js') }}').catch((error) => {
             console.error('The workshop could not open.', error);
             document.body.classList.remove('world-ready');
             document.body.classList.add('world-failed');
-            document.getElementById('load-status').textContent = 'The workshop could not open in this browser. You can still explore every project below.';
+            document.getElementById('load-status').textContent = 'The workshop could not open in this browser. The complete portfolio is available below.';
             document.getElementById('world-ui').hidden = true;
-            ['index-button', 'about-button', 'settings-button'].forEach((id) => { document.getElementById(id).hidden = true; });
+            if (!document.body.classList.contains('interface-ready')) {
+                ['index-button', 'about-button', 'contact-button', 'settings-button'].forEach((id) => { document.getElementById(id).hidden = true; });
+            }
         });
     </script>
 </body>

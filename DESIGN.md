@@ -93,7 +93,7 @@ components:
 
 Warm timber, muted green paint, small buildings, and a jointed wooden visitor make the projects part of an explorable scene. Beveled pieces, screws, slats, grain, and restrained painted wear establish the miniature scale. The interface stays compact so the world remains visible.
 
-This records the implemented home world and its HTML overlays. The existing standalone experience, resume, contact, privacy, and project routes retain their own templates; this file does not imply that they have been visually redesigned. The approved workshop direction is recorded in `PRODUCT.md`. Sources are `app/templates/home.html`, `app/static/css/world.css`, and `app/static/js/world/`.
+This records the complete portfolio world and its HTML reading panels. Experience, education, resume, contact, privacy, and projects are part of the same home document; old URLs redirect into these panels. The approved workshop direction and later expansion are recorded in `PRODUCT.md`. Sources are `app/templates/home.html`, `app/static/css/world.css`, `app/static/js/world/`, and the project/profile catalogs.
 
 **Key Characteristics:**
 
@@ -174,7 +174,15 @@ Native checkbox and select controls manage reduced motion and graphics quality. 
 
 ### HTML fallback
 
-The server-rendered project list is available before world initialization and remains usable if JavaScript or WebGL cannot open the scene. The skip link goes directly to the ordinary project index. Scene controls supplement this access path.
+The same home document contains all projects, work experience, education, skills, contact details, privacy information, and the printable resume. It remains readable when JavaScript or WebGL is unavailable. Read without 3D opens this content while pausing the scene; Return to the workshop restores the visitor's position. Project fragments also match native HTML anchors. Old page URLs redirect into the world rather than serving a second website.
+
+### Experience, education, and contact
+
+The work-history board displays a card for each profile entry. The UiASub test pool contains an illustrative ROV and opens the student-organization roles plus the related software project. A notebook on the accessible roof opens education, the folder near the entrance opens About and resume, and the mailbox opens Contact. These props reuse the existing timber, paint, lettering, and explicit-inspection behavior.
+
+Experience panels use ruled entries with an organization heading, date, role, summary, highlights, and skill list. Dates preserve the source precision. The index provides direct access to every category. Resume printing hides the scene and panel controls and prints only the canonical profile content.
+
+The contact form uses labelled native fields and semantic error text. reCAPTCHA loads only when Contact is opened; email and profile links remain available independently. Messages are submitted only by the visitor. Privacy information describes the current form, session cookie, and local graphics preferences; the retired analytics script is not loaded.
 
 ## Do's and Don'ts
 

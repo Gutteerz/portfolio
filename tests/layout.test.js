@@ -5,12 +5,12 @@ import { layoutProjects } from '../app/static/js/world/layout.js';
 
 const catalog = JSON.parse(readFileSync(new URL('../app/data/projects.json', import.meta.url), 'utf8'));
 
-test('an eighth project gets a station without changing scene code', () => {
+test('an additional project gets a station without changing scene code', () => {
   const addition = { ...catalog[0], id: 'another-clock', world: { kind: 'clock', zone: 'workshop', slot: 3 } };
   const result = layoutProjects([...catalog, addition]);
-  assert.equal(result.length, 8);
+  assert.equal(result.length, catalog.length + 1);
   assert.deepEqual(result.map(entry => entry.id), [...catalog.map(project => project.id), addition.id]);
-  assert.equal(new Set(result.map(entry => `${entry.x}:${entry.z}`)).size, 8);
+  assert.equal(new Set(result.map(entry => `${entry.x}:${entry.z}`)).size, catalog.length + 1);
   assert.ok(result.every(entry => !entry.compact));
 });
 

@@ -1,142 +1,136 @@
-import os, json
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, abort
-from app.contact import ContactForm
-from app.projects import load_projects
-from app import limiter, mail
+import os
+
+from flask import Blueprint, abort, current_app, jsonify, redirect, render_template, request, url_for
 from flask_mail import Message
+
+from app import limiter, mail
+from app.contact import ContactForm
+from app.profile import load_profile
+from app.projects import load_projects
 
 
 main = Blueprint('main', __name__)
 
-# Allowed tags and attributes for sanitization (for rich-text inputs if necessary)
-ALLOWED_TAGS = []
-ALLOWED_ATTRIBUTES = {}
+LEGACY_PROJECTS = {
+    'rtos': 'uiasub-rtos',
+    'uiasub-rtos': 'uiasub-rtos',
+    'mario': 'mario',
+    'autoticket': 'ai-dashcam',
+    'ai-dashcam': 'ai-dashcam',
+    'smart-clock': 'smart-clock',
+    'smart_clock': 'smart-clock',
+    'godforsakenplace': 'godforsakenplace',
+    'studak': 'studak',
+    'portfolio': 'portfolio',
+    'portfolio-website': 'portfolio',
+}
+
+
+def contact_settings():
+    config = current_app.config
+    recipient = config.get('MAIL_RECIPIENT') or os.getenv('MAIL_RECIPIENT')
+    sender = config.get('MAIL_DEFAULT_SENDER') or config.get('MAIL_USERNAME')
+    enabled = all((
+        recipient, sender, config.get('MAIL_SERVER'), config.get('SECRET_KEY'),
+        config.get('RECAPTCHA_PUBLIC_KEY'), config.get('RECAPTCHA_PRIVATE_KEY'),
+    )) and (not config.get('MAIL_USERNAME') or bool(config.get('MAIL_PASSWORD')))
+    return recipient, sender, enabled
+
+
+def render_workshop(contact_form=None, contact_result=None, initial_panel=''):
+    _, _, enabled = contact_settings()
+    if contact_form is None:
+        contact_form = ContactForm() if current_app.secret_key else ContactForm(meta={'csrf': False})
+    return render_template(
+        'home.html', projects=load_projects(), profile=load_profile(),
+        contact_form=contact_form,
+        contact_enabled=enabled,
+        recaptcha_site_key=current_app.config.get('RECAPTCHA_PUBLIC_KEY', '') if enabled else '',
+        contact_result=contact_result, initial_panel=initial_panel,
+    )
+
+
+def world_redirect(fragment):
+    return redirect(url_for('main.home', _anchor=fragment), code=301)
 
 
 @main.route('/')
-@limiter.limit("10 per minute")  # Limit homepage requests to 10 per minute per IP
+@limiter.limit('10 per minute')
 def home():
-    return render_template('home.html', projects=load_projects())
+    return render_workshop()
 
 
 @main.route('/resume')
-@limiter.limit("10 per minute")
 def resume():
-    # Load resume data from JSON file
-    data_path = os.path.join(current_app.root_path, 'data', 'resume.json')
-    with open(data_path, 'r', encoding='utf-8') as f:
-        resume_data = json.load(f)
-    return render_template('resume.html', resume=resume_data)
+    return world_redirect('resume')
 
 
 @main.route('/about')
-@limiter.limit("10 per minute")
 def about():
-    return render_template('about.html')
+    return world_redirect('experience')
 
 
 @main.route('/portfolio')
-@limiter.limit("10 per minute")
 def portfolio():
-    return render_template('portfolio.html', projects=load_projects())
+    return world_redirect('index')
+
+
+@main.route('/privacy')
+def privacy():
+    return world_redirect('privacy')
 
 
 @main.route('/projects/<project_id>')
 def catalog_project(project_id):
-    project = next((project for project in load_projects() if project['id'] == project_id), None)
-    if project is None:
+    if not any(project['id'] == project_id for project in load_projects()):
         abort(404)
-    return render_template('projects/catalog_detail.html', project=project)
+    return world_redirect('project=' + project_id)
 
 
-@main.route('/privacy')
-@limiter.limit("10 per minute")
-def privacy():
-    return render_template('privacy.html')
-
-
-@main.route('/portfolio/rtos')
-def rtos_project():
-    return render_template('projects/rtos.html')
-
-@main.route('/portfolio/mario')
-def mario_project():
-    return render_template('projects/mario.html')
-
-
-@main.route('/portfolio/autoticket')
-def ai_dashcam_project():
-    return render_template('projects/autoticket.html')
-
-
-@main.route('/portfolio/smart-clock')
-def smart_clock_project():
-    return render_template('projects/smart_clock.html')
-
-
-@main.route('/portfolio/godforsakenplace')
-def godforsakenplace():
-    return render_template('projects/godforsakenplace.html')
-
-
-@main.route('/portfolio/studak')
-def studak():
-    return render_template('projects/studak.html')
-
-
-@main.route('/portfolio/portfolio-website')
-def portfolio_website_project():
-    return render_template('projects/portfolio_project.html')
+@main.route('/portfolio/<slug>')
+def legacy_project(slug):
+    project_id = LEGACY_PROJECTS.get(slug)
+    if project_id is None:
+        abort(404)
+    return catalog_project(project_id)
 
 
 @main.route('/play/godforsakenplace')
-@limiter.limit("10 per minute")
 def play_godforsakenplace():
-    # Configure the external frontend URL via environment variable
-    # Example: GODFORSAKENPLACE_URL=https://play.example.com
-    game_url = os.getenv('GODFORSAKENPLACE_URL')
-    return render_template('projects/godforsakenplace_play.html', game_url=game_url)
+    return catalog_project('godforsakenplace')
 
 
 @main.route('/contact', methods=['GET', 'POST'])
-@limiter.limit("10 per minute")
+@limiter.limit('10 per minute')
 def contact():
-    form = ContactForm()
+    if request.method == 'GET':
+        return world_redirect('contact')
 
-    if form.validate_on_submit():
-        name = form.name.data
-        sender_email = form.email.data
-        message_body = form.message.data
-        recipient = os.getenv("MAIL_RECIPIENT")
-
-        if not recipient:
-            flash( "Something went wrong. Please try again later. 100", "danger" )
-            return redirect(url_for('main.contact'))
-
-        configured_sender = (
-            current_app.config.get("MAIL_DEFAULT_SENDER")
-            or current_app.config.get("MAIL_USERNAME")
+    recipient, sender, enabled = contact_settings()
+    form = ContactForm() if current_app.secret_key else ContactForm(meta={'csrf': False})
+    status = 400
+    if not enabled:
+        result = {'ok': False, 'message': 'The contact form is unavailable. Please use the email link instead.', 'errors': {}}
+        status = 503
+    elif not form.validate_on_submit():
+        result = {'ok': False, 'message': 'Please check the form and try again.', 'errors': form.errors}
+    else:
+        message = Message(
+            subject='New Contact Form Submission', sender=sender,
+            reply_to=form.email.data, recipients=[recipient],
+            body=f'From: {form.name.data} <{form.email.data}>\n\n{form.message.data}',
         )
-
-        if not configured_sender:
-            flash("Something went wrong. Please try again later. 101", "danger")
-            return redirect(url_for('main.contact'))
-
-        msg = Message(
-            subject="New Contact Form Submission",
-            sender=configured_sender,
-            reply_to=sender_email,
-            recipients=[recipient],
-            body=f"From: {name} <{sender_email}>\n\n{message_body}"
-        )
-
         try:
-            mail.send(msg)
-            flash("Your message has been sent. Thank you!", "success")
-            return redirect(url_for('main.contact'))
-        except Exception as e:
-            # Log or handle the error as needed
-            flash("An error occurred while sending your message. Please try again.", "danger")
+            mail.send(message)
+        except Exception:
+            current_app.logger.warning('Contact email delivery failed.')
+            result = {'ok': False, 'message': 'The message could not be sent. Please try again or use the email link.', 'errors': {}}
+            status = 503
+        else:
+            result = {'ok': True, 'message': 'Your message has been sent. Thank you!', 'errors': {}}
+            status = 200
+            form = ContactForm(formdata=None)
 
-    # Render the template with the form
-    return render_template('contact.html', form=form)
+    if request.accept_mimetypes.best_match(['application/json', 'text/html']) == 'application/json':
+        return jsonify(result), status
+    return render_workshop(form, result, initial_panel='contact'), status

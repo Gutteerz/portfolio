@@ -2,11 +2,13 @@ import * as THREE from 'three';
 import { createEnvironment } from './environment.js';
 import { createExhibits } from './exhibits.js';
 import { createCharacter } from './character.js';
+import { createStoryStations } from './story-stations.js';
 import { createUI } from './ui.js';
 import { groundHeight, movePlayer, movementVector, nearestItem, STEP_HEIGHT } from './physics.js';
 
 const canvas = document.getElementById('world-canvas');
 const projects = JSON.parse(document.getElementById('project-data').textContent);
+const profile = JSON.parse(document.getElementById('profile-data').textContent);
 const coarse = matchMedia('(pointer: coarse)').matches;
 const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
 const settings = { reducedMotion: motionPreference.matches, quality: coarse ? 'low' : 'high' };
@@ -26,13 +28,15 @@ const orbit = { yaw: 0.12, pitch: 0.42, distance: coarse ? 19 : 15 };
 const target = new THREE.Vector3(0, 1, 4);
 const wantedTarget = new THREE.Vector3();
 const cameraOffset = new THREE.Vector3();
-let character, environment, exhibits, renderer;
+let character, environment, exhibits, stories, renderer;
+let interactiveItems = [];
 
 function clearInput() { keys.clear(); joystick.x = 0; joystick.y = 0; document.getElementById('joystick-knob').style.transform = ''; }
 function resetCamera() { orbit.yaw = 0.12; orbit.pitch = 0.42; orbit.distance = coarse ? 19 : 15; }
 function interact() {
   if (paused) return;
   if (nearest) {
+    if (nearest.action) { ui.showPanel(nearest.action); return; }
     const sameTable = exhibits.items.filter(item => item.stationKey === nearest.stationKey);
     if (sameTable.length > 1) ui.showIndex(sameTable.map(item => item.project));
     else ui.showProject(nearest.project);
@@ -41,7 +45,7 @@ function interact() {
     ui.announce('You pushed the marble.');
   }
 }
-const ui = createUI(projects, {
+const ui = createUI(projects, profile, {
   onPause() { paused = true; clearInput(); },
   onResume() { paused = false; },
   onResetCamera: resetCamera,
@@ -78,13 +82,16 @@ fill.position.set(10, 10, -12); scene.add(fill);
 // Canvas-painted signs use the same local lettering as the HTML panels.
 await Promise.all([document.fonts.load('400 16px "Atkinson Hyperlegible"'), document.fonts.load('700 16px "Atkinson Hyperlegible"')]);
 environment = createEnvironment(scene, { quality: settings.quality });
-exhibits = createExhibits(scene, projects);
+// UiASub's software now lives with the ROV in its test pool.
+exhibits = createExhibits(scene, projects.filter(project => project.id !== 'uiasub-rtos'));
+stories = createStoryStations(scene, profile);
+interactiveItems = [...exhibits.items, ...stories.items];
 character = createCharacter(scene);
 character.group.rotation.y = Math.PI;
 const world = {
   bounds: environment.bounds,
   surfaces: environment.surfaces,
-  colliders: [...environment.colliders, ...(exhibits.colliders || [])],
+  colliders: [...environment.colliders, ...exhibits.colliders, ...stories.colliders],
 };
 // Floating bridge and roofs have rooms/walking space below them.
 world.surfaces.forEach(surface => {
@@ -158,12 +165,14 @@ canvas.addEventListener('pointerup', event => {
   const rect = canvas.getBoundingClientRect();
   pointerVector.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
   raycaster.setFromCamera(pointerVector, camera);
-  const hits = raycaster.intersectObjects(exhibits.items.map(item => item.object), true);
+  const hits = raycaster.intersectObjects(interactiveItems.map(item => item.object), true);
   if (hits.length) {
     let object = hits[0].object, item;
-    while (object && !item) { item = exhibits.items.find(candidate => candidate.object === object); object = object.parent; }
-    if (item && nearestItem(player, [item])) ui.showProject(item.project);
-    else if (item) ui.announce(`Walk closer to inspect ${item.project.title}.`);
+    while (object && !item) { item = interactiveItems.find(candidate => candidate.object === object); object = object.parent; }
+    if (item && nearestItem(player, [item])) {
+      if (item.action) ui.showPanel(item.action);
+      else ui.showProject(item.project);
+    } else if (item) ui.announce(`Walk closer to ${item.action ? item.label.toLowerCase() : 'inspect ' + item.project.title}.`);
   } else if (marbleNear && raycaster.intersectObject(environment.marble.mesh, true).length) interact();
 });
 canvas.addEventListener('pointercancel', () => { pointer = null; });
@@ -205,7 +214,7 @@ let lastTime = performance.now(), elapsed = 0, frames = 0, framesSinceCheck = 0,
 function frame(now) {
   requestAnimationFrame(frame);
   const delta = Math.min((now - lastTime) / 1000, 0.05); lastTime = now;
-  if (document.hidden) return;
+  if (document.hidden || document.body.classList.contains('text-view')) return;
   if (!paused) {
     elapsed += delta;
     const inputX = joystick.x + Number(keys.has('KeyD') || keys.has('ArrowRight')) - Number(keys.has('KeyA') || keys.has('ArrowLeft'));
@@ -227,6 +236,7 @@ function frame(now) {
     }
     character.update(delta, moving, 1);
     environment.update(settings.reducedMotion ? 0 : elapsed, delta, player);
+    stories.update(settings.reducedMotion ? 0 : elapsed, settings.reducedMotion ? 0 : delta, player);
     exhibits.update(settings.reducedMotion ? 0 : elapsed, settings.reducedMotion ? 0 : delta);
     const marble = environment.marble;
     marbleNear = Math.hypot(player.x - marble.center.x, player.z - marble.center.z) < marble.radius + 1.5;
@@ -238,12 +248,12 @@ function frame(now) {
       marble.mesh.position.z = marble.center.z + Math.sin(marbleAngle) * radius;
       marble.mesh.rotation.x += marbleVelocity * delta * 2;
     }
-    nearest = nearestItem(player, exhibits.items);
-    const groupSize = nearest ? exhibits.items.filter(item => item.stationKey === nearest.stationKey).length : 0;
-    ui.setInteraction(nearest ? (groupSize > 1 ? `Browse ${groupSize} projects` : `Inspect ${nearest.project.title}`) : marbleNear ? 'Push the marble' : '');
+    nearest = nearestItem(player, interactiveItems);
+    const groupSize = nearest && !nearest.action ? exhibits.items.filter(item => item.stationKey === nearest.stationKey).length : 0;
+    ui.setInteraction(nearest ? (nearest.label || (groupSize > 1 ? `Browse ${groupSize} projects` : `Inspect ${nearest.project.title}`)) : marbleNear ? 'Push the marble' : '');
     ui.setLocation(player.y > 2.8 ? 'Above the workbench' : player.z < -2 && player.x < -5 ? 'The workshop' : player.z < -2 && player.x > 5 ? 'The study' : player.z > 5 && player.x > 5 ? 'The games corner' : 'The workbench');
     highlight.visible = !!nearest;
-    if (nearest) highlight.position.set(nearest.approach.x, 0.02, nearest.approach.z);
+    if (nearest) highlight.position.set(nearest.approach.x, nearest.approach.y + 0.02, nearest.approach.z);
     playerShadow.position.set(player.x, floor + 0.015, player.z);
     updateCamera(delta);
     framesSinceCheck++; frameTime += delta;

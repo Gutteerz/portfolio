@@ -444,7 +444,7 @@
   ],
   "narrative": {
     "northStar": "Miniature workshop",
-    "overview": "Warm timber, muted green paint, small buildings, and a jointed wooden visitor make the projects part of an explorable scene. Beveled pieces, screws, slats, grain, and restrained painted wear establish the miniature scale. The interface stays compact so the world remains visible.\n\nThis records the implemented home world and its HTML overlays. The existing standalone experience, resume, contact, privacy, and project routes retain their own templates; this file does not imply that they have been visually redesigned. The approved workshop direction is recorded in `PRODUCT.md`. Sources are `app/templates/home.html`, `app/static/css/world.css`, and `app/static/js/world/`.",
+    "overview": "The complete portfolio lives in the miniature workshop: projects, work experience, education, about, resume, and contact open as reading panels over the scene. The work-history board, roof notebook, entry folder, mailbox, and UiASub ROV test pool reuse its timber, paint, and local lettering. The home document also contains a complete accessible reading view; retired page URLs redirect into world panels. Sources are app/templates/home.html, app/static/css/world.css, app/static/js/world/, app/data/projects.json, and app/data/resume.json.",
     "keyCharacteristics": [
       "Real projects appear as inspectable objects with plain descriptive labels.",
       "Timber and painted geometry supply the visual detail; cream HTML panels support reading.",
