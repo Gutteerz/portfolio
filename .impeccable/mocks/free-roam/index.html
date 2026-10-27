@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Portfolio — free-roam concept</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #202020; color: #f1f1f1; font: 14px/1.5 system-ui, sans-serif; }
+    header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding: 12px 20px; }
+    header p { margin: 0; color: #c8c8c8; font-size: 12px; }
+    nav { display: flex; flex-wrap: wrap; gap: 4px; }
+    button, a { font: inherit; }
+    button { padding: 8px 12px; border: 0; color: #c8c8c8; background: transparent; cursor: pointer; }
+    button[aria-pressed="true"] { color: #202020; background: #f1f1f1; }
+    button:hover { text-decoration: underline; text-underline-offset: 4px; }
+    :focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    main { display: grid; justify-items: center; padding: 0 16px 20px; }
+    figure { margin: 0; width: min(100%, calc((100svh - 160px) * 1.5)); }
+    img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: contain; background: #333; }
+    footer { width: min(100%, 1050px); padding-top: 14px; display: flex; align-items: start; justify-content: space-between; gap: 20px; }
+    footer p { margin: 0 0 4px; color: #c8c8c8; }
+    footer a { color: #f1f1f1; white-space: nowrap; text-underline-offset: 4px; }
+    @media (max-width: 700px) {
+      header { padding: 10px 12px; }
+      main { padding: 0 8px 16px; }
+      figure { width: 100%; }
+      footer { flex-direction: column; gap: 8px; padding: 12px 4px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Compare concept images">
+      <button type="button" data-view="overview" aria-pressed="true">Starting view</button>
+      <button type="button" data-view="player-view" aria-pressed="false">Another player position</button>
+    </nav>
+    <p>Visual mockup · movement is not implemented</p>
+  </header>
+  <main>
+    <figure>
+      <img id="scene" src="overview.png" alt="Stylized miniature workshop landscape with a small player character, broad open ground, a central hill, and several accessible structures.">
+    </figure>
+    <footer>
+      <div>
+        <p id="description" aria-live="polite">Walk around the structures, take the ramp, get onto the roof, or stop to play. There is no required route.</p>
+        <p>The keys pictured are proposed controls. These buttons compare still images, not travel destinations.</p>
+      </div>
+      <a id="full-image" href="overview.png" target="_blank" rel="noopener">Open full-size image</a>
+    </footer>
+  </main>
+  <script>
+    const views = {
+      overview: {
+        alt: 'Stylized miniature workshop landscape with a small player character, broad open ground, a central hill, and several accessible structures.',
+        description: 'Walk around the structures, take the ramp, get onto the roof, or stop to play. There is no required route.'
+      },
+      'player-view': {
+        alt: 'A second player position beside a marble track within the same stylized workshop landscape.',
+        description: 'The camera follows the character. Approaching something makes interaction available; it does not start a presentation or move you automatically.'
+      }
+    };
+    const scene = document.getElementById('scene');
+    const description = document.getElementById('description');
+    function showView(name) {
+      if (!views[name]) return;
+      scene.src = name + '.png';
+      scene.alt = views[name].alt;
+      description.textContent = views[name].description;
+      document.getElementById('full-image').href = name + '.png';
+      document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === name)));
+      history.replaceState(null, '', '#' + name);
+    }
+    document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => showView(button.dataset.view)));
+    scene.addEventListener('error', () => { description.textContent = 'This view could not load. Choose Starting view to return.'; });
+    if (views[location.hash.slice(1)]) showView(location.hash.slice(1));
+  </script>
+</body>
+</html>

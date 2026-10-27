@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Portfolio — spatial mockup</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #202020; color: #f1f1f1; font: 14px/1.5 system-ui, sans-serif; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; }
+    header p { margin: 0; color: #bcbcbc; font-size: 12px; }
+    nav { display: flex; flex-wrap: wrap; gap: 4px; }
+    button, a { font: inherit; }
+    nav button { border: 0; padding: 8px 12px; background: transparent; color: #c8c8c8; cursor: pointer; }
+    nav button[aria-pressed="true"] { background: #f1f1f1; color: #202020; }
+    nav button:hover { text-decoration: underline; text-underline-offset: 4px; }
+    button:focus-visible, a:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    main { display: grid; justify-items: center; padding: 0 16px 16px; }
+    figure { position: relative; margin: 0; width: min(100%, calc((100svh - 138px) * 1.5)); }
+    img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: contain; background: #333; }
+    .destinations { position: absolute; inset: 0; pointer-events: none; }
+    .destination { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; background: #202020e8; color: white; border: 1px solid #ffffffa0; padding: 9px 12px; cursor: pointer; white-space: nowrap; }
+    .destination:hover { background: white; color: #202020; }
+    .pool { left: 34%; top: 72%; }
+    .gallery { left: 80%; top: 41%; }
+    footer { width: min(100%, 1000px); padding-top: 12px; display: flex; justify-content: space-between; align-items: start; gap: 20px; color: #c8c8c8; }
+    footer p { margin: 0; }
+    footer a { color: #f1f1f1; white-space: nowrap; text-underline-offset: 3px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 700px) {
+      header { align-items: start; flex-direction: column; gap: 6px; padding: 10px 12px; }
+      nav button { padding: 7px 9px; }
+      main { padding: 0 8px 12px; }
+      figure { width: 100%; }
+      .destination { padding: 6px 8px; font-size: 11px; }
+      footer { flex-direction: column; gap: 8px; padding: 12px 4px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav aria-label="Choose a view">
+      <button type="button" data-view="entrance" aria-pressed="true">Entrance</button>
+      <button type="button" data-view="pool-floor" aria-pressed="false">Pool floor</button>
+      <button type="button" data-view="gallery" aria-pressed="false">Side rooms</button>
+    </nav>
+    <p>Still-image navigation mockup · the 3D site is not implemented</p>
+  </header>
+  <main>
+    <figure>
+      <img id="scene" src="entrance.png" alt="Entrance of a fictional swimming hall converted into a workspace, with a dry pool and several routes to explore.">
+      <div id="destinations" class="destinations" aria-label="Visible destinations">
+        <button type="button" class="destination pool" data-view="pool-floor">Go down to the desk</button>
+        <button type="button" class="destination gallery" data-view="gallery">Walk over to the rooms</button>
+      </div>
+    </figure>
+    <footer>
+      <p id="description" aria-live="polite">Choose either route. The desk and side rooms are places within the same environment, with no required order.</p>
+      <a id="full-image" href="entrance.png" target="_blank" rel="noopener">Open full-size image</a>
+    </footer>
+  </main>
+  <script>
+    const views = {
+      entrance: {
+        alt: 'Entrance of a fictional swimming hall converted into a workspace, with a dry pool and several routes to explore.',
+        description: 'Choose either route. The desk and side rooms are places within the same environment, with no required order.'
+      },
+      'pool-floor': {
+        alt: 'A view from beside the project desk on the floor of the same empty swimming pool.',
+        description: 'At the desk, projects are readable on the screen. The room remains around you. Use the view controls to return or visit the side rooms.'
+      },
+      gallery: {
+        alt: 'A view along the raised poolside walkway, with a small side room nearby and the project desk below.',
+        description: 'The walkway leads to a small room with personal details and optional things to investigate. You can come here before visiting the desk.'
+      }
+    };
+    const scene = document.getElementById('scene');
+    const description = document.getElementById('description');
+    function showView(name) {
+      if (!views[name]) return;
+      scene.src = name + '.png';
+      scene.alt = views[name].alt;
+      document.getElementById('full-image').href = name + '.png';
+      description.textContent = views[name].description;
+      document.getElementById('destinations').hidden = name !== 'entrance';
+      document.querySelectorAll('nav button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === name)));
+      history.replaceState(null, '', '#' + name);
+    }
+    document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => showView(button.dataset.view)));
+    scene.addEventListener('error', () => { description.textContent = 'This view could not load. Choose Entrance to return to the overview.'; });
+    if (views[location.hash.slice(1)]) showView(location.hash.slice(1));
+  </script>
+</body>
+</html>

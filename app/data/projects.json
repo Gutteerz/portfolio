@@ -1,0 +1,177 @@
+[
+  {
+    "id": "smart-clock",
+    "title": "Smart Clock",
+    "summary": "An STM32 clock with alarms, weather, and scrolling news.",
+    "description": "A custom clock built around an STM32 microcontroller and a DFRobot LCD. It brings time, recurring alarms, room conditions, weather forecasts, and RSS headlines together on one display.",
+    "technologies": [
+      "C",
+      "C++",
+      "STM32",
+      "DFRobot LCD"
+    ],
+    "highlights": [
+      "Uses geolocation to fetch time and location information at startup.",
+      "Supports recurring alarms with snooze and mute.",
+      "Combines sensor readings with weather APIs and RSS headlines."
+    ],
+    "image": "images/projects/smart_clock.png",
+    "detailUrl": null,
+    "world": {
+      "kind": "clock",
+      "zone": "workshop",
+      "slot": 0
+    },
+    "links": []
+  },
+  {
+    "id": "uiasub-rtos",
+    "title": "UiASub RTOS",
+    "summary": "Embedded communication between an ROV and its topside controls.",
+    "description": "A ZephyrOS application for the UiASub remotely operated vehicle. The microcontroller acts as a central communication point for sensors, joystick input, and diagnostics, with bitmask communication and an Ethernet connection to topside.",
+    "technologies": [
+      "C",
+      "ZephyrOS",
+      "Nucleo F767zi",
+      "Ethernet"
+    ],
+    "highlights": [
+      "Collects sensor information for transmission to topside.",
+      "Connects joystick input and diagnostics with the ROV.",
+      "Designed for a microcontroller with limited resources."
+    ],
+    "image": null,
+    "detailUrl": null,
+    "world": {
+      "kind": "rov",
+      "zone": "workshop",
+      "slot": 1
+    },
+    "links": []
+  },
+  {
+    "id": "ai-dashcam",
+    "title": "AI Dashcam",
+    "summary": "Traffic sign recognition using a custom fine-tuned YOLO model.",
+    "description": "A traffic sign detection and recognition project using YOLOv11 with custom fine-tuned weights. A FastAPI backend connects the model to a web interface, with Label Studio used to refine the training annotations.",
+    "technologies": [
+      "Python",
+      "YOLOv11",
+      "FastAPI",
+      "Label Studio"
+    ],
+    "highlights": [
+      "Detects traffic signs in video input.",
+      "Uses a labeled dataset to fine-tune the model.",
+      "Includes a web interface for the recognition workflow."
+    ],
+    "image": "images/projects/autoticket.png",
+    "detailUrl": null,
+    "world": {
+      "kind": "camera",
+      "zone": "workshop",
+      "slot": 2
+    },
+    "links": []
+  },
+  {
+    "id": "mario",
+    "title": "Mario Game",
+    "summary": "A C++ platformer with custom levels, sprites, and collision handling.",
+    "description": "A two-dimensional platform game inspired by Mario, built in C++ with SDL2. The project combines custom levels and sprites with jumping, coin collection, enemies, and collision detection.",
+    "technologies": [
+      "C++",
+      "SDL2"
+    ],
+    "highlights": [
+      "Implements jumping, collecting coins, and defeating enemies.",
+      "Uses custom sprites, tiles, and level layouts.",
+      "Uses a spatial grid for collision detection."
+    ],
+    "image": null,
+    "detailUrl": null,
+    "world": {
+      "kind": "arcade",
+      "zone": "games",
+      "slot": 0
+    },
+    "links": []
+  },
+  {
+    "id": "studak",
+    "title": "Studak",
+    "summary": "A student activity app for finding and arranging things to do.",
+    "description": "A React Native app for students to discover and organize activities based on budget, group size, and location. Firebase provides authentication and Firestore stores the activity data.",
+    "technologies": [
+      "JavaScript",
+      "React Native",
+      "Expo",
+      "Firebase"
+    ],
+    "highlights": [
+      "Filters activities by budget, group size, and location.",
+      "Includes a calendar for arranging activities with friends.",
+      "Uses Firebase authentication and Firestore queries."
+    ],
+    "image": "images/projects/studak_filter.PNG",
+    "detailUrl": null,
+    "world": {
+      "kind": "phone",
+      "zone": "study",
+      "slot": 0
+    },
+    "links": []
+  },
+  {
+    "id": "godforsakenplace",
+    "title": "GodforsakenPlace",
+    "summary": "An online Mafia game with lobbies, roles, and live updates.",
+    "description": "An online adaptation of the Mafia social deduction game. Players join lobbies using game codes, take on different roles, and move through day and night phases. React provides the interface and a .NET backend uses SignalR for live communication.",
+    "technologies": [
+      "C#",
+      ".NET",
+      "React",
+      "SignalR"
+    ],
+    "highlights": [
+      "Uses lobby codes to bring players into the same game.",
+      "Supports role-based actions during day and night phases.",
+      "Uses SignalR for chat and game state updates."
+    ],
+    "image": "images/projects/Host2.png",
+    "detailUrl": null,
+    "world": {
+      "kind": "cards",
+      "zone": "games",
+      "slot": 1
+    },
+    "links": []
+  },
+  {
+    "id": "portfolio",
+    "title": "Portfolio Website",
+    "summary": "This portfolio: a small workshop world with projects to discover.",
+    "description": "A Flask portfolio that brings project work into a stylized workshop landscape. The project catalog supplies the interactive world and ordinary HTML project pages, so visitors can explore in the way that suits them.",
+    "technologies": [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "Three.js",
+      "HTML",
+      "CSS"
+    ],
+    "highlights": [
+      "Shares one project catalog between the workshop and the project index.",
+      "Keeps experience, resume, and contact pages directly accessible.",
+      "Provides project pages that work without JavaScript."
+    ],
+    "image": null,
+    "detailUrl": null,
+    "world": {
+      "kind": "terminal",
+      "zone": "study",
+      "slot": 1
+    },
+    "links": []
+  }
+]

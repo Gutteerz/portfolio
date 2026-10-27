@@ -1,6 +1,7 @@
 import os, json
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, abort
 from app.contact import ContactForm
+from app.projects import load_projects
 from app import limiter, mail
 from flask_mail import Message
 
@@ -15,7 +16,7 @@ ALLOWED_ATTRIBUTES = {}
 @main.route('/')
 @limiter.limit("10 per minute")  # Limit homepage requests to 10 per minute per IP
 def home():
-    return render_template('home.html')
+    return render_template('home.html', projects=load_projects())
 
 
 @main.route('/resume')
@@ -37,7 +38,15 @@ def about():
 @main.route('/portfolio')
 @limiter.limit("10 per minute")
 def portfolio():
-    return render_template('portfolio.html')
+    return render_template('portfolio.html', projects=load_projects())
+
+
+@main.route('/projects/<project_id>')
+def catalog_project(project_id):
+    project = next((project for project in load_projects() if project['id'] == project_id), None)
+    if project is None:
+        abort(404)
+    return render_template('projects/catalog_detail.html', project=project)
 
 
 @main.route('/privacy')

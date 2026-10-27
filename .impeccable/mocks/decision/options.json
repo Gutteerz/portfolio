@@ -1,0 +1,121 @@
+{
+  "title": "Storm Selvig — a portfolio you can play",
+  "question": "Choose the direction you want to develop. These are visual concepts; the 3D objects are illustrative.",
+  "options": [
+    {
+      "id": "kinetic-circuit",
+      "label": "Kinetic Circuit",
+      "kicker": "01 · PLAY AN INSTRUMENT",
+      "lineage": "Modular electronics, mechanical music scores, tactile control panels",
+      "thesis": "A playable instrument connects your hardware, robotics, and AI projects.",
+      "palette": [
+        "#234ddd",
+        "#f0cf4c",
+        "#ed6a35",
+        "#e6e9ed"
+      ],
+      "materials": [
+        "satin aluminium",
+        "colored molded controls",
+        "exposed circuit boards"
+      ],
+      "viewport": "One giant 3D control surface: turn a dial, route a signal, then open the project behind the response.",
+      "risk": "The instrument needs a clear first action so the metaphor never obscures your work.",
+      "raised": [
+        {
+          "from": "Coiled earth",
+          "raise": "Every action leaves a visible trace in the system."
+        },
+        {
+          "from": "Transforming cape",
+          "raise": "One control visibly transforms connected parts."
+        },
+        {
+          "from": "Ice press",
+          "raise": "Each project keeps its own authored story."
+        },
+        {
+          "from": "Rebel menu",
+          "raise": "The selected experiment owns the whole viewport."
+        },
+        {
+          "from": "Cracktro",
+          "raise": "The active plane stays still while being read."
+        }
+      ],
+      "comp": ".impeccable/mocks/decision/kinetic-circuit.png"
+    },
+    {
+      "id": "object-playground",
+      "label": "Object Playground",
+      "kicker": "02 · RECOMMENDED",
+      "lineage": "Physics toys and interactive science exhibits",
+      "thesis": "Pick up a project, turn it over, and discover a small working experiment.",
+      "palette": [
+        "#c8e0f5",
+        "#193da5",
+        "#ff702d",
+        "#e1ed66"
+      ],
+      "materials": [
+        "powder-blue ground",
+        "tactile 3D objects",
+        "soft physical shadows"
+      ],
+      "viewport": "A roomy physics playground with a Smart Clock, ROV, and AI camera, each opening its own mini experience.",
+      "risk": "The 3D-object portfolio is familiar territory; the custom interactions must give it personality.",
+      "comp": ".impeccable/mocks/decision/object-playground.png"
+    },
+    {
+      "id": "signal-space",
+      "label": "Signal Space",
+      "kicker": "03 · EXPLORE A SYSTEM",
+      "verdict": "competitive",
+      "lineage": "Scientific event displays",
+      "thesis": "Follow an input through a 3D system and discover the engineering behind it.",
+      "palette": [
+        "#101316",
+        "#5c7589",
+        "#e5ca45",
+        "#64cede",
+        "#d46045"
+      ],
+      "materials": [
+        "skeletal geometry",
+        "sharp signal traces",
+        "machined components"
+      ],
+      "viewport": "Send a simulated signal from a joystick through a circuit to an ROV thruster.",
+      "risk": "More technical and less immediately playful; guided interactions matter.",
+      "case": "Strong connection to robotics and software, with more explanation needed for nontechnical visitors.",
+      "comp": ".impeccable/mocks/decision/signal-space.png"
+    }
+  ],
+  "reroll": {
+    "registers": [
+      "safer",
+      "bolder"
+    ]
+  },
+  "buildPath": {
+    "value": "comp",
+    "toggle": true
+  },
+  "canon": true,
+  "canonCard": {
+    "label": "A straightforward portfolio",
+    "thesis": "A polished project gallery with a focused 3D viewer.",
+    "palette": [
+      "#f3f4f6",
+      "#20242b",
+      "#234ddd"
+    ],
+    "materials": [
+      "project imagery",
+      "clear typography"
+    ],
+    "viewport": "Project index, featured work, and contact with an interactive model.",
+    "risk": "Easy to understand, but less experiential than your selected playground direction."
+  },
+  "steer": true
+}

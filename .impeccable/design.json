@@ -1,0 +1,483 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-27T12:42:18.925Z",
+  "title": "Design System: Storm Selvig Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15.00% 0.0258 84.59)",
+          "oklch(26.43% 0.0258 84.59)",
+          "oklch(37.86% 0.0258 84.59)",
+          "oklch(49.29% 0.0258 84.59)",
+          "oklch(60.71% 0.0258 84.59)",
+          "oklch(72.14% 0.0258 84.59)",
+          "oklch(83.57% 0.0258 84.59)",
+          "oklch(95.00% 0.0258 84.59)"
+        ]
+      },
+      "paper-light": {
+        "role": "neutral",
+        "displayName": "Paper light",
+        "tonalRamp": [
+          "oklch(15.00% 0.0167 88.00)",
+          "oklch(26.43% 0.0167 88.00)",
+          "oklch(37.86% 0.0167 88.00)",
+          "oklch(49.29% 0.0167 88.00)",
+          "oklch(60.71% 0.0167 88.00)",
+          "oklch(72.14% 0.0167 88.00)",
+          "oklch(83.57% 0.0167 88.00)",
+          "oklch(95.00% 0.0167 88.00)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0180 77.91)",
+          "oklch(26.43% 0.0180 77.91)",
+          "oklch(37.86% 0.0180 77.91)",
+          "oklch(49.29% 0.0180 77.91)",
+          "oklch(60.71% 0.0180 77.91)",
+          "oklch(72.14% 0.0180 77.91)",
+          "oklch(83.57% 0.0180 77.91)",
+          "oklch(95.00% 0.0180 77.91)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.0362 77.83)",
+          "oklch(26.43% 0.0362 77.83)",
+          "oklch(37.86% 0.0362 77.83)",
+          "oklch(49.29% 0.0362 77.83)",
+          "oklch(60.71% 0.0362 77.83)",
+          "oklch(72.14% 0.0362 77.83)",
+          "oklch(83.57% 0.0362 77.83)",
+          "oklch(95.00% 0.0362 77.83)"
+        ]
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "Green",
+        "tonalRamp": [
+          "oklch(15.00% 0.0473 150.94)",
+          "oklch(26.43% 0.0473 150.94)",
+          "oklch(37.86% 0.0473 150.94)",
+          "oklch(49.29% 0.0473 150.94)",
+          "oklch(60.71% 0.0473 150.94)",
+          "oklch(72.14% 0.0473 150.94)",
+          "oklch(83.57% 0.0473 150.94)",
+          "oklch(95.00% 0.0473 150.94)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15.00% 0.0380 84.57)",
+          "oklch(26.43% 0.0380 84.57)",
+          "oklch(37.86% 0.0380 84.57)",
+          "oklch(49.29% 0.0380 84.57)",
+          "oklch(60.71% 0.0380 84.57)",
+          "oklch(72.14% 0.0380 84.57)",
+          "oklch(83.57% 0.0380 84.57)",
+          "oklch(95.00% 0.0380 84.57)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15.00% 0.0651 150.41)",
+          "oklch(26.43% 0.0651 150.41)",
+          "oklch(37.86% 0.0651 150.41)",
+          "oklch(49.29% 0.0651 150.41)",
+          "oklch(60.71% 0.0651 150.41)",
+          "oklch(72.14% 0.0651 150.41)",
+          "oklch(83.57% 0.0651 150.41)",
+          "oklch(95.00% 0.0651 150.41)"
+        ]
+      },
+      "navigation-hover": {
+        "role": "neutral",
+        "displayName": "Navigation hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.0318 84.59)",
+          "oklch(26.43% 0.0318 84.59)",
+          "oklch(37.86% 0.0318 84.59)",
+          "oklch(49.29% 0.0318 84.59)",
+          "oklch(60.71% 0.0318 84.59)",
+          "oklch(72.14% 0.0318 84.59)",
+          "oklch(83.57% 0.0318 84.59)",
+          "oklch(95.00% 0.0318 84.59)"
+        ]
+      },
+      "inspect-hover": {
+        "role": "primary",
+        "displayName": "Inspect hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.0478 149.69)",
+          "oklch(26.43% 0.0478 149.69)",
+          "oklch(37.86% 0.0478 149.69)",
+          "oklch(49.29% 0.0478 149.69)",
+          "oklch(60.71% 0.0478 149.69)",
+          "oklch(72.14% 0.0478 149.69)",
+          "oklch(83.57% 0.0478 149.69)",
+          "oklch(95.00% 0.0478 149.69)"
+        ]
+      },
+      "control-hover": {
+        "role": "neutral",
+        "displayName": "Control hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.0264 82.38)",
+          "oklch(26.43% 0.0264 82.38)",
+          "oklch(37.86% 0.0264 82.38)",
+          "oklch(49.29% 0.0264 82.38)",
+          "oklch(60.71% 0.0264 82.38)",
+          "oklch(72.14% 0.0264 82.38)",
+          "oklch(83.57% 0.0264 82.38)",
+          "oklch(95.00% 0.0264 82.38)"
+        ]
+      },
+      "index-hover": {
+        "role": "neutral",
+        "displayName": "Index hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.0242 85.79)",
+          "oklch(26.43% 0.0242 85.79)",
+          "oklch(37.86% 0.0242 85.79)",
+          "oklch(49.29% 0.0242 85.79)",
+          "oklch(60.71% 0.0242 85.79)",
+          "oklch(72.14% 0.0242 85.79)",
+          "oklch(83.57% 0.0242 85.79)",
+          "oklch(95.00% 0.0242 85.79)"
+        ]
+      },
+      "control-border": {
+        "role": "neutral",
+        "displayName": "Control border",
+        "tonalRamp": [
+          "oklch(15.00% 0.0446 82.38)",
+          "oklch(26.43% 0.0446 82.38)",
+          "oklch(37.86% 0.0446 82.38)",
+          "oklch(49.29% 0.0446 82.38)",
+          "oklch(60.71% 0.0446 82.38)",
+          "oklch(72.14% 0.0446 82.38)",
+          "oklch(83.57% 0.0446 82.38)",
+          "oklch(95.00% 0.0446 82.38)"
+        ]
+      },
+      "wood": {
+        "role": "secondary",
+        "displayName": "Wood",
+        "tonalRamp": [
+          "oklch(15.00% 0.0998 71.76)",
+          "oklch(26.43% 0.0998 71.76)",
+          "oklch(37.86% 0.0998 71.76)",
+          "oklch(49.29% 0.0998 71.76)",
+          "oklch(60.71% 0.0998 71.76)",
+          "oklch(72.14% 0.0998 71.76)",
+          "oklch(83.57% 0.0998 71.76)",
+          "oklch(95.00% 0.0998 71.76)"
+        ]
+      },
+      "wood-light": {
+        "role": "secondary",
+        "displayName": "Wood light",
+        "tonalRamp": [
+          "oklch(15.00% 0.0923 77.24)",
+          "oklch(26.43% 0.0923 77.24)",
+          "oklch(37.86% 0.0923 77.24)",
+          "oklch(49.29% 0.0923 77.24)",
+          "oklch(60.71% 0.0923 77.24)",
+          "oklch(72.14% 0.0923 77.24)",
+          "oklch(83.57% 0.0923 77.24)",
+          "oklch(95.00% 0.0923 77.24)"
+        ]
+      },
+      "wood-dark": {
+        "role": "secondary",
+        "displayName": "Wood dark",
+        "tonalRamp": [
+          "oklch(15.00% 0.0709 66.36)",
+          "oklch(26.43% 0.0709 66.36)",
+          "oklch(37.86% 0.0709 66.36)",
+          "oklch(49.29% 0.0709 66.36)",
+          "oklch(60.71% 0.0709 66.36)",
+          "oklch(72.14% 0.0709 66.36)",
+          "oklch(83.57% 0.0709 66.36)",
+          "oklch(95.00% 0.0709 66.36)"
+        ]
+      },
+      "paint-green": {
+        "role": "secondary",
+        "displayName": "Paint green",
+        "tonalRamp": [
+          "oklch(15.00% 0.0553 140.55)",
+          "oklch(26.43% 0.0553 140.55)",
+          "oklch(37.86% 0.0553 140.55)",
+          "oklch(49.29% 0.0553 140.55)",
+          "oklch(60.71% 0.0553 140.55)",
+          "oklch(72.14% 0.0553 140.55)",
+          "oklch(83.57% 0.0553 140.55)",
+          "oklch(95.00% 0.0553 140.55)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Project heading",
+        "purpose": "Project dialog h1."
+      },
+      "title": {
+        "displayName": "Dialog title",
+        "purpose": "Index, About, and settings headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading text in panels and fallback."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navigation and quiet supporting text."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel-shadow",
+        "value": "0 18px 64px rgba(43, 34, 21, .25)",
+        "purpose": "Modal reading panels."
+      },
+      {
+        "name": "inspect-shadow",
+        "value": "0 5px 18px rgba(39, 46, 30, .18)",
+        "purpose": "Nearby interaction action."
+      },
+      {
+        "name": "joystick-shadow",
+        "value": "0 3px 9px rgba(43, 34, 21, .2)",
+        "purpose": "Raised touch movement knob."
+      }
+    ],
+    "motion": [
+      {
+        "name": "camera-follow-blend",
+        "value": "1 - Math.exp(-delta * 5)",
+        "purpose": "Camera target follows movement; reduced motion uses an immediate blend of 1."
+      },
+      {
+        "name": "ambient-reduced-motion",
+        "value": "environment time = 0; exhibit time = 0; exhibit delta = 0",
+        "purpose": "Reduced motion holds ambient scene effects still; visitor movement remains enabled."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "small-screen",
+        "value": "640px"
+      },
+      {
+        "name": "narrow-screen",
+        "value": "380px"
+      },
+      {
+        "name": "short-touch-screen",
+        "value": "(max-height: 500px) and (pointer: coarse)"
+      },
+      {
+        "name": "touch-controls",
+        "value": "(pointer: coarse)"
+      }
+    ],
+    "focus": {
+      "value": "3px solid var(--focus)",
+      "offset": "4px",
+      "purpose": "Keyboard-visible focus; canvas uses an inset offset."
+    },
+    "sourceRefs": [
+      {
+        "path": "app/static/css/world.css",
+        "anchors": [
+          ":root",
+          "@font-face",
+          "dialog",
+          ".world-nav",
+          "#interact-button",
+          ".index-item",
+          ".setting-row",
+          "@media"
+        ],
+        "provides": "HTML primitives, component snippets, type, spacing, radii, shadows, focus, and responsive rules."
+      },
+      {
+        "path": "app/static/js/world/materials.js",
+        "anchors": [
+          "paintedTexture",
+          "makeSignTexture",
+          "createMaterials"
+        ],
+        "provides": "Generated material base colors, scene lettering, and material response."
+      },
+      {
+        "path": "app/static/js/world/main.js",
+        "anchors": [
+          "orbit",
+          "resetCamera",
+          "updateCamera",
+          "applyQuality",
+          "interact",
+          "frame"
+        ],
+        "provides": "Camera, motion, quality, and explicit interaction behavior."
+      },
+      {
+        "path": "app/static/js/world/ui.js",
+        "anchors": [
+          "openDialog",
+          "showProject",
+          "showIndex"
+        ],
+        "provides": "Dialog pause/resume, index, and project rendering."
+      },
+      {
+        "path": "app/static/js/world/environment.js",
+        "anchors": [
+          "createEnvironment",
+          "roundedBoxGeometry",
+          "ramp",
+          "roof"
+        ],
+        "provides": "Miniature construction, ramps, roof visibility, and spatial forms."
+      },
+      {
+        "path": "app/static/js/world/layout.js",
+        "anchors": [
+          "layoutProjects"
+        ],
+        "provides": "Catalog expansion and shared perimeter displays."
+      },
+      {
+        "path": "app/templates/home.html",
+        "anchors": [
+          "body direction comment",
+          "fallback",
+          "world-header",
+          "settings-dialog"
+        ],
+        "provides": "Approved world contract, semantic controls, and HTML fallback."
+      },
+      {
+        "path": "app/data/projects.json",
+        "provides": "Shared project catalog and original project image references."
+      },
+      {
+        "path": "PRODUCT.md",
+        "provides": "User-approved miniature workshop direction and asset boundaries."
+      }
+    ],
+    "previewNotes": [
+      "Tonal ramps are synthesized OKLCH swatches for the design panel only; they are not additional shipping tokens.",
+      "Component previews reproduce existing HTML/CSS; their buttons do not run the application callbacks.",
+      "World material base colors are modified by generated textures, lighting, and tone mapping."
+    ]
+  },
+  "components": [
+    {
+      "name": "Inspect button",
+      "kind": "button",
+      "refersTo": "inspect-button",
+      "description": "Nearby-object action with keyboard cue.",
+      "html": "<button class=\"ds-inspect\" type=\"button\"><kbd>E</kbd><span>Inspect Smart Clock</span></button>",
+      "css": ".ds-inspect{font-family:var(--font-ui,\"Atkinson Hyperlegible\",\"Segoe UI\",sans-serif);display:flex;align-items:center;justify-content:center;gap:12px;min-height:50px;padding:11px 19px 11px 12px;background:var(--green,#3e5944);color:var(--paper-light,#fbf6ea);border:0;border-radius:7px;box-shadow:0 5px 18px rgba(39,46,30,.18);font-size:15px;line-height:1.55;text-align:left;cursor:pointer}.ds-inspect:hover{background:#304a35}.ds-inspect:focus-visible{outline:3px solid var(--focus,#31573a);outline-offset:4px}.ds-inspect kbd{display:grid;place-items:center;width:28px;height:28px;flex:0 0 28px;border:1px solid rgba(251,246,234,.5);border-radius:4px;font:inherit}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "secondary-button",
+      "description": "Settings action with a quiet outlined treatment.",
+      "html": "<button class=\"ds-secondary\" type=\"button\">Return to the start</button>",
+      "css": ".ds-secondary{font-family:var(--font-ui,\"Atkinson Hyperlegible\",\"Segoe UI\",sans-serif);font-size:16px;line-height:1.55;min-height:44px;padding:11px 16px;border:1px solid #ad9d80;border-radius:5px;background:transparent;color:var(--ink,#302a21);cursor:pointer}.ds-secondary:hover{background:#e9dfcd}.ds-secondary:focus-visible{outline:3px solid var(--focus,#31573a);outline-offset:4px}"
+    },
+    {
+      "name": "World navigation",
+      "kind": "nav",
+      "refersTo": "navigation-item",
+      "description": "Compact persistent navigation over the world.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Portfolio navigation\"><button type=\"button\">Index</button><button type=\"button\">About</button><a href=\"/contact\">Contact</a><button class=\"ds-icon\" type=\"button\" aria-label=\"World settings\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 4v16M12 4v16M19 4v16M2 8h6M9 16h6M16 9h6\"/></svg></button></nav>",
+      "css": ".ds-nav{display:inline-flex;align-items:center;padding:0 4px;background:rgba(243,234,216,.95);border-radius:6px}.ds-nav a,.ds-nav button{font-family:var(--font-ui,\"Atkinson Hyperlegible\",\"Segoe UI\",sans-serif);display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:8px 12px;color:var(--ink,#302a21);background:transparent;border:0;text-decoration:none;font-size:14px;line-height:1.55;border-radius:4px;cursor:pointer}.ds-nav a:hover,.ds-nav button:hover{background:#e7dcc6}.ds-nav a:focus-visible,.ds-nav button:focus-visible{outline:3px solid var(--focus,#31573a);outline-offset:4px}.ds-nav .ds-icon{padding:10px}.ds-nav svg{width:22px;height:22px;display:block}"
+    },
+    {
+      "name": "Project index row",
+      "kind": "custom",
+      "description": "Full-width title and technology row, separated by rules.",
+      "html": "<button class=\"ds-index\" type=\"button\"><span><span class=\"ds-index-title\">Smart Clock</span><span class=\"ds-index-meta\">C · C++ · STM32 · DFRobot LCD</span></span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-index{font-family:var(--font-ui,\"Atkinson Hyperlegible\",\"Segoe UI\",sans-serif);display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;min-height:74px;padding:17px 0;color:var(--ink,#302a21);background:transparent;border:0;border-top:1px solid var(--line,#d6c9af);border-bottom:1px solid var(--line,#d6c9af);text-align:left;cursor:pointer}.ds-index:hover{color:var(--green,#3e5944);background:#f0e8d7}.ds-index:focus-visible{outline:3px solid var(--focus,#31573a);outline-offset:4px}.ds-index-title{display:block;font-size:18px;font-weight:600;line-height:1.35}.ds-index-meta{display:block;margin-top:5px;color:var(--muted,#746651);font-size:13px;font-weight:400;line-height:1.55}.ds-index svg{width:22px;height:22px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.6}"
+    },
+    {
+      "name": "Reading panel",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Static preview of the paper dialog surface; live dialogs use native showModal.",
+      "html": "<section class=\"ds-panel\" aria-label=\"Project panel preview\"><header class=\"ds-panel-header\"><h2>Projects</h2><button class=\"ds-close\" type=\"button\" aria-label=\"Close project index\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></header><p>Explore the projects from the workshop.</p></section>",
+      "css": ".ds-panel{font-family:var(--font-ui,\"Atkinson Hyperlegible\",\"Segoe UI\",sans-serif);width:min(640px,calc(100vw - 40px));max-height:min(820px,calc(100dvh - 72px));padding:30px 32px;overflow:auto;color:var(--ink,#302a21);background:var(--paper-light,#fbf6ea);border:0;border-radius:12px;box-shadow:var(--panel-shadow,0 18px 64px rgba(43,34,21,.25));font-size:16px;line-height:1.55}.ds-panel-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px}.ds-panel h2{font-size:28px;font-weight:600;line-height:1.2;margin:0;padding-top:7px}.ds-panel p{margin:0}.ds-close{display:grid;place-items:center;width:44px;height:44px;flex:0 0 44px;margin:-3px -8px 0 0;padding:10px;background:transparent;border:0;border-radius:6px;cursor:pointer;color:inherit}.ds-close:hover{background:#e9dfcd}.ds-close:focus-visible{outline:3px solid var(--focus,#31573a);outline-offset:4px}.ds-close svg{width:22px;height:22px}@media(max-width:640px){.ds-panel{width:calc(100vw - 24px);max-height:calc(100dvh - 32px);padding:22px;border-radius:10px}.ds-panel h2{font-size:25px}}"
+    },
+    {
+      "name": "Graphics quality select",
+      "kind": "input",
+      "refersTo": "quality-select",
+      "description": "Native select in a separated settings row.",
+      "html": "<label class=\"ds-setting\"><span>Graphics quality<small>Choose low for a lighter scene.</small></span><select><option>High</option><option>Low</option></select></label>",
+      "css": ".ds-setting{font-family:var(--font-ui,\"Atkinson Hyperlegible\",\"Segoe UI\",sans-serif);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:21px 0;border-top:1px solid var(--line,#d6c9af);color:var(--ink,#302a21);font-size:16px;line-height:1.55;cursor:pointer}.ds-setting small{display:block;margin-top:5px;color:var(--muted,#746651);font-size:13px}.ds-setting select{font:inherit;min-height:44px;max-width:118px;padding:8px 10px;color:var(--ink,#302a21);background:var(--paper-light,#fbf6ea);border:1px solid #ad9d80;border-radius:5px;cursor:pointer}.ds-setting select:focus-visible{outline:3px solid var(--focus,#31573a);outline-offset:4px}"
+    },
+    {
+      "name": "Reduced motion checkbox",
+      "kind": "input",
+      "description": "Native checkbox with the UI green accent.",
+      "html": "<label class=\"ds-motion\"><span>Reduce motion<small>Keep ambient animation still.</small></span><input type=\"checkbox\"></label>",
+      "css": ".ds-motion{font-family:var(--font-ui,\"Atkinson Hyperlegible\",\"Segoe UI\",sans-serif);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:21px 0;border-top:1px solid var(--line,#d6c9af);color:var(--ink,#302a21);font-size:16px;line-height:1.55;cursor:pointer}.ds-motion small{display:block;margin-top:5px;color:var(--muted,#746651);font-size:13px}.ds-motion input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--green,#3e5944);cursor:pointer}.ds-motion input:focus-visible{outline:3px solid var(--focus,#31573a);outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Miniature workshop",
+    "overview": "Warm timber, muted green paint, small buildings, and a jointed wooden visitor make the projects part of an explorable scene. Beveled pieces, screws, slats, grain, and restrained painted wear establish the miniature scale. The interface stays compact so the world remains visible.\n\nThis records the implemented home world and its HTML overlays. The existing standalone experience, resume, contact, privacy, and project routes retain their own templates; this file does not imply that they have been visually redesigned. The approved workshop direction is recorded in `PRODUCT.md`. Sources are `app/templates/home.html`, `app/static/css/world.css`, and `app/static/js/world/`.",
+    "keyCharacteristics": [
+      "Real projects appear as inspectable objects with plain descriptive labels.",
+      "Timber and painted geometry supply the visual detail; cream HTML panels support reading.",
+      "Movement is visitor-controlled, and opening a panel preserves the current position.",
+      "The project index and HTML fallback provide direct access to the same catalog."
+    ],
+    "rules": [
+      {
+        "name": "The Material Rule",
+        "body": "Reuse the scene's generated wood and paint materials for new exhibits. Keep project-specific prop colors local to those objects.",
+        "section": "colors"
+      },
+      {
+        "name": "The Shared Lettering Rule",
+        "body": "Use the locally served face in both scene labels and HTML. Scene texture creation waits for the font to load.",
+        "section": "typography"
+      },
+      {
+        "name": "The Explicit Inspection Rule",
+        "body": "Proximity offers an action; it does not open content or move the visitor automatically.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** add project facts through the shared catalog and preserve access through both objects and index rows.",
+      "**Do** keep clear walking aisles, readable labels, visible focus, and the existing touch controls.",
+      "**Do** use the existing project PNGs as portfolio evidence and record provenance for any new shipping raster.",
+      "**Do** keep generated concept images as references; the shipped scenery is procedural geometry and CanvasTextures."
+    ],
+    "donts": [
+      "**Don't** add promotional taglines, forced project sequences, automatic travel, or automatic project opening.",
+      "**Don't** describe illustrative world props or miniature screen demonstrations as verified hardware or live project execution.",
+      "**Don't** turn individual prop colors or scene decoration into additional global UI accents."
+    ]
+  }
+}
