@@ -168,6 +168,12 @@ export function createUI(projects, profile, callbacks) {
   $('reset-view').addEventListener('click', callbacks.onResetCamera);
   $('return-start').addEventListener('click', () => { callbacks.onResetPosition(); $('settings-dialog').close(); });
   $('interact-button').addEventListener('click', callbacks.onInteract);
+  $('drive-rov').addEventListener('click', () => {
+    closeDialogs();
+    setFragment('');
+    callbacks.onResume();
+    callbacks.onDriveROV();
+  });
   $('reduced-motion').addEventListener('change', event => callbacks.onReducedMotion(event.target.checked));
   $('quality').addEventListener('change', event => callbacks.onQuality(event.target.value));
   for (const id of ['index-button', 'about-button', 'contact-button', 'settings-button']) $(id).hidden = false;
@@ -196,6 +202,7 @@ export function createUI(projects, profile, callbacks) {
     },
     ready() {
       worldReady = true;
+      $('drive-rov').hidden = false;
       document.body.classList.add('world-ready');
       $('world-ui').hidden = false;
       if (contactConfig.initialPanel) showPanel(contactConfig.initialPanel);

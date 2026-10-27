@@ -6,6 +6,7 @@ import { createStoryStations } from '../app/static/js/world/story-stations.js';
 import { createEnvironment } from '../app/static/js/world/environment.js';
 import { createExhibits } from '../app/static/js/world/exhibits.js';
 import { collides, groundHeight } from '../app/static/js/world/physics.js';
+import { ROV_LIMITS } from '../app/static/js/world/rov-physics.js';
 
 const profile = JSON.parse(readFileSync(new URL('../app/data/resume.json', import.meta.url), 'utf8'));
 const catalog = JSON.parse(readFileSync(new URL('../app/data/projects.json', import.meta.url), 'utf8'));
@@ -105,4 +106,24 @@ test('every prop mesh lies inside its collision footprint, including the test ta
     }
   } finally { story.dispose(); }
   assert.equal(scene.children.length, 0);
+});
+
+test('the complete ROV stays within the water at every corner and heading', () => {
+  const scene = new THREE.Scene();
+  const story = createStoryStations(scene, profile);
+  const pool = story.items.find(item => item.action === 'uiasub');
+  const rov = pool.object.getObjectByName('Illustrative UiASub ROV');
+  try {
+    for (const x of [ROV_LIMITS.minX, ROV_LIMITS.maxX]) {
+      for (const z of [ROV_LIMITS.minZ, ROV_LIMITS.maxZ]) {
+        for (let angle = 0; angle < 64; angle += 1) {
+          Object.assign(story.rov.state, { x, z, yaw: angle * Math.PI / 32 });
+          story.rov.step({ x: 0, y: 0, yaw: 0 }, 0);
+          const bounds = new THREE.Box3().setFromObject(rov);
+          assert.ok(bounds.min.x >= pool.position.x - 1.24 && bounds.max.x <= pool.position.x + 1.24);
+          assert.ok(bounds.min.z >= pool.position.z - 0.99 && bounds.max.z <= pool.position.z + 0.99);
+        }
+      }
+    }
+  } finally { story.dispose(); }
 });

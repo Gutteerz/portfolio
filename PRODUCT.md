@@ -38,7 +38,13 @@ On 2026-10-27, **28 Python tests and 14 JavaScript tests passed**. Coverage incl
 
 Browser checks verified walking to the pool, opening UiASub roles and its ROV project, experience and education panels, contact-form rendering with lazy CAPTCHA, text mode and browser Back, and layouts at desktop and 390px phone width. Captures are in `.impeccable/review/world-content/`. A fresh general review agent returned a visual ship verdict for the new props and panels. Physical touch-device behavior, print output, and live email delivery remain untested; no contact messages were sent.
 
-Commit `66365f5` preserves the workshop before the expansion. Subsequent changes remain uncommitted for review.
+Commit `66365f5` preserves the workshop before the expansion; `b6d7350` contains the complete portfolio and UiASub pool.
+
+## Optional play interactions
+
+Visitors can drive the illustrative ROV inside its tank using WASD, arrows, or the pad. The pool opens a close-up view with an explicit exit and a link to UiASub's history. Exiting preserves the visitor's walking position and camera. The existing windmill can be spun, the study roof has a launchable paper glider, and the marble remains pushable. Reduced motion keeps steering functional and suppresses the glider flight and decorative effects. There is no sound or required game progression.
+
+The play update passes 28 Python and 22 JavaScript tests, including frame-rate consistency and full-mesh pool clearance. Browser checks cover keyboard and pointer-pad steering, mode exits, reduced motion, windmill/glider activation, and desktop/390px layouts. Physical touch hardware remains untested.
 
 ## Reference History
 

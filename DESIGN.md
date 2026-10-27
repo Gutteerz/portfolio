@@ -172,13 +172,19 @@ Native modal dialogs pause movement and clear held input. Closing restores focus
 
 Native checkbox and select controls manage reduced motion and graphics quality. Motion preference initializes from the operating system and can be overridden locally. Reduced motion freezes environment/exhibit ambient time and removes camera interpolation; it does not disable visitor movement. Reset view resets camera orientation and distance; Return to the start also resets position.
 
+### Pool controls and discoveries
+
+E at the UiASub tank enters a close-up driving view. WASD, arrows, and the existing movement pad steer in camera-relative directions with gentle acceleration and coasting. The camera frames the full pool at each viewport width. A compact paper control panel contains plain instructions, About UiASub, and Leave controls; Escape also leaves. Leaving or opening a portfolio panel restores the walking camera and position and clears all held keys and pointer captures. UiASub's history panel retains access to driving and the software project.
+
+The illustrative ROV is scaled to leave room to drive. Its full mesh stays within the tank at every heading. Its red tether follows it using reused geometry; propellers and a small bubble trail respond to movement. Reduced motion keeps direct steering but freezes propeller/bubble animation. The windmill accepts a manual push; a paper glider on the study roof completes a short flight and returns to its perch. Reduced motion replaces these with a small blade turn and a still glider plus accessible feedback. No sound, scores, unlocks, or mandatory sequences are added.
+
 ### HTML fallback
 
 The same home document contains all projects, work experience, education, skills, contact details, privacy information, and the printable resume. It remains readable when JavaScript or WebGL is unavailable. Read without 3D opens this content while pausing the scene; Return to the workshop restores the visitor's position. Project fragments also match native HTML anchors. Old page URLs redirect into the world rather than serving a second website.
 
 ### Experience, education, and contact
 
-The work-history board displays a card for each profile entry. The UiASub test pool contains an illustrative ROV and opens the student-organization roles plus the related software project. A notebook on the accessible roof opens education, the folder near the entrance opens About and resume, and the mailbox opens Contact. These props reuse the existing timber, paint, lettering, and explicit-inspection behavior.
+The work-history board displays a card for each profile entry. The UiASub test pool contains an illustrative drivable ROV; its controls link to the student-organization roles and related software project. A notebook on the accessible roof opens education, the folder near the entrance opens About and resume, and the mailbox opens Contact. These props reuse the existing timber, paint, lettering, and explicit-inspection behavior.
 
 Experience panels use ruled entries with an organization heading, date, role, summary, highlights, and skill list. Dates preserve the source precision. The index provides direct access to every category. Resume printing hides the scene and panel controls and prints only the canonical profile content.
 

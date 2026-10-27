@@ -27,11 +27,14 @@ The contact form needs a private `SECRET_KEY`, `RECAPTCHA_PUBLIC_KEY`, `RECAPTCH
 | E or the interaction button | Inspect nearby projects, work records, the study notebook, or other objects. |
 | Index | Reach projects, experience, education, résumé, About, and Contact without walking. |
 | Escape or Close | Close a panel and resume at the same position. |
+| E at the UiASub pool | Drive the ROV with WASD, arrows, or the pad. Escape / Leave controls returns to walking. |
 | Reset view | Restore the camera angle and distance. |
 | Settings | Reduce motion, choose graphics quality, return to the start, or **Read without 3D**. |
 | Print / save PDF | Print the résumé through the browser's print window. |
 
 Touch layouts provide a movement pad, drag-to-look, and an interaction button. The experience board holds a card for every role, the roof notebook presents education, the About & CV folder contains the profile and skills, and the mailbox opens contact. UiASub has a small ROV test tank connected to its project and team history.
+
+The ROV has camera-relative thrust, water resistance, pool boundaries, moving propellers, and a flexible tether. About UiASub opens the team history and software project; its panel also provides a driving entry. Walking position and camera are preserved when leaving the controls. The windmill can be spun and the paper glider on the study roof can be launched; the existing marble can still be pushed. These optional toys never gate portfolio content. Reduced motion suppresses bubbles, ambient animation, and the glider's flight while retaining ROV steering.
 
 Read without 3D reveals the full HTML on the same page. This content also remains available when the scene cannot load. Legacy GET routes redirect permanently into workshop fragments: `/about` → `/#experience`, `/resume` → `/#resume`, `/contact` → `/#contact`, `/privacy` → `/#privacy`, `/portfolio` → `/#index`, and project URLs → `/#project=<id>`. Unknown projects return 404. Old templates and their unused CSS/JavaScript have been removed.
 
@@ -74,9 +77,11 @@ The loader checks text, IDs, placement, image paths, and URL schemes on each req
 npm test
 ```
 
-Verified on 2026-10-27: **28 Python and 14 JavaScript tests passed**. They cover canonical content, CV date migration, redirects and fallback anchors, catalog growth, placement, furniture footprints, movement, and contact validation. Contact tests use an isolated app with mocked mail delivery and no external requests; missing CSRF and reCAPTCHA are rejected. They do not verify live email delivery or CAPTCHA service operation.
+Verified on 2026-10-27: **28 Python and 22 JavaScript tests passed**. They cover canonical content, CV date migration, redirects and fallback anchors, catalog growth, placement, furniture footprints, movement, ROV wall clearance, steering/coasting across frame rates, and contact validation. Contact tests use an isolated app with mocked mail delivery and no external requests; missing CSRF and reCAPTCHA are rejected. They do not verify live email delivery or CAPTCHA service operation.
 
 Browser checks covered walking to the UiASub pool, its roles-to-project interaction, experience/education panels, contact rendering with lazy CAPTCHA, reading mode and browser Back, plus desktop and 390px layouts. A general visual reviewer accepted the new props and panels. Physical touch devices, print output, and live email delivery have not been tested. Scene objects and animated screens are illustrative.
+
+The play update was checked in the browser with keyboard steering, pointer-driven pad steering, Escape and settings exits, reduced motion, windmill activation, glider launch, and 390px pool framing. A source review caught and resolved held-pointer input carrying across mode transitions. These checks do not replace testing on physical touch hardware.
 
 ## Source layout and checkpoint
 
@@ -85,4 +90,4 @@ Browser checks covered walking to the UiASub pool, its roles-to-project interact
 - `app/static/css/world.css`: scene UI, reading mode, responsive layout, and print styles.
 - `app/routes.py`: workshop rendering, legacy redirects, and protected contact POST handling.
 
-Commit `66365f5` preserves the workshop before this content expansion. The expanded changes are left uncommitted for review. No deployment is included.
+Commit `66365f5` preserves the initial workshop; `b6d7350` contains the complete portfolio and UiASub pool. The play update adds ROV driving, the windmill, and the paper glider. No deployment is included.

@@ -26,7 +26,7 @@ export function createEnvironment(scene, {quality = 'high'} = {}) {
   const materials = createMaterials();
   const random = randomGenerator();
   const batches = new Map(), geometries = new Map(), textures = [], extraMaterials = [];
-  const colliders = [], surfaces = [], animations = [], rooms = [];
+  const colliders = [], surfaces = [], animations = [], rooms = [], playItems = [];
   const matrix = new THREE.Matrix4(), position = new THREE.Vector3(), quaternion = new THREE.Quaternion(), scale = new THREE.Vector3(), euler = new THREE.Euler();
   const rounded = roundedBoxGeometry(); geometries.set('rounded', rounded);
   const plain = new THREE.BoxGeometry(1, 1, 1); geometries.set('box', plain);
@@ -227,7 +227,12 @@ export function createEnvironment(scene, {quality = 'high'} = {}) {
     const blade=new THREE.Mesh(rounded,materials.woodLight);blade.scale.set(.23,1.12,.055);blade.rotation.z=i*TAU/6;blade.position.set(-Math.sin(i*TAU/6)*.65,Math.cos(i*TAU/6)*.65,0);blade.castShadow=true;windmill.add(blade);
   }
   const hub=new THREE.Mesh(geometry('hub',()=>new THREE.CylinderGeometry(.11,.11,.11,10)),materials.darkMetal);hub.rotation.x=Math.PI/2;hub.position.z=.06;windmill.add(hub);
-  animations.push(time=>{windmill.rotation.z=-time*.17;});
+  windmill.name='Wooden windmill';
+  let windmillPush=0, windmillTurn=0;
+  playItems.push({
+    id:'toy:windmill', action:'play:windmill', label:'Spin the windmill', object:windmill,
+    position:new THREE.Vector3(-.35,1.6,-2.1), approach:new THREE.Vector3(-.35,1.6,-.9), interactionRadius:1.45,
+  });
 
   function roof(x,z,width,depth,y,green=true) {
     // Each sheet has a real folded cross-section, with alternating raised ribs.
@@ -371,6 +376,42 @@ export function createEnvironment(scene, {quality = 'high'} = {}) {
   birdPart(geometry('bird-tail',()=>new THREE.ConeGeometry(.17,.47,4)),materials.blue,[.4,.48,0],[1,1,1],-.9);
   animations.push(time=>{bird.rotation.y=Math.sin(time*.35)*.11;});
 
+  // A folded paper glider rests on the roof lip, away from the bridge and notebook.
+  // It is a toy visitors can launch; its route never changes the walking surface.
+  const gliderHome=new THREE.Vector3(11.7,3.87,-3.4);
+  const glider=new THREE.Group();glider.name='Paper glider';glider.position.copy(gliderHome);root.add(glider);
+  const gliderGeometry=new THREE.BufferGeometry();
+  gliderGeometry.setAttribute('position',new THREE.Float32BufferAttribute([
+    0,0,-.7, -.58,.1,.4, -.08,-.08,.32,
+    0,0,-.7, -.08,-.08,.32, 0,-.2,.42,
+    0,0,-.7, 0,-.2,.42, .08,-.08,.32,
+    0,0,-.7, .08,-.08,.32, .58,.1,.4,
+  ],3));
+  gliderGeometry.computeVertexNormals();geometries.set('paper-glider',gliderGeometry);
+  const paperMaterial=materials.paper.clone();paperMaterial.side=THREE.DoubleSide;extraMaterials.push(paperMaterial);
+  const foldedPaper=new THREE.Mesh(gliderGeometry,paperMaterial);foldedPaper.castShadow=true;glider.add(foldedPaper);
+  const foldGeometry=new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0,0,-.7),new THREE.Vector3(-.08,-.08,.32),
+    new THREE.Vector3(0,0,-.7),new THREE.Vector3(.08,-.08,.32),
+  ]);
+  geometries.set('glider-folds',foldGeometry);
+  const foldMaterial=new THREE.LineBasicMaterial({color:'#ad9d80'});extraMaterials.push(foldMaterial);
+  glider.add(new THREE.LineSegments(foldGeometry,foldMaterial));
+  const gliderRoute=new THREE.CatmullRomCurve3([
+    gliderHome.clone(),new THREE.Vector3(11.7,4.8,-5.4),new THREE.Vector3(10,5.4,-5.1),
+    new THREE.Vector3(7.1,5.6,-2.1),new THREE.Vector3(7.5,4.9,.9),
+    new THREE.Vector3(11.2,4.4,.2),new THREE.Vector3(11.7,4.2,-1.7),gliderHome.clone(),
+  ]);
+  const flightDirection=new THREE.Vector3();
+  let gliderFlight=null;
+  playItems.push({
+    id:'toy:glider', action:'play:glider', label:'Launch the paper glider', object:glider,
+    position:new THREE.Vector3(11.7,3.64,-3.4), approach:new THREE.Vector3(11.65,3.64,-4.45), interactionRadius:1.2,
+  });
+  function landGlider() {
+    gliderFlight=null;glider.position.copy(gliderHome);glider.rotation.set(0,0,0);
+  }
+
   // GAMES SHED, kept open toward the main square.
   posts(10.3,7,6.6,4,3.05);
   for(let i=0;i<6;i++)box(10.3,.25+i*.46,5,6.6,.44,.16,i%2?materials.wood:materials.paintGreen);
@@ -457,19 +498,56 @@ export function createEnvironment(scene, {quality = 'high'} = {}) {
     mesh.computeBoundingSphere();root.add(mesh);
   }
   return {
-    root, bounds: {...WORLD_BOUNDS}, colliders, surfaces, rooms,
+    root, bounds: {...WORLD_BOUNDS}, colliders, surfaces, rooms, playItems,
     stations: [
       ...[-13,-10,-7].map(x=>({zone:'workshop',position:[x,0,-4],rotation:0})),
       ...[7.7,10.1,12.3].map(x=>({zone:'study',position:[x,0,-6.7],rotation:0})),
       ...[8.1,10.3,12.4].map(x=>({zone:'games',position:[x,0,7.9],rotation:0})),
     ],
     marble:{mesh:marble,center:marbleCenter,radius:marbleRadius},
-    update(time, delta, playerPosition) {
+    play(action, {reducedMotion=false} = {}) {
+      if(action==='play:windmill') {
+        if(reducedMotion) {windmillTurn+=Math.PI/6;windmillPush=0;}
+        else windmillPush=Math.min(windmillPush+4.8,9);
+        return 'You spun the windmill.';
+      }
+      if(action==='play:glider') {
+        if(reducedMotion) {landGlider();return 'The glider stays on its perch with reduced motion enabled.';}
+        if(gliderFlight!==null) return 'The paper glider is already in flight.';
+        gliderFlight=0;
+        return 'You launched the paper glider.';
+      }
+      return '';
+    },
+    update(time, delta, playerPosition, {reducedMotion=false} = {}) {
       if(quality!=='reduced') animations.forEach(animate=>animate(time,delta));
+      if(reducedMotion) {windmillPush=0;landGlider();}
+      else {
+        // A push adds energy, then the blades coast back to their ambient speed.
+        windmillTurn+=windmillPush*delta;
+        windmillPush*=Math.exp(-delta*1.05);
+        if(gliderFlight!==null) {
+          gliderFlight+=delta;
+          const progress=Math.min(gliderFlight/4.8,1);
+          if(progress===1) landGlider();
+          else {
+            gliderRoute.getPointAt(progress,glider.position);
+            gliderRoute.getTangentAt(progress,flightDirection);
+            glider.rotation.set(
+              Math.asin(THREE.MathUtils.clamp(flightDirection.y,-1,1)),
+              Math.atan2(-flightDirection.x,-flightDirection.z),
+              -Math.sin(progress*Math.PI)*.3,
+              'YXZ'
+            );
+          }
+        }
+      }
+      windmill.rotation.z=-(reducedMotion?0:time*.17)-windmillTurn;
       if(playerPosition) for(const room of rooms) {
         const inside=playerPosition.x>room.minX&&playerPosition.x<room.maxX&&playerPosition.z>room.minZ&&playerPosition.z<room.maxZ&&playerPosition.y<room.ceiling;
         room.roof.visible=!inside;
       }
+      glider.visible=studyRoof.visible||gliderFlight!==null;
     },
     dispose() { scene.remove(root);geometries.forEach(g=>g.dispose());textures.forEach(t=>t.dispose());extraMaterials.forEach(m=>m.dispose());materials.dispose(); },
   };

@@ -21,6 +21,10 @@ let marbleNear = false;
 let marbleVelocity = 0;
 let marbleAngle = 0;
 let verticalVelocity = 0;
+let drivingROV = false;
+let walkingOrbit = null;
+let joystickPointer = null;
+let pointer = null;
 const keys = new Set();
 const joystick = { x: 0, y: 0 };
 const player = { x: 0, y: 0, z: 10 };
@@ -31,26 +35,78 @@ const cameraOffset = new THREE.Vector3();
 let character, environment, exhibits, stories, renderer;
 let interactiveItems = [];
 
-function clearInput() { keys.clear(); joystick.x = 0; joystick.y = 0; document.getElementById('joystick-knob').style.transform = ''; }
-function resetCamera() { orbit.yaw = 0.12; orbit.pitch = 0.42; orbit.distance = coarse ? 19 : 15; }
+function clearInput() {
+  keys.clear(); joystick.x = 0; joystick.y = 0;
+  const pad = document.getElementById('joystick');
+  if (joystickPointer !== null && pad.hasPointerCapture(joystickPointer)) pad.releasePointerCapture(joystickPointer);
+  joystickPointer = null;
+  if (pointer && canvas.hasPointerCapture(pointer.id)) canvas.releasePointerCapture(pointer.id);
+  pointer = null;
+  document.getElementById('joystick-knob').style.transform = '';
+  stories?.rov.stop();
+}
+function poolCameraDistance() {
+  const aspect = canvas.clientWidth / Math.max(1, canvas.clientHeight);
+  const verticalFov = (aspect < 1 ? 58 : 43) * Math.PI / 180;
+  return Math.max(4.5, 3.6 / (2 * Math.tan(verticalFov / 2) * aspect));
+}
+function resetCamera() { orbit.yaw = 0.12; orbit.pitch = drivingROV ? 1.05 : 0.42; orbit.distance = drivingROV ? poolCameraDistance() : (coarse ? 19 : 15); }
+function startROV() {
+  if (!stories || drivingROV) return;
+  walkingOrbit = { ...orbit };
+  drivingROV = true;
+  clearInput(); stories.rov.setDriving(true); resetCamera();
+  document.body.classList.add('driving-rov');
+  document.getElementById('rov-controls').hidden = false;
+  document.getElementById('joystick').setAttribute('aria-label', 'Drive the ROV');
+  canvas.setAttribute('aria-describedby', 'rov-instructions');
+  ui.setInteraction('');
+  highlight.visible = false;
+  updateCamera(0, true);
+  canvas.focus({ preventScroll: true });
+  ui.announce('Driving the UiASub ROV. Use WASD, arrow keys, or the pad. Press Escape to leave the controls.');
+}
+function leaveROV() {
+  if (!drivingROV) return;
+  drivingROV = false;
+  clearInput(); stories.rov.setDriving(false);
+  Object.assign(orbit, walkingOrbit);
+  document.body.classList.remove('driving-rov');
+  document.getElementById('rov-controls').hidden = true;
+  document.getElementById('joystick').setAttribute('aria-label', 'Touch movement control');
+  canvas.setAttribute('aria-describedby', 'world-instructions');
+  updateCamera(0, true);
+  canvas.focus({ preventScroll: true });
+}
+function activateItem(item) {
+  if (item.action === 'uiasub') { startROV(); return; }
+  if (item.action?.startsWith('play:')) {
+    ui.announce(environment.play(item.action, { reducedMotion: settings.reducedMotion }));
+    canvas.focus({ preventScroll: true });
+    return;
+  }
+  if (item.action) { ui.showPanel(item.action); return; }
+  const sameTable = exhibits.items.filter(candidate => candidate.stationKey === item.stationKey);
+  if (sameTable.length > 1) ui.showIndex(sameTable.map(candidate => candidate.project));
+  else ui.showProject(item.project);
+}
 function interact() {
-  if (paused) return;
+  if (paused || drivingROV) return;
   if (nearest) {
-    if (nearest.action) { ui.showPanel(nearest.action); return; }
-    const sameTable = exhibits.items.filter(item => item.stationKey === nearest.stationKey);
-    if (sameTable.length > 1) ui.showIndex(sameTable.map(item => item.project));
-    else ui.showProject(nearest.project);
+    activateItem(nearest);
   } else if (marbleNear) {
     marbleVelocity = Math.min(marbleVelocity + 2.8, 8);
     ui.announce('You pushed the marble.');
+    canvas.focus({ preventScroll: true });
   }
 }
 const ui = createUI(projects, profile, {
-  onPause() { paused = true; clearInput(); },
+  onPause() { leaveROV(); paused = true; clearInput(); },
   onResume() { paused = false; },
   onResetCamera: resetCamera,
   onResetPosition() { Object.assign(player, { x: 0, y: 0, z: 10 }); verticalVelocity = 0; resetCamera(); },
   onInteract: interact,
+  onDriveROV: startROV,
   onReducedMotion(value) { settings.reducedMotion = value; saveSettings(); },
   onQuality(value) { settings.quality = value; applyQuality(); saveSettings(); },
 });
@@ -85,7 +141,7 @@ environment = createEnvironment(scene, { quality: settings.quality });
 // UiASub's software now lives with the ROV in its test pool.
 exhibits = createExhibits(scene, projects.filter(project => project.id !== 'uiasub-rtos'));
 stories = createStoryStations(scene, profile);
-interactiveItems = [...exhibits.items, ...stories.items];
+interactiveItems = [...exhibits.items, ...stories.items, ...environment.playItems];
 character = createCharacter(scene);
 character.group.rotation.y = Math.PI;
 const world = {
@@ -122,6 +178,7 @@ function resize() {
   camera.fov = camera.aspect < 1 ? 58 : 43;
   camera.updateProjectionMatrix();
   renderer.setSize(width, height, false);
+  if (drivingROV) orbit.distance = poolCameraDistance();
 }
 applyQuality();
 addEventListener('resize', resize);
@@ -129,6 +186,7 @@ addEventListener('resize', resize);
 const walkKeys = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']);
 addEventListener('keydown', event => {
   if (paused || event.ctrlKey || event.metaKey || event.altKey) return;
+  if (event.code === 'Escape' && drivingROV) { event.preventDefault(); leaveROV(); return; }
   const tag = document.activeElement?.tagName;
   if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(tag)) return;
   if (walkKeys.has(event.code)) { event.preventDefault(); keys.add(event.code); }
@@ -139,7 +197,6 @@ addEventListener('keyup', event => keys.delete(event.code));
 addEventListener('blur', clearInput);
 document.addEventListener('visibilitychange', clearInput);
 
-let pointer = null;
 const raycaster = new THREE.Raycaster();
 const pointerVector = new THREE.Vector2();
 canvas.addEventListener('pointerdown', event => {
@@ -161,7 +218,7 @@ canvas.addEventListener('pointerup', event => {
   const wasClick = pointer.distance < 7;
   pointer = null;
   if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-  if (!wasClick || paused) return;
+  if (!wasClick || paused || drivingROV) return;
   const rect = canvas.getBoundingClientRect();
   pointerVector.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
   raycaster.setFromCamera(pointerVector, camera);
@@ -170,8 +227,7 @@ canvas.addEventListener('pointerup', event => {
     let object = hits[0].object, item;
     while (object && !item) { item = interactiveItems.find(candidate => candidate.object === object); object = object.parent; }
     if (item && nearestItem(player, [item])) {
-      if (item.action) ui.showPanel(item.action);
-      else ui.showProject(item.project);
+      activateItem(item);
     } else if (item) ui.announce(`Walk closer to ${item.action ? item.label.toLowerCase() : 'inspect ' + item.project.title}.`);
   } else if (marbleNear && raycaster.intersectObject(environment.marble.mesh, true).length) interact();
 });
@@ -179,12 +235,13 @@ canvas.addEventListener('pointercancel', () => { pointer = null; });
 canvas.addEventListener('wheel', event => {
   if (paused) return;
   event.preventDefault();
-  orbit.distance = THREE.MathUtils.clamp(orbit.distance + event.deltaY * 0.015, 12, 36);
+  orbit.distance = THREE.MathUtils.clamp(orbit.distance + event.deltaY * (drivingROV ? 0.003 : 0.015), drivingROV ? 3.5 : 12, drivingROV ? Math.max(7, poolCameraDistance() * 1.2) : 36);
 }, { passive: false });
 
 const joystickElement = document.getElementById('joystick');
 const knob = document.getElementById('joystick-knob');
-let joystickPointer = null;
+document.getElementById('rov-leave').addEventListener('click', leaveROV);
+document.getElementById('rov-about').addEventListener('click', () => ui.showPanel('uiasub'));
 function updateJoystick(event) {
   const rect = joystickElement.getBoundingClientRect();
   let x = (event.clientX - rect.left - rect.width / 2) / 35;
@@ -195,14 +252,15 @@ function updateJoystick(event) {
 }
 joystickElement.addEventListener('pointerdown', event => {
   if (paused) return;
-  event.preventDefault(); joystickPointer = event.pointerId;
+  event.preventDefault(); canvas.focus({ preventScroll: true }); joystickPointer = event.pointerId;
   joystickElement.setPointerCapture(event.pointerId); updateJoystick(event);
 });
-joystickElement.addEventListener('pointermove', event => { if (event.pointerId === joystickPointer) updateJoystick(event); });
+joystickElement.addEventListener('pointermove', event => { if (!paused && event.pointerId === joystickPointer) updateJoystick(event); });
 for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) joystickElement.addEventListener(name, () => { joystickPointer = null; joystick.x = 0; joystick.y = 0; knob.style.transform = ''; });
 
 function updateCamera(delta, immediate = false) {
-  wantedTarget.set(player.x - Math.sin(orbit.yaw) * 3.7, player.y + 1.05, player.z - Math.cos(orbit.yaw) * 3.7);
+  if (drivingROV) wantedTarget.copy(stories.rov.target);
+  else wantedTarget.set(player.x - Math.sin(orbit.yaw) * 3.7, player.y + 1.05, player.z - Math.cos(orbit.yaw) * 3.7);
   const blend = immediate || settings.reducedMotion ? 1 : 1 - Math.exp(-delta * 5);
   target.lerp(wantedTarget, blend);
   cameraOffset.set(Math.sin(orbit.yaw) * Math.cos(orbit.pitch), Math.sin(orbit.pitch), Math.cos(orbit.yaw) * Math.cos(orbit.pitch)).multiplyScalar(orbit.distance);
@@ -220,9 +278,10 @@ function frame(now) {
     const inputX = joystick.x + Number(keys.has('KeyD') || keys.has('ArrowRight')) - Number(keys.has('KeyA') || keys.has('ArrowLeft'));
     const inputY = joystick.y + Number(keys.has('KeyS') || keys.has('ArrowDown')) - Number(keys.has('KeyW') || keys.has('ArrowUp'));
     const direction = movementVector(inputX, inputY, orbit.yaw);
-    const moving = Math.hypot(direction.x, direction.z) > 0.05;
+    const moving = !drivingROV && Math.hypot(direction.x, direction.z) > 0.05;
     const speed = 4.2;
-    const next = movePlayer(player, direction.x * delta * speed, direction.z * delta * speed, world);
+    if (drivingROV) stories.rov.step({ x: inputX, y: inputY, yaw: orbit.yaw }, delta);
+    const next = drivingROV ? player : movePlayer(player, direction.x * delta * speed, direction.z * delta * speed, world);
     player.x = next.x; player.z = next.z;
     const floor = groundHeight(player.x, player.z, world.surfaces, player.y + STEP_HEIGHT);
     if (player.y > floor + 0.05) { verticalVelocity -= delta * 18; player.y = Math.max(floor, player.y + verticalVelocity * delta); }
@@ -235,7 +294,7 @@ function frame(now) {
       character.group.rotation.y += difference * Math.min(1, delta * 12);
     }
     character.update(delta, moving, 1);
-    environment.update(settings.reducedMotion ? 0 : elapsed, delta, player);
+    environment.update(settings.reducedMotion ? 0 : elapsed, delta, player, { reducedMotion: settings.reducedMotion });
     stories.update(settings.reducedMotion ? 0 : elapsed, settings.reducedMotion ? 0 : delta, player);
     exhibits.update(settings.reducedMotion ? 0 : elapsed, settings.reducedMotion ? 0 : delta);
     const marble = environment.marble;
@@ -248,9 +307,9 @@ function frame(now) {
       marble.mesh.position.z = marble.center.z + Math.sin(marbleAngle) * radius;
       marble.mesh.rotation.x += marbleVelocity * delta * 2;
     }
-    nearest = nearestItem(player, interactiveItems);
+    nearest = drivingROV ? null : nearestItem(player, interactiveItems);
     const groupSize = nearest && !nearest.action ? exhibits.items.filter(item => item.stationKey === nearest.stationKey).length : 0;
-    ui.setInteraction(nearest ? (nearest.label || (groupSize > 1 ? `Browse ${groupSize} projects` : `Inspect ${nearest.project.title}`)) : marbleNear ? 'Push the marble' : '');
+    ui.setInteraction(drivingROV ? '' : nearest ? (nearest.label || (groupSize > 1 ? `Browse ${groupSize} projects` : `Inspect ${nearest.project.title}`)) : marbleNear ? 'Push the marble' : '');
     ui.setLocation(player.y > 2.8 ? 'Above the workbench' : player.z < -2 && player.x < -5 ? 'The workshop' : player.z < -2 && player.x > 5 ? 'The study' : player.z > 5 && player.x > 5 ? 'The games corner' : 'The workbench');
     highlight.visible = !!nearest;
     if (nearest) highlight.position.set(nearest.approach.x, nearest.approach.y + 0.02, nearest.approach.z);
@@ -270,7 +329,8 @@ ui.ready();
 requestAnimationFrame(frame);
 
 canvas.addEventListener('webglcontextlost', event => {
-  event.preventDefault(); paused = true;
+  event.preventDefault(); leaveROV(); paused = true;
+  document.getElementById('drive-rov').hidden = true;
   document.body.classList.remove('world-ready');
   document.getElementById('world-ui').hidden = true;
   document.getElementById('load-status').textContent = 'The 3D view was interrupted. Reload to explore, or open a project below.';

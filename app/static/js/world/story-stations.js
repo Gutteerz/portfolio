@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { createMaterials, makeSignTexture } from './materials.js';
+import { createROVState, stepROV, stopROV } from './rov-physics.js';
 
 /** Personal history belongs on the workshop's furniture, alongside its projects. */
 export function createStoryStations(scene, profile) {
@@ -12,6 +13,28 @@ export function createStoryStations(scene, profile) {
   const items = [];
   const colliders = [];
   let testROV;
+  const rovState = createROVState();
+  let driving = false;
+  const propellers = [], tetherSegments = [], bubbles = [];
+  const tetherCurve = new THREE.CatmullRomCurve3(Array.from({ length: 4 }, () => new THREE.Vector3()));
+  const segmentStart = new THREE.Vector3(), segmentEnd = new THREE.Vector3();
+  const segmentDirection = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
+
+  function updateTether() {
+    const { x, y, z } = testROV.position;
+    tetherCurve.points[0].set(x, y + 0.17, z);
+    tetherCurve.points[1].set(x * 0.65 + 0.2, 0.67, z * 0.65 - 0.2);
+    tetherCurve.points[2].set(0.61, 0.78, -0.58);
+    tetherCurve.points[3].set(0.9, 0.87, -0.72);
+    tetherSegments.forEach((segment, index) => {
+      tetherCurve.getPoint(index / tetherSegments.length, segmentStart);
+      tetherCurve.getPoint((index + 1) / tetherSegments.length, segmentEnd);
+      segmentDirection.subVectors(segmentEnd, segmentStart);
+      segment.position.copy(segmentStart).add(segmentEnd).multiplyScalar(0.5);
+      segment.scale.y = segmentDirection.length();
+      segment.quaternion.setFromUnitVectors(up, segmentDirection.normalize());
+    });
+  }
 
   function geometry(key, build) {
     if (!geometries.has(key)) geometries.set(key, build());
@@ -319,7 +342,7 @@ export function createStoryStations(scene, profile) {
       box(parent, x, 0.29, z, 0.24, 0.57, 0.24, materials.wood);
     }
     const water = new THREE.MeshStandardMaterial({
-      color: '#69a5ad', transparent: true, opacity: 0.74, roughness: 0.3,
+      color: '#69a5ad', transparent: true, opacity: 0.42, roughness: 0.3,
       metalness: 0.08, depthWrite: false,
     });
     resources.add(water);
@@ -333,6 +356,7 @@ export function createStoryStations(scene, profile) {
     testROV = new THREE.Group();
     testROV.name = 'Illustrative UiASub ROV';
     testROV.position.set(-0.14, 0.37, 0.01); testROV.rotation.y = -0.13;
+    testROV.scale.setScalar(0.42);
     parent.add(testROV);
     for (const y of [0, 0.4]) {
       for (const x of [-0.51, 0.51]) rod(testROV, [x, y, -0.34], [x, y, 0.34], 0.035, materials.woodLight);
@@ -351,17 +375,24 @@ export function createStoryStations(scene, profile) {
       for (const angle of [0, Math.PI / 2]) {
         const propeller = box(testROV, x, 0.18, 0.183, 0.18, 0.035, 0.025, materials.metal);
         propeller.rotation.z = angle;
+        propellers.push(propeller);
       }
     }
     const camera = cylinder(testROV, 0, 0.17, 0.3, 0.09, 0.13, materials.dark, 10);
     camera.rotation.x = Math.PI / 2;
     box(parent, 0.89, 0.74, -0.79, 0.52, 0.23, 0.38, materials.darkMetal);
     box(parent, 0.89, 0.87, -0.79, 0.45, 0.04, 0.31, materials.woodLight);
-    const tetherPath = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0.02, 0.76, 0), new THREE.Vector3(0.17, 0.97, -0.2),
-      new THREE.Vector3(0.61, 0.98, -0.58), new THREE.Vector3(0.9, 0.87, -0.72),
-    ]);
-    mesh(parent, geometry('rov-tether', () => new THREE.TubeGeometry(tetherPath, 16, 0.017, 5, false)), materials.red, 0, 0, 0);
+    // Reuse short cord segments instead of rebuilding geometry while driving.
+    for (let index = 0; index < 20; index += 1) {
+      tetherSegments.push(cylinder(parent, 0, 0, 0, 0.011, 1, materials.red, 5));
+    }
+    const bubbleShape = geometry('rov-bubble', () => new THREE.IcosahedronGeometry(0.018, 0));
+    for (let index = 0; index < 8; index += 1) {
+      const bubble = mesh(parent, bubbleShape, materials.cream, 0, 0, 0);
+      bubble.visible = false; bubble.castShadow = false;
+      bubbles.push(bubble);
+    }
+    updateTether();
     sign(parent, 'UiASub · ROV', 0, 0.36, 1.185, 1.78, 0.35);
   }
 
@@ -369,12 +400,41 @@ export function createStoryStations(scene, profile) {
   const study = station('education', 'Open education notebook', [8.3, 3.64, -6.5], 0, education, 1.75);
   station('about', 'Open About & CV', [-3.6, 0, 8.9], Math.PI / 2, about, 1.6);
   station('contact', 'Open contact mailbox', [5.2, 0, 7.5], -0.7, contact, 2.65);
-  station('uiasub', 'Explore UiASub', [-12.6, 0, 0.5], 0, uiasub, 1.55, 1.8);
+  station('uiasub', 'Drive the UiASub ROV', [-12.6, 0, 0.5], 0, uiasub, 1.55, 1.8);
 
   return {
     items, colliders,
+    rov: {
+      target: new THREE.Vector3(-12.6, 0.35, 0.5),
+      state: rovState,
+      setDriving(value) {
+        driving = value;
+        stopROV(rovState);
+        bubbles.forEach(bubble => { bubble.visible = false; });
+      },
+      stop() { stopROV(rovState); },
+      step(input, delta) {
+        stepROV(rovState, input, delta);
+        testROV.position.x = rovState.x;
+        testROV.position.z = rovState.z;
+        testROV.rotation.y = rovState.yaw;
+      },
+    },
     update(time, delta, playerPosition) {
       testROV.position.y = 0.37 + Math.sin(time * 0.9) * 0.025;
+      const speed = Math.hypot(rovState.vx, rovState.vz);
+      propellers.forEach(propeller => { propeller.rotation.z += speed * delta * 38; });
+      bubbles.forEach((bubble, index) => {
+        bubble.visible = driving && speed > 0.08 && delta > 0;
+        if (!bubble.visible) return;
+        const age = (time * 1.8 + index / bubbles.length) % 1;
+        const trail = 0.18 + age * 0.3;
+        const side = index % 2 ? 0.2 : -0.2;
+        bubble.position.set(rovState.x - Math.sin(rovState.yaw) * trail + Math.cos(rovState.yaw) * side,
+          0.4 + age * 0.07, rovState.z - Math.cos(rovState.yaw) * trail - Math.sin(rovState.yaw) * side);
+        bubble.scale.setScalar(1 - age * 0.7);
+      });
+      updateTether();
       if (playerPosition) {
         // Match the study's roof cutaway so the notebook never floats indoors.
         study.visible = !(playerPosition.x > 6.1 && playerPosition.x < 13.9
